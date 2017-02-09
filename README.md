@@ -5,27 +5,18 @@ OOCRAN is an implementation of the architecture NFV MANO standard designed for w
 Installation
 ============
 You can install OOCRAN either virtual enviorment (virtualenv) or in RAW. In both case it will be necessary to install some dependencies:
-::
 
 
     # ./dependencies.sh
 
-.. _bundles:
 
 Once the dependencies are installed you can install OOCRAN:
-::
-
 
     $ ./setup
-
-.. _bundles:
 
 
 Get Started
 ===========
-::
-
 
     $ ./launch
 
-.. _bundles:
