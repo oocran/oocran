@@ -1,0 +1,36 @@
+mme:
+  redis:
+    name: redis
+    vnf: LTE
+
+  worker:
+    name: worker
+    vnf: LTE
+
+hss:
+  redis:
+    name: redis
+    vnf: LTE
+
+  worker:
+    name: worker
+    vnf: LTE
+
+s-gw:
+  redis:
+    name: redis
+    vnf: LTE
+
+  worker:
+    name: worker
+    vnf: LTE
+
+p-gw:
+  redis:
+    name: redis
+    vnf: LTE
+
+  worker:
+    name: worker
+    vnf: LTE
+

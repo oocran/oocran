@@ -1,0 +1,23 @@
+{% extends "base/base.html" %}
+
+{% block content%}
+    <div id="content"></div>
+	<h2 class="sub-header">List of Operators</h2>
+        <div class="table-responsive">
+            {% include "partials/operators/operators.html" %}
+        </div>
+        {% include "base/partials/paginator.html" %}
+        </br>
+        <a id="submit" onclick="loader()" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Create Operator</a>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+{% endblock content %}
+
+{% block javascript %}
+    {% include "partials/operators/loader.html" %}
+{% endblock javascript %}

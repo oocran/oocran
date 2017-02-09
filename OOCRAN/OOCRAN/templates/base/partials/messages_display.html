@@ -1,0 +1,18 @@
+<div class="messages">
+	<ul class="messages">
+		{% for message in messages %}
+			<div {% if message.tags %} id="mymessage" class="{{message.extra_tags}}" style="width:300px;float:right;display:inline-block;margin-top:-15px" {% endif %}>
+					<button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true" style="margin-top:-5px">&times;</button>
+					{{message}}
+			</div>
+		{% endfor %}
+	</ul>
+</div>
+
+<script>
+    window.setTimeout(function() {
+      $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+      });
+    }, 3000);
+</script>

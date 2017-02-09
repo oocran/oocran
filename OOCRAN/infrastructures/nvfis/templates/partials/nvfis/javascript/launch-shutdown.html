@@ -1,0 +1,78 @@
+{% load staticfiles %}
+
+<script>
+    $(function() {
+
+        var state = 0;
+        var interval = null;
+
+        function sleep(milliseconds) {
+          var start = new Date().getTime();
+          for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds){
+              break;
+            }
+          }
+        }
+
+        function check() {
+            $.ajax({
+                type: "GET",
+                url: "/nvfis/"+{{NVFI.id}}+"/state/",
+                success: function(response) {
+                    if (response = 1) {
+                        alert(response);
+                        state = response;
+                        clearInterval(interval);
+                    }
+                },
+            });
+        }
+
+
+        $("#nvfi-{{NVFI.id}}").click(function(){
+            if($(this).text()=='Shut Down'){
+                $('#nvfi-{{NVFI.id}}').button({loadingText: 'Shutting Down...'});
+                $("#nvfi-{{NVFI.id}}").button('loading');
+                $('#status-{{NVFI.id}}').html('<p style="margin-bottom:0px">Deleting</p><img style="clear:left;margin-top:-3px" width="75px" height="25px" src="{% static 'base/images/charging.gif' %}">');
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/bbus/"+{{NVFI.id}}+"/shut_down/",
+                    success: function(response) {
+                        $('#status-{{NVFI.id}}').html('Shut Down');
+                        $("#nvfi-{{NVFI.id}}").button('reset');
+                        $('#nvfi-{{NVFI.id}}').html('Launch');
+                    },
+                });
+
+                interval = setInterval(check,2000);
+
+            }
+
+            else if($('#nvfi-{{NVFI.id}}').text()=='Launch'){
+                $('#nvfi-{{NVFI.id}}').button({loadingText: 'Launching...'});
+                $("#nvfi-{{NVFI.id}}").button('loading');
+                $('#status-{{NVFI.id}}').html('<p style="margin-bottom:0px">Launching</p><img style="clear:left;margin-top:-3px" width="75px" height="25px" src="{% static 'base/images/charging.gif' %}">');
+
+                $.ajax({
+                    type: "GET",
+                    url: "/bbus/"+{{NVFI.id}}+"/launch/",
+                    success: function(response) {
+                        $('#status-{{NVFI.id}}').html('Running');
+                        $("#nvfi-{{NVFI.id}}").button('reset');
+                        $('#nvfi-{{NVFI.id}}').html('Shut Down');
+                    },
+                });
+
+
+                interval = setInterval(check,2000);
+
+            }
+            else{
+                alert($('#nvfi-{{NVFI.id}}').text());
+            }
+        });
+    });
+</script>

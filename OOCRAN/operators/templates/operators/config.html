@@ -1,0 +1,51 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+{% load bootstrap %}
+
+{% block head %}{% endblock head%}
+
+{% block content%}
+    <h1>Parameters Configuration</h1>
+    <form method="POST" action="{% url 'operators:config' %}" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">OPNFV</h3>
+          </div>
+          <div class="panel-body">
+            {{ form.fuel|bootstrap }}
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">OpenStack</h3>
+          </div>
+          <div class="panel-body">
+            {{ form.end_nova|bootstrap }}
+            {{ form.end_keystone|bootstrap }}
+            {{ form.end_ceilometer|bootstrap }}
+            {{ form.end_glance|bootstrap }}
+            {{ form.end_heat|bootstrap }}
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">SDN Controller</h3>
+          </div>
+          <div class="panel-body">
+            {{ form.sdn|bootstrap }}
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Prices</h3>
+          </div>
+          <div class="panel-body">
+            {{ form.spectrum|bootstrap }}
+            {{ form.cpu|bootstrap }}
+            {{ form.ram|bootstrap }}
+          </div>
+        </div>
+		<input type="submit" class="btn btn-default" value="Change"/>
+	</form>
+{% endblock %}

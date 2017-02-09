@@ -1,0 +1,11 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+
+{% block head %}{% endblock head%}
+
+{% block content%}
+    {% if user.is_staff %}
+        <input href="#" class="btn btn-default" value="FUEL GUI"/>
+    {% endif %}
+{% endblock %}

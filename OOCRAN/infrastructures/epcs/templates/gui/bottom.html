@@ -1,0 +1,31 @@
+<br>
+{% for vnf in object_list %}
+    <ul>
+        <a class="btn btn-default" id="{{vnf.name}}" style="margin-left:-40px;width:120px">{{vnf.name}}</a>
+        <script>
+            var operatorI = -3;
+            $('#{{vnf.name}}').click(function() {
+              var operatorId = 'id_' + operatorI;
+              var operatorData = {
+                top: 60,
+                left: 500,
+                properties: {
+                  title: '{{vnf.name}}',
+                  inputs: {
+                    input_1: {
+                      label: 'Input',
+                    }
+                  },
+                  outputs: {
+                    output_1: {
+                      label: 'Output',
+                    }
+                  }
+                }
+              };
+              operatorI++;
+              $('#example').flowchart('createOperator', operatorId, operatorData);
+            });
+        </script>
+    </ul>
+{%endfor%}

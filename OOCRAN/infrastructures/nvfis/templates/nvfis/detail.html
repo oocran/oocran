@@ -1,0 +1,27 @@
+{%extends "base/base.html"%}
+
+{% block head %}
+   <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB05V_zAdTZtLZkFTGC17QHXMXs3w6rcSI " async="" defer="defer" type="text/javascript"></script>
+   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+{% endblock head%}
+
+{%block content%}
+	<h1>Details of {{nvfi.name}}</h1>
+
+    <ol class="breadcrumb">
+      <li><a href="{% url 'nvfis:list' %}">BBU</a></li>
+      <li><a href="{% url 'nvfis:info' nvfi.scenario.id %}">{{nvfi.scenario}}</a></li>
+      <li class="active">{{nvfi.name}}</li>
+    </ol>
+
+    <h2 class="sub-header">List of NVF</h2>
+    {% include "partials/nvfis/bbus.html" %}
+    {% include "base/partials/paginator.html" %}
+
+    <h1 class="page-header">Map view</h1>
+    <div id="map-canvas" style="width:auto;height:400px;"></div>
+{%endblock content%}
+
+{%block javascript%}
+    {% include "partials/nvfis/javascript/map.html" %}
+{%endblock javascript%}

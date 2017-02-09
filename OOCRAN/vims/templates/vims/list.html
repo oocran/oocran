@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block head %}{% endblock head%}
+
+{% block content%}
+    <h2 class="sub-header">List of VIMs</h2>
+
+    {% include "partials/vims/vims.html" %}
+    {% include "base/partials/paginator.html" %}
+    <br>
+    <a id="submit" onclick="loader()" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Create VIM</a>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{%block javascript%}
+    {% include "partials/vims/javascript/loader-ajax.html"%}
+{%endblock javascript%}
