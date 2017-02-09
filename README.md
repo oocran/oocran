@@ -20,3 +20,10 @@ Get Started
 
     $ ./launch
 
+
+License
+=======
+
+This software is licensed under the `AGPL License`. See the ``LICENSE``
+file in the top distribution directory for the full license text.
+
