@@ -45,7 +45,6 @@ def create(request, id=None):
 @login_required(login_url='/login/')
 def launch(request, id=None):
     utran = get_object_or_404(Utran, id=id)
-    #utran.launch()
     tasks.launch.delay(id)
     utran.save()
 
@@ -56,8 +55,6 @@ def launch(request, id=None):
 @login_required(login_url='/login/')
 def shut_down(request, id=None):
     utran = get_object_or_404(Utran, id=id)
-    utran.save()
-    #utran.shutdown()
     tasks.shut_down.delay(id)
 
     messages.success(request, "NVFI shut down!", extra_tags="alert alert-success")
@@ -78,14 +75,14 @@ def bbu(request, id=None):
 @login_required(login_url='/login/')
 def delete(request, id=None):
     utran = get_object_or_404(Utran, pk=id)
-    id = utran.scenario.id
-    utran.scenario.price += round(utran.cost(), 3)
     if utran.status == "Running":
+        utran.scenario.price += round(utran.cost(), 3)
+        utran.scenario.save()
         utran.shutdown()
     utran.delete()
 
     messages.success(request, "NVFI successfully deleted!", extra_tags="alert alert-success")
-    return redirect("nvfis:info", id=id)
+    return redirect("nvfis:info", id=utran.scenario.id)
 
 
 @login_required(login_url='/login/')

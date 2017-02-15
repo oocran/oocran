@@ -3,6 +3,6 @@
 
 cd OOCRAN/
 gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
-gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
+#gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
 python manage.py runserver
 

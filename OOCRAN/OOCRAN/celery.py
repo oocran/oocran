@@ -18,12 +18,12 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
-app.conf.beat_schedule = {
+'''app.conf.beat_schedule = {
     'say hello': {
-        'task': 'infrastructures.bbus.tasks.marti',
+        'task': 'infrastructures.bbus.tasks.emc',
         'schedule': 10.0,
     },
-}
+}'''
 app.conf.timezone = 'UTC'
 
 

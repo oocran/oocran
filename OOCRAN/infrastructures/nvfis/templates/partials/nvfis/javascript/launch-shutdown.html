@@ -6,28 +6,19 @@
         var state = 0;
         var interval = null;
 
-        function sleep(milliseconds) {
-          var start = new Date().getTime();
-          for (var i = 0; i < 1e7; i++) {
-            if ((new Date().getTime() - start) > milliseconds){
-              break;
-            }
-          }
-        }
 
-        function check() {
+        /*function check() {
             $.ajax({
                 type: "GET",
                 url: "/nvfis/"+{{NVFI.id}}+"/state/",
                 success: function(response) {
                     if (response = 1) {
-                        alert(response);
                         state = response;
                         clearInterval(interval);
                     }
                 },
             });
-        }
+        }*/
 
 
         $("#nvfi-{{NVFI.id}}").click(function(){
@@ -47,7 +38,7 @@
                     },
                 });
 
-                interval = setInterval(check,2000);
+                //interval = setInterval(check,2000);
 
             }
 
@@ -67,7 +58,7 @@
                 });
 
 
-                interval = setInterval(check,2000);
+                //interval = setInterval(check,2000);
 
             }
             else{

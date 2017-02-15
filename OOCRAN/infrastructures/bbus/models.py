@@ -6,11 +6,8 @@ from operators.models import Operator
 from vnfs.models import Vnf
 from scenarios.models import RRH
 from django.db import models
-from drivers.OpenStack.deployments.deployments import create_deploy as OpenStack_create_deploy
 from .orchestrator import read_yaml, price
-from drivers.OpenStack.deployments.deployments import delete_deploy
 from .orchestrator import planification_DL, planification_UL
-from django.utils import timezone
 
 
 class Utran(NVFI):
@@ -25,23 +22,6 @@ class Utran(NVFI):
             nvf.rrh.freCs = '/'.join(lista)
             nvf.delete_frec()
             nvf.rrh.save()
-
-    def launch(self):
-        self.launch_time = timezone.now()
-        self.status = 'Running'
-        bbus = BBU.objects.filter(nvfi__name=self.name)
-        [bbu.assign_frequency() for bbu in bbus]
-        self.scenario.change_status(self)
-        OpenStack_create_deploy(self, bbus)
-
-    def shutdown(self):
-        self.scenario.price += round(self.cost(), 3)
-        self.remove_frecuencies()
-        self.status = 'Shut Down'
-        self.save()
-        nvfi = NVFI.objects.filter(operator__name=self.operator.name, status='Running')
-        delete_deploy(self)
-        self.scenario.change_status(nvfi)
 
     def create_BBU(self, list):
         for element in list:
