@@ -28,5 +28,7 @@ License
 This software is licensed under the `AGPL License`. See the ``LICENSE``
 file in the top distribution directory for the full license text.
 
-Supported by <img src="https://www.nlnet.nl/image/logo.gif" width="150"/>
+Supported by
+============
+<img src="https://www.nlnet.nl/image/logo.gif" width="150"/>
 
