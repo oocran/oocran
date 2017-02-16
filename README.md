@@ -12,11 +12,21 @@ Features
 * LTE transmission use case.
 * VNF Descriptor APIs.
 * Graphical User Interface for the NVFI orchestrator.
-* OSS implementation.
+* OSS/BBS implementation.
+
+News and Website
+================
+Information about OOCRAN can be found in the [website](http://oocran.dynu.com/)
+
+Issue tracker
+=============
+Issues and bug reports should be posted to the GitHub Issue Tracker of this project.
 
 License
 =======
 
 This software is licensed under the `AGPL License`. See the ``LICENSE``
 file in the top distribution directory for the full license text.
+
+Supported by <img src="https://www.nlnet.nl/image/logo.gif" width="250"/>
 
