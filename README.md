@@ -12,6 +12,7 @@ Features
 * LTE transmission use case.
 * VNF Descriptor APIs.
 * Graphical User Interface for the NVFI orchestrator.
+* OSS implementation.
 
 License
 =======
