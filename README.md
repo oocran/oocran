@@ -8,6 +8,8 @@ Features
 ========
 * Computational Resources and Radio Spectrum Sharing.
 * Interference Avoide.
+* NVFI management for service providers.
+* Easy Infrastructure management for infratustructe providers.
 * Multi VIM and multi hypervisor support.
 * LTE transmission use case.
 * VNF Descriptor APIs.
