@@ -1,7 +1,8 @@
 #OOCRAN: Open Orchestrator Cloud Radio Access Network 
 
 
-### What is OOCRAN?
+What is OOCRAN?
+===============
 OOCRAN is an implementation of the architecture NFV MANO standard designed for wireless communications and provided by NLnet that introduce the management of the radio spectrum. It will necessary to have an OpenStack cluster (tested on Mitaka release).
 
 Features
@@ -15,6 +16,18 @@ Features
 * VNF Descriptor APIs.
 * Graphical User Interface for the NVFI orchestrator.
 * OSS/BBS implementation.
+
+Installation
+============
+To install OOCRAN, please see the OOCRAN Installation guide for a thorough walkthrough on the [wiki](https://github.com/oocran/oocran/wiki/Installation).
+
+Get Started
+===========
+At this point OOCRAN can be used on OpenStack enviornament but in following realese OOCRAN will support local hypervisors (Docker, KVM, VirtualBox and VMWare). To get started with some examples, please see the [examples guide](https://github.com/oocran/oocran/wiki/Get-Started).
+
+Creating NFs
+============
+The Network Function developing tool kit will provide all the necessary tools to start, manage and monitor your own NFs.
 
 News and Website
 ================
