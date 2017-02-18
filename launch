@@ -2,7 +2,8 @@
 # -*- ENCODING: UTF-8 -*-
 
 cd OOCRAN/
-gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
+celery -A OOCRAN worker -l info &
+#gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
 #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 
