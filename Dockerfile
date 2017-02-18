@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER OOCRAN Project "info@oocran.dynu.com"
+MAINTAINER OOCRAN Project <info@oocran.dynu.com>
 
 #Update
 RUN apt-get update -y
@@ -13,4 +13,4 @@ RUN git clone https://github.com/oocran/oocran.git && cd oocran && chmod +x setu
 
 EXPOSE 8000
 
-CMD ["./oocran/launch "]
+CMD cd /oocran && ./launch
