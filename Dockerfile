@@ -13,4 +13,4 @@ RUN git clone https://github.com/oocran/oocran.git && cd oocran && chmod +x setu
 
 EXPOSE 8000
 
-CMD cd /oocran && ./launch
+CMD cd /oocran && ./launch prod
