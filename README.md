@@ -3,12 +3,12 @@
 
 What is OOCRAN?
 ===============
-OOCRAN is an implementation of the architecture NFV MANO standard designed for wireless communications and provided by NLnet that introduce the management of the radio spectrum. It will necessary to have an OpenStack cluster (tested on Mitaka release).
+OOCRAN is an implementation of the NFV MANO standard architecture, designed for wireless communications and provided by the NLnet foundation, that introduces the management of the radio spectrum. An OpenStack running cluster is necessary (tested on Mitaka release).
 
 Features
 ========
-* Computational Resources and Radio Spectrum Sharing.
-* Interference Avoide.
+* Computational resources and Radio Spectrum Sharing.
+* Interference avoidance.
 * NVFI management for service providers.
 * Easy Infrastructure management for infratustructe providers.
 * Multi VIM and multi hypervisor support.
@@ -19,12 +19,11 @@ Features
 
 Installation
 ============
-To install OOCRAN, please see the OOCRAN Installation guide for a thorough walkthrough on the [wiki](https://github.com/oocran/oocran/wiki/Installation).
+Please refer to the OOCRAN Installation guide for a thorough walkthrough [wiki](https://github.com/oocran/oocran/wiki/Installation).
 
 Get Started
 ===========
-At this point OOCRAN can be used on OpenStack enviornament but in following realese OOCRAN will support local hypervisors (Docker, KVM, VirtualBox and VMWare). To get started with some examples, please see the [examples guide](https://github.com/oocran/oocran/wiki/Get-Started).
-
+As of now, OOCRAN can only be deployed on top of OpenStack environments but OOCRAN will support local hypervisors (Docker, KVM, VirtualBox and VMWare) in subsequent releases. To get started with some examples, please refer to the examples guide.
 Creating NFs
 ============
 The Network Function developing tool kit will provide all the necessary tools to start, manage and monitor your own NFs.
