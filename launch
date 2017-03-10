@@ -5,8 +5,9 @@ cd OOCRAN/
 
 if [ $1 = "dev" ];
 then
+    #celery -A OOCRAN worker -l info &
     gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
-    #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
+    gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
     python manage.py runserver
 elif [ $1 = "prod" ];
 then
@@ -16,9 +17,3 @@ else
     echo "Mode doesn't found!"
     exit 0
 fi
-
-#celery -A OOCRAN worker -l info &
-#gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
-#gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
-#python manage.py runserver 0.0.0.0:8000
-
