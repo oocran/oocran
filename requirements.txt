@@ -11,4 +11,3 @@ python-heatclient==1.2.0
 python-ceilometerclient==2.4.0
 yapsy==1.11.223
 simple-crypt==4.1.7
-
