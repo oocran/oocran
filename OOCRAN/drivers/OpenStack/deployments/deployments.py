@@ -58,13 +58,12 @@ server{{num}}:
 
     template = header+elements
 
-    print template
-    #res = create_stack(nvfi, template, nvfi.scenario.vim)
+    res = create_stack(nvfi, template, nvfi.scenario.vim)
 
 
 def delete_deploy(nvfi):
     print "deleted"
-    #delete_stack(nvfi, nvfi.scenario.vim)
+    delete_stack(nvfi, nvfi.scenario.vim)
 
 
 def create_gui(NVFI, elements, connections):

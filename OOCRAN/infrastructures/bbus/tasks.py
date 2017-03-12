@@ -4,7 +4,6 @@ from drivers.OpenStack.deployments.deployments import delete_deploy
 from celery import task
 from django.utils import timezone
 from drivers.OpenStack.deployments.deployments import create_deploy as OpenStack_create_deploy
-import time
 
 
 @task()
@@ -15,7 +14,7 @@ def launch(id):
 
     bbus = BBU.objects.filter(nvfi__name=utran.name)
     [bbu.assign_frequency() for bbu in bbus]
-    #utran.scenario.change_status(utran)
+    utran.scenario.change_status(utran)
     OpenStack_create_deploy(utran, bbus)
 
     utran.status = 'Running'
@@ -34,7 +33,7 @@ def shut_down(id):
     utran.scenario.save()
     utran.remove_frecuencies()
     delete_deploy(utran)
-    #self.scenario.change_status(nvfi)
+    utran.scenario.change_status(nvfi)
 
     utran.status = 'Shut Down'
     utran.save()
