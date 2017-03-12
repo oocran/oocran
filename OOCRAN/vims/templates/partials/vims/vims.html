@@ -2,6 +2,7 @@
     <thead>
     <tr>
       <th style="text-align: center;">Name</th>
+        <th style="text-align: center;">Type</th>
       <th style="text-align: center;">IP</th>
       <th style="text-align: center;">Latitude</th>
       <th style="text-align: center;">Longitude</th>
@@ -12,6 +13,7 @@
         {% for vim in object_list %}
             <tr>
               <td style="text-align: center;vertical-align: middle"><a href="#">{{vim.name}}</a></td>
+                <td style="text-align: center;vertical-align: middle">{{vim.type}}</td>
               <td style="text-align: center;vertical-align: middle">{{vim.ip}}</td>
               <td style="text-align: center;vertical-align: middle">{{vim.latitude}}</td>
               <td style="text-align: center;vertical-align: middle">{{vim.longitude}}</td>

@@ -6,14 +6,14 @@ import subprocess
 
 def vagrant_launch(nvfi, bbus):
     create_vagrantfile(nvfi, bbus)
-    v = vagrant.Vagrant(os.getcwd() + '/vims/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name)
+    v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name)
     v.up(provider=bbus[0].vnf.box.split(' - ')[1])
 
 
 def vagrant_destroy(nvfi):
-    v = vagrant.Vagrant(os.getcwd() + '/vims/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name)
+    v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name)
     v.destroy()
-    shutil.rmtree(os.getcwd() + '/vims/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)
+    shutil.rmtree(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)
 
 
 def list_boxes():
@@ -82,8 +82,8 @@ end
         function=function,
     )
 
-    os.mkdir(os.getcwd() + '/vims/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)
-    outfile = open(os.getcwd() + '/vims/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name + '/Vagrantfile',
+    os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)
+    outfile = open(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name + '/Vagrantfile',
                    'w')
     outfile.write(header + nvfs + end)
     outfile.close()

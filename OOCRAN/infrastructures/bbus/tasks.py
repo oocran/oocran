@@ -1,10 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 from .models import Utran, BBU
-from drivers.OpenStack.deployments.deployments import delete_deploy
+from drivers.OpenStack.deployments.deployments import delete_deploy as OpenStack_delete_deploy
 from celery import task
 from django.utils import timezone
 from drivers.OpenStack.deployments.deployments import create_deploy as OpenStack_create_deploy
-
+from drivers.Vagrant.APIs.api import vagrant_launch as Vagrant_create_deploy
+from drivers.Vagrant.APIs.api import vagrant_destroy as Vagrant_delete_deploy
 
 @task()
 def launch(id):
@@ -15,7 +16,10 @@ def launch(id):
     bbus = BBU.objects.filter(nvfi__name=utran.name)
     [bbu.assign_frequency() for bbu in bbus]
     utran.scenario.change_status(utran)
-    OpenStack_create_deploy(utran, bbus)
+    if utran.vim == "Near":
+        OpenStack_create_deploy(utran, bbus)
+    elif utran.vim == "Vagrant":
+        Vagrant_create_deploy(utran, bbus)
 
     utran.status = 'Running'
     utran.launch_time = timezone.now()
@@ -32,8 +36,11 @@ def shut_down(id):
     utran.scenario.price += round(utran.cost(), 3)
     utran.scenario.save()
     utran.remove_frecuencies()
-    delete_deploy(utran)
-    utran.scenario.change_status(nvfi)
+    if utran.vim == "Near":
+        OpenStack_delete_deploy(utran)
+    elif utran.vim == "Vagrant":
+        Vagrant_delete_deploy(utran)
+    utran.scenario.change_status(utran)
 
     utran.status = 'Shut Down'
     utran.save()

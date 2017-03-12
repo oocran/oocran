@@ -7,9 +7,15 @@ class VIMForm(forms.ModelForm):
     password = forms.CharField(max_length=32, widget=forms.PasswordInput)
     password_confirmation = forms.CharField(max_length=32, widget=forms.PasswordInput)
 
+    def __init__(self, *args, **kwargs):
+        super(VIMForm, self).__init__(*args, **kwargs)
+        self.fields['type'] = forms.ChoiceField(required=True,
+                                                choices=[('OpenStack', 'OpenStack'), ('Vagrant', 'Vagrant')])
+
     class Meta:
         model = VIM
         fields = [
+            "type",
             "name",
             "ip",
             "latitude",

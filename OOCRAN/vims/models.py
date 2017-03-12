@@ -4,6 +4,7 @@ from django.db import models
 
 class VIM(models.Model):
     name = models.CharField(max_length=120)
+    type = models.CharField(max_length=120, default='OpenStack')
     ip = models.CharField(max_length=120)
     latitude = models.FloatField(max_length=120)
     longitude = models.FloatField(max_length=120)

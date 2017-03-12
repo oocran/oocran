@@ -29,7 +29,7 @@ class Utran(NVFI):
             bbu.nvfi=self
             self.rb_offer = self.rb_offer + bbu.bw_dl
             bbu.radio = 20
-            self.price = self.price + price(bbu, bbu.bw_dl)
+            self.price += price(bbu, bbu.bw_dl)
             bbu.save()
 
     def create(self):
@@ -110,54 +110,6 @@ class BBU(models.Model):
         frecuencies = self.used_frecuencys()
         planification_DL(self, frecuencies, self.bw_dl)
         planification_UL(self, frecuencies, self.bw_dl)
-
-    class Meta:
-        ordering = ["-timestamp", "-update"]
-
-
-class Channel(models.Model):
-    propietario = models.ForeignKey(Operator, on_delete=models.CASCADE)
-    name = models.CharField(max_length=120, default="AWGN")
-    nvfi = models.ForeignKey(NVFI, on_delete=models.CASCADE)
-    ip = models.CharField(max_length=20)
-    snr = models.FloatField()
-    vnf = models.ForeignKey(Vnf, on_delete=models.CASCADE)
-    update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-
-    def __unicode__(self):
-        return self.name
-
-    def get_absolut_url(self):
-        return reverse("opnfv:channel_detail", kwargs={"id": self.id})
-
-
-class UE(models.Model):
-    operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
-    name = models.CharField(max_length=120)
-    pt_dl = models.FloatField()
-    pt_ul = models.FloatField()
-    lat = models.CharField(max_length=120)
-    longi = models.CharField(max_length=120)
-    dist = models.CharField(max_length=120)
-    nvfi = models.ForeignKey(NVFI)
-    rb = models.IntegerField(null=True, blank=True)
-    nvf = models.ForeignKey(BBU)
-    mcs = models.IntegerField()
-    update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-
-    def __unicode__(self):
-        return self.name.split('-')[1]
-
-    def get_name(self):
-        return self.name.split('-')[1]
-
-    def get_lat(self):
-        return self.lat
-
-    def get_longi(self):
-        return self.longi
 
     class Meta:
         ordering = ["-timestamp", "-update"]

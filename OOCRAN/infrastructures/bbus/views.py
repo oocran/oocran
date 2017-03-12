@@ -23,6 +23,7 @@ def create(request, id=None):
             operator = get_object_or_404(Operator, name=request.user.username)
             nvfi.operator = operator
             nvfi.scenario = scenario
+            nvfi.vim = form.cleaned_data['vim']
             reply = nvfi.create()
             if reply is False:
                 messages.success(request, "VNF is not found!", extra_tags="alert alert-danger")
