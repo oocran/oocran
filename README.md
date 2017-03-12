@@ -45,4 +45,3 @@ file in the top distribution directory for the full license text.
 Supported by
 ============
 <img src="https://www.nlnet.nl/image/logo.gif" width="150"/>
-
