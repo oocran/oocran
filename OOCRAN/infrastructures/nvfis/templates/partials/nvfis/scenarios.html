@@ -12,8 +12,8 @@
         {% for area in object_list %}
             <tr>
               <td style="text-align: center;vertical-align: middle"><a href="{% url 'nvfis:info' area.id %}">{{area.name}}</a></td>
-              <td style="text-align: center;vertical-align: middle">2</td>
-              <td style="text-align: center;vertical-align: middle">1</td>
+                <td style="text-align: center;vertical-align: middle">{{area.get_infrastructure}}</td>
+                <td style="text-align: center;vertical-align: middle">{{area.get_active_infrastructures}}</td>
               <td style="text-align: center;vertical-align: middle">{{area.price}} $</td>
               <td style="text-align: center;vertical-align: middle">
                   <a href="{% url 'nvfis:info' area.id %}" class="btn btn-default" role="button">Scenario specifications</a>

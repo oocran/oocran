@@ -60,6 +60,7 @@ class Scenario(models.Model):
     latitude = models.FloatField(max_length=120, default='41.275621')
     longitude = models.FloatField(max_length=120, default='1.986591')
     description = models.TextField(default='Sample one mobile network deployed on the EETAC')
+    infrastructures = models.CharField(max_length=120, default='0/0')
     file = models.FileField(upload_to='btss/')
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
     price = models.FloatField(default=0)
@@ -74,6 +75,12 @@ class Scenario(models.Model):
 
     def get_absolut_url(self):
         return reverse("scenarios:details", kwargs={"id": self.id})
+
+    def get_infrastructure(self):
+        return self.infrastructures.split('/')[0]
+
+    def get_active_infrastructures(self):
+        return self.infrastructures.split('/')[1]
 
     def get_bts(self):
         bts = self.bts.all()
