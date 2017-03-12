@@ -1,13 +1,12 @@
 import vagrant
 from jinja2 import Template
 import os, shutil
-import subprocess
 
 
 def vagrant_launch(nvfi, bbus):
     create_vagrantfile(nvfi, bbus)
     v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name)
-    v.up(provider=bbus[0].vnf.box.split(' - ')[1])
+    v.up(provider='libvirt')
 
 
 def vagrant_destroy(nvfi):
@@ -25,10 +24,6 @@ def list_boxes():
 
 
 def create_vagrantfile(nvfi, bbus):
-    output = subprocess.check_output("lspci| grep VGA", shell=True)
-    bus = "0x" + output.split(":")[0]
-    slot = "0x" + output.split(":")[1].split(".")[0]
-    function = "0x" + output.split(" ")[0].split(".")[1]
 
     header = Template(u'''\
 Vagrant.configure("2") do |config|
@@ -45,7 +40,7 @@ config.vm.define "{{name}}" do |v|
   end
   ''')
         nvf = nvf.render(
-            box=bbu.vnf.box.split(' - ')[0],
+            box='debian/jessie64',
             name=bbu.rrh.name,
             network=bbu.rrh.ip,
         )
@@ -63,8 +58,6 @@ config.vm.provider "virtualbox" do |v|
     v.memory = {{ram}}
     v.cpus = {{cpu}}
     v.kvm_hidden = true
-    #v.video_vram = 1024
-    #v.pci :bus => '{{bus}}', :slot => '{{slot}}', :function => '{{function}}'
   end
 
   #Update and upgrade
@@ -76,10 +69,7 @@ end
     end = end.render(
         ram=bbu.vnf.ram,
         cpu=bbu.vnf.cpu,
-        script=bbu.vnf.script_vagrant,
-        bus=bus,
-        slot=slot,
-        function=function,
+        script=bbu.vnf.script,
     )
 
     os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)

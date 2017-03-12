@@ -100,6 +100,10 @@ class Scenario(models.Model):
             create_area(self)
             self.status = True
             self.save()
+        elif self.status is True:
+            self.status = False
+            delete_area(self)
+            self.save()
         else:
             if any(nvfi) is False:
                 self.status = False

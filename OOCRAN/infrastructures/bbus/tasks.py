@@ -14,9 +14,9 @@ def launch(id):
     utran.save()
 
     bbus = BBU.objects.filter(nvfi__name=utran.name)
-    [bbu.assign_frequency() for bbu in bbus]
-    utran.scenario.change_status(utran)
+    # [bbu.assign_frequency() for bbu in bbus]
     if utran.vim == "Near":
+        #utran.scenario.change_status(utran)
         OpenStack_create_deploy(utran, bbus)
     elif utran.vim == "Vagrant":
         Vagrant_create_deploy(utran, bbus)
@@ -35,12 +35,12 @@ def shut_down(id):
 
     utran.scenario.price += round(utran.cost(), 3)
     utran.scenario.save()
-    utran.remove_frecuencies()
+    #utran.remove_frecuencies()
     if utran.vim == "Near":
         OpenStack_delete_deploy(utran)
+        #utran.scenario.change_status(utran)
     elif utran.vim == "Vagrant":
         Vagrant_delete_deploy(utran)
-    utran.scenario.change_status(utran)
 
     utran.status = 'Shut Down'
     utran.save()

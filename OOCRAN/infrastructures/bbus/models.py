@@ -106,9 +106,13 @@ class BBU(models.Model):
         self.save()
 
     def assign_frequency(self):
+        print 2
         self.rb_assigment()
+        print 3
         frecuencies = self.used_frecuencys()
+        print 4
         planification_DL(self, frecuencies, self.bw_dl)
+        print 5
         planification_UL(self, frecuencies, self.bw_dl)
 
     class Meta:
