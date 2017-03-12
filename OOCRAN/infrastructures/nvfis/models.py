@@ -48,7 +48,7 @@ class NVFI(models.Model):
         return reverse("nvfis:detail", kwargs={"id": self.id})
 
     def active_shutdown(self):
-        return True
+        return False
 
     class Meta:
         ordering = ["-timestamp", "-update"]
