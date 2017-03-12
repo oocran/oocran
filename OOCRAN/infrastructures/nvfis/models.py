@@ -47,5 +47,8 @@ class NVFI(models.Model):
     def get_absolut_url(self):
         return reverse("nvfis:detail", kwargs={"id": self.id})
 
+    def active_shutdown(self):
+        return False
+
     class Meta:
         ordering = ["-timestamp", "-update"]
