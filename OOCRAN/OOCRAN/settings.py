@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'vnfs',
     'OOCRAN',
     'ns.bbus',
-    'ns.nvfis',
+    'ns.ns',
     'ns.epcs',
     'vims',
     'django_celery_beat',

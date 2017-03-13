@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import NVFI
+from .models import Ns
 
 
-class NVFIModelAdmin(admin.ModelAdmin):
+class NsModelAdmin(admin.ModelAdmin):
     list_display = ["name", "update", "timestamp"]
     list_display_links = ["update"]
     list_filter = ["update", "timestamp"]
@@ -10,7 +10,7 @@ class NVFIModelAdmin(admin.ModelAdmin):
     search_fields = ["name"]
 
     class Meta:
-        model = NVFI
+        model = Ns
 
 
-admin.site.register(NVFI, NVFIModelAdmin)
+admin.site.register(Ns, NsModelAdmin)

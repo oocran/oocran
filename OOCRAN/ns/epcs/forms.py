@@ -1,15 +1,15 @@
-from .models import NVFI
+from .models import Epc
 from django import forms
 
 
-class GUIForm(forms.ModelForm):
+class EpcForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(GUIForm, self).__init__(*args, **kwargs)
+        super(EpcForm, self).__init__(*args, **kwargs)
         self.fields['graph'].widget = forms.Textarea(attrs={'id': 'code'})
         self.fields['graph'].initial = ''
 
     class Meta:
-        model = NVFI
+        model = Epc
         fields = [
             "name",
             "graph",

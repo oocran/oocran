@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from operators.models import Operator
 from ns.bbus.forms import DeploymentForm
-from .models import NVFI, Utran, BBU
+from .models import Ns, Utran, BBU
 from scenarios.models import Scenario
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator

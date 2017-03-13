@@ -8,11 +8,10 @@ from django.utils import timezone
 from drivers.OpenStack.deployments.deployments import create_gui
 
 
-class NVFI(models.Model):
+class Ns(models.Model):
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     description = models.TextField(null=True, blank=True)
-    scenario = models.ForeignKey(Scenario)
     file = models.FileField(upload_to='opnfv/')
     status = models.CharField(max_length=120, default="Shut Down")
     price = models.FloatField(default=0)
@@ -31,7 +30,7 @@ class NVFI(models.Model):
 
     def jsonread(self):
         [elements, connections] = jsontoheat(self.graph)
-        create_gui(self, elements, connections)
+        # create_gui(self, elements, connections)
 
     def cost(self):
         if self.status == "Running":
@@ -46,7 +45,7 @@ class NVFI(models.Model):
             return self.total
 
     def get_absolut_url(self):
-        return reverse("nvfis:detail", kwargs={"id": self.id})
+        return reverse("ns:detail", kwargs={"id": self.id})
 
     class Meta:
         ordering = ["-timestamp", "-update"]

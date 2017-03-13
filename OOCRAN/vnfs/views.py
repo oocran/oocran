@@ -32,7 +32,7 @@ def create(request):
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             vnf = form.save(commit=False)
-            vnf.flavor = get_flavors(vnf)
+            # vnf.flavor = get_flavors(vnf)
             vnf.operator = get_object_or_404(Operator, name=request.user.username)
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
             vnf.save()

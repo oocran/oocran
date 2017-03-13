@@ -1,17 +1,18 @@
 from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-from ns.nvfis.models import NVFI
+from ns.ns.models import Ns
 from operators.models import Operator
 from vnfs.models import Vnf
-from scenarios.models import RRH
+from scenarios.models import RRH, Scenario
 from django.db import models
 from .orchestrator import read_yaml, price
 from .orchestrator import planification_DL, planification_UL
 
 
-class Utran(NVFI):
+class Utran(Ns):
     rb_offer = models.IntegerField(default=0)
+    scenario = models.ForeignKey(Scenario, null=True, blank=True)
 
     def remove_frecuencies(self):
         nvfs = BBU.objects.filter(nvfi=self).filter(operator=self.operator)
@@ -47,7 +48,7 @@ class Utran(NVFI):
 
 class BBU(models.Model):
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
-    nvfi = models.ForeignKey(NVFI, on_delete=models.CASCADE)
+    ns = models.ForeignKey(Ns, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     type = models.CharField(max_length=20)
     # Downlink

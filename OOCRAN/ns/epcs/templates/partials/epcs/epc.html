@@ -41,13 +41,13 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                     <li><a href="{{NVFI.get_absolut_url}}">Details</a></li>
-                    <li><a style="color:red" href="{% url 'nvfis:delete' NVFI.id %}">Delete</a></li>
+                    <li><a style="color:red" href="{% url 'epcs:delete' NVFI.id %}">Delete</a></li>
                 </ul>
             </div>
         </td>
     </tr>
     {% endif %}
-    {% include "partials/opnfv/javascript/launch-shutdown.html" %}
+    {% include "partials/epcs/javascript/launch-shutdown.html" %}
     {%endfor%}
     </tbody>
 </table>
