@@ -7,7 +7,7 @@ from .forms import ScenarioForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from OOCRAN.global_functions import paginator
-from infrastructures.nvfis.models import NVFI
+from ns.nvfis.models import NVFI
 
 
 @staff_member_required

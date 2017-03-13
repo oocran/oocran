@@ -32,14 +32,15 @@ INSTALLED_APPS = [
     'operators',
     'vnfs',
     'OOCRAN',
-    'infrastructures.bbus',
-    'infrastructures.nvfis',
-    'infrastructures.epcs',
+    'ns.bbus',
+    'ns.nvfis',
+    'ns.epcs',
     'vims',
     'django_celery_beat',
     'scenarios',
     'bootstrapform',
     'django_celery_results',
+    'nfs',
 ]
 
 MIDDLEWARE_CLASSES = [

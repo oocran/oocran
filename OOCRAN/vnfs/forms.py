@@ -3,10 +3,13 @@ from .models import Vnf
 
 
 class VnfForm(forms.ModelForm):
-    #def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         #self.images = kwargs.pop('images')
-        #super(VnfForm, self).__init__(*args,**kwargs)
+        self.nfs = kwargs.pop('nfs')
+        super(VnfForm, self).__init__(*args, **kwargs)
         #self.fields['image'] = forms.ChoiceField(required=False, choices=[(x, x) for x in self.images])
+        self.fields['nf'] = forms.MultipleChoiceField(
+            choices=[(x, x) for x in self.nfs])  # forms.ChoiceField(required=True, choices=[(x, x) for x in self.nfs])
 
     class Meta:
         model = Vnf
@@ -17,6 +20,6 @@ class VnfForm(forms.ModelForm):
             "ram",
             "disk",
             #"image",
-            "script",
+            "nf",
             #"interfaces"
         ]

@@ -1,0 +1,31 @@
+{% load bootstrap %}
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">Create Network Function</h4>
+</div>
+
+<div class="modal-body">
+    <form id="form_id" method="POST" action="{% url 'nfs:create' %}" enctype="multipart/form-data">
+        {%csrf_token%}
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#info">Information</a></li>
+            <li><a data-toggle="tab" href="#function">Function</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="info" class="tab-pane fade in active">
+                <br>
+                {{ form.name|bootstrap }}
+                {{ form.description|bootstrap }}
+            </div>
+            <div id="function" class="tab-pane fade">
+                <br>
+                {{form.code|bootstrap}}
+                {{form.script|bootstrap}}
+            </div>
+        </div>
+        <input type="submit" class="btn btn-default" value="Create NF"/>
+    </form>
+</div>

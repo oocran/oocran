@@ -7,15 +7,18 @@
             </li>
             {% if not user.is_staff %}
             <li  data-toggle="collapse" data-target="#resources" class="collapsed active" style="background-color: #f5f5f5">
-              <a href="#" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i class="glyphicon glyphicon-th"></i> Resources <span class="arrow"></span></a>
+                <a href="#" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i
+                        class="glyphicon glyphicon-th"></i> Catalog <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu" id="resources">
-                <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'vnfs:list' %}">NF
-                    Catalog</a></li>
-                <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'vnfs:list' %}">VNF Catalog</a></li>
+                <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'nfs:list' %}">Network
+                    Functions</a></li>
+                <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'vnfs:list' %}">VNFs</a>
+                </li>
             </ul>
             <li  data-toggle="collapse" data-target="#infrastructures" class="collapsed active">
-              <a href="#" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i class="glyphicon glyphicon-cloud"></i> Infrastructures <span class="arrow"></span></a>
+                <a href="#" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i
+                        class="glyphicon glyphicon-cloud"></i> Network Services <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu" id="infrastructures">
                 <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'nvfis:list' %}">vBBU</a>
