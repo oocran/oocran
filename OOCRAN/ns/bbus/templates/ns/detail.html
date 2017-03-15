@@ -10,13 +10,13 @@
 <h1>Details of {{nvfi.name}}</h1>
 
 <ol class="breadcrumb">
-    <li><a href="{% url 'nvfis:list' %}">BBU</a></li>
-    <li><a href="{% url 'nvfis:info' nvfi.scenario.id %}">{{nvfi.scenario}}</a></li>
+    <li><a href="{% url 'bbus:list' %}">BBU</a></li>
+    <li><a href="{% url 'bbus:info' id=nvfi.scenario.id %}">{{nvfi.scenario}}</a></li>
     <li class="active">{{nvfi.name}}</li>
 </ol>
 
 <h2 class="sub-header">List of NVF</h2>
-{% include "partials/nvfis/bbus.html" %}
+{% include "partials/ns/bbus.html" %}
 {% include "base/partials/paginator.html" %}
 
 <h1 class="page-header">Map view</h1>
@@ -24,5 +24,5 @@
 {%endblock content%}
 
 {%block javascript%}
-{% include "partials/nvfis/javascript/map.html" %}
+{% include "partials/ns/javascript/map.html" %}
 {%endblock javascript%}

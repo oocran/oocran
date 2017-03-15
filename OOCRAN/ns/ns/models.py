@@ -44,8 +44,5 @@ class Ns(models.Model):
         else:
             return self.total
 
-    def get_absolut_url(self):
-        return reverse("ns:detail", kwargs={"id": self.id})
-
     class Meta:
         ordering = ["-timestamp", "-update"]

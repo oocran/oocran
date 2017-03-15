@@ -19,10 +19,12 @@ from .views import (
     gui,
     list,
     delete,
+    details,
 )
 
 urlpatterns = [
     url(r'^gui/$', gui, name='gui'),
+    url(r'^(?P<id>\d+)/$', details, name='details'),
     url(r'^(?P<id>\d+)/delete/$', delete, name='delete'),
     url(r'^$', list, name='list'),
 ]

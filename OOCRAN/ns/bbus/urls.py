@@ -6,6 +6,10 @@ from .views import (
     shut_down,
     bbu,
     delete,
+
+    detail_utran,
+    list,
+    info,
 )
 
 urlpatterns = [
@@ -14,4 +18,8 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/launch/$', launch, name='launch'),
     url(r'^(?P<id>\d+)/shut_down/$', shut_down, name='shut_down'),
     url(r'^(?P<id>\d+)/delete/$', delete, name='delete'),
+
+    url(r'^(?P<id>\d+)/$', detail_utran, name='detail_utran'),
+    url(r'^(?P<id>\d+)/info/$', info, name='info'),
+    url(r'^$', list, name="list"),
 ]

@@ -63,8 +63,8 @@ def create(request):
 @staff_member_required
 def delete(request, id=None):
     scenario = get_object_or_404(Scenario, id=id)
-    nvfis = NVFI.objects.filter(status="running")
-    [nvfi.shutdown() for nvfi in nvfis]
+    ns_list = Ns.objects.filter(status="running")
+    [ns.shutdown() for ns in ns_list]
     scenario.delete_scenario()
 
     messages.success(request, "Scenario successfully deleted!", extra_tags="alert alert-success")

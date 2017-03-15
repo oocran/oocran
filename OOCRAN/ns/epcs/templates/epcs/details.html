@@ -1,0 +1,30 @@
+{%extends "base/base.html"%}
+{% load staticfiles %}
+
+{% block head %}
+<script src="{% static 'base/js/jquery.flotgraph.js' %}" xmlns="http://www.w3.org/1999/html"></script>
+<link href="{% static 'base/css/flot.css' %}" rel="stylesheet" type="text/css">
+{% endblock head %}
+
+{% block content %}
+<h1>Details of {{epc.name}}</h1>
+<ol class="breadcrumb">
+    <li><a href="{% url 'epcs:list' %}">EPC</a></li>
+    <li class="active">{{epc.name}}</li>
+</ol>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">VNF Forwarding Graph</div>
+    <div class="demo" id="example"
+         style="border: 2px solid #d0d0d0;width: 100%;height: 400px;margin-bottom: 10px;float: left;"></div>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="{% static 'base/js/jquery.flowchart.js' %}"></script>
+{% endblock content %}
+
+{% block javascript %}
+{% endblock javascript %}

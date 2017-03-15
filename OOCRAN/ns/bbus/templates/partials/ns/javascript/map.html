@@ -29,7 +29,7 @@ function initialize() {
     });
     {{nvf.rrh.name}}.addListener('click', function() {
       var infoWindow = new google.maps.InfoWindow({
-          content: '<h5>IP: {{nvf.get_name}}</h5> <h6>freC: {{nvf.freC_DL}}'
+          content: '<h5>IP: {{nvf.name}}</h5> <h6>freC: {{nvf.freC_DL}}'
       });
       infoWindow.open(map,{{nvf.rrh.name}});
     });

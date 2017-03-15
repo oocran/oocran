@@ -15,7 +15,7 @@
     {% for NVFI in object_list %}
     {% if NVFI.area.name == area.name%}
     <tr>
-        <td style="text-align: center;vertical-align: middle">{{NVFI.name}}</td>
+        <td style="text-align: center;vertical-align: middle"><a href='{{NVFI.get_absolut_url}}'>{{NVFI.name}}</a></td>
         <td style="text-align: center;vertical-align: middle">{{NVFI.rb_offer}}</td>
         <td style="text-align: center;vertical-align: middle">{{NVFI.price}}/h</td>
         <td style="text-align: center;vertical-align: middle">{{NVFI.cost}} $</td>

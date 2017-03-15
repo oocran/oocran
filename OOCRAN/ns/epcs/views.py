@@ -47,9 +47,21 @@ def gui(request):
     return render(request, "gui/index.html", context)
 
 
+@login_required(login_url='/login/')
 def delete(request, id=None):
     epc = get_object_or_404(Epc, pk=id)
     epc.delete()
 
     messages.success(request, "NVFI successfully deleted!", extra_tags="alert alert-success")
     return redirect("epcs:list")
+
+
+@login_required(login_url='/login/')
+def details(request, id=None):
+    epc = get_object_or_404(Epc, id=id)
+
+    context = {
+        "user": epc.operator,
+        "epc": epc,
+    }
+    return render(request, "epcs/details.html", context)

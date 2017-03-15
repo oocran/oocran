@@ -9,9 +9,7 @@
 {% block content %}
 <h1>Details of {{bbu.get_name}}</h1>
 <ol class="breadcrumb">
-    <li><a href="{% url 'nvfis:list' %}">BBU</a></li>
-    <li><a href="{% url 'nvfis:info' bbu.nvfi.scenario.id %}">{{bbu.nvfi.scenario}}</a></li>
-    <li><a href="{% url 'nvfis:detail' bbu.nvfi.id %}">{{bbu.nvfi}}</a></li>
+    <li><a href="{% url 'bbus:list' %}">BBU</a></li>
     <li class="active">{{bbu.get_name}}</li>
 </ol>
 
@@ -49,7 +47,6 @@
 </div>
 
 <a href="" class="btn btn-default" role="button">Reconfigure</a>
-
 
 <h3>Load</h3>
 <div class="mark">

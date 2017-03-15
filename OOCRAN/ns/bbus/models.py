@@ -14,6 +14,9 @@ class Utran(Ns):
     rb_offer = models.IntegerField(default=0)
     scenario = models.ForeignKey(Scenario, null=True, blank=True)
 
+    def get_absolut_url(self):
+        return reverse("bbus:detail_utran", kwargs={"id": self.id})
+
     def remove_frecuencies(self):
         nvfs = BBU.objects.filter(nvfi=self).filter(operator=self.operator)
         for nvf in nvfs:
@@ -27,8 +30,8 @@ class Utran(Ns):
     def create_BBU(self, list):
         for element in list:
             bbu = BBU(**element)
-            bbu.nvfi = self
-            self.rb_offer = self.rb_offer + bbu.bw_dl
+            bbu.ns = self
+            self.rb_offer += bbu.bw_dl
             bbu.radio = 20
             self.price += price(bbu, bbu.bw_dl)
             bbu.save()
@@ -107,13 +110,9 @@ class BBU(models.Model):
         self.save()
 
     def assign_frequency(self):
-        print 2
         self.rb_assigment()
-        print 3
         frecuencies = self.used_frecuencys()
-        print 4
         planification_DL(self, frecuencies, self.bw_dl)
-        print 5
         planification_UL(self, frecuencies, self.bw_dl)
 
     class Meta:

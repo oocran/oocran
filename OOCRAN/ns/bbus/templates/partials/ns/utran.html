@@ -24,8 +24,7 @@
         </td>
         <td style="text-align: center;vertical-align: middle">
             <button type="button" style="display:inline-block;" id="nvfi-{{NVFI.id}}" data-loading-text="Working..."
-                    class="btn btn-default">{% if NVFI.status == "Running" %}Shut Down{% elif NVFI.status ==
-                "Launching"%}Working{% elif NFVI.status == "Stoping"%}Working{% elif NVFI.status == "Shut
+                    class="btn btn-default">{% if NVFI.status == "Running" %}Shut Down{% elif NVFI.status == "Shut
                 Down"%}Launch{% endif %}
             </button>
             <div class="dropdown" style="display:inline-block;">
@@ -35,7 +34,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="{{NVFI.get_absolut_url}}">Details</a></li>
-                    <li><a href="{{NVFI.get_absolut_url}}">Heat Template</a></li>
+                    <li><a href="{% url 'ns:template' %}">Heat Template</a></li>
                     <li><a style="color:red" href="{% url 'bbus:delete' NVFI.id %}">Delete</a></li>
                 </ul>
             </div>
@@ -64,7 +63,7 @@
 
     </script>
     {% endif %}
-    {% include "partials/nvfis/javascript/launch-shutdown.html" %}
+    {% include "partials/ns/javascript/launch-shutdown.html" %}
     {%endfor%}
     </tbody>
 </table>
