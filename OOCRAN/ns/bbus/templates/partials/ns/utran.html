@@ -19,14 +19,13 @@
         <td style="text-align: center;vertical-align: middle">{{NVFI.price}}/h</td>
         <td style="text-align: center;vertical-align: middle">{{NVFI.cost}} $</td>
         <td style="text-align: center;vertical-align: middle">{{NVFI.vim}}</td>
-        <td id="status-{{NVFI.id}}" style="text-align: center;vertical-align: middle">
-            <p style="clear:left;margin-bottom:0px">{{NVFI.status}}</p>
-        </td>
+        <td id="status-{{NVFI.id}}" style="text-align: center;vertical-align: middle"><p
+                style="clear:left;margin-bottom:0px">{{NVFI.status}}</p></td>
         <td style="text-align: center;vertical-align: middle">
             <button type="button" style="display:inline-block;" id="nvfi-{{NVFI.id}}" data-loading-text="Working..."
                     class="btn btn-default">{% if NVFI.status == "Running" %}Shut Down{% elif NVFI.status == "Shut
                 Down"%}Launch{% endif %}
-            </button>
+                </button>
             <div class="dropdown" style="display:inline-block;">
                 <button id="dropdown-{{NVFI.id}}" class="btn btn-default dropdown-toggle" type="button"
                         data-toggle="dropdown" data-loading-text="">
@@ -43,23 +42,22 @@
 
 
     <script>
-              $(document).ready(function(){
-                var value = "{{NVFI.status}}";
+          $(document).ready(function(){
+            var value = "{{NVFI.status}}";
 
-                if(value == "Shut Down") {
-                    console.log("shutdown");
-                    $('#nvfi-{{NVFI.id}}').button('reset');
-                }
-                else if(value == "Running") {
-                    console.log("running");
-                    $('#nvfi-{{NVFI.id}}').button('reset');
-                }
-                else {
-                    $('#nvfi-{{NVFI.id}}').button('loading');
-                    $('#dropdown-{{NVFI.id}}').button('loading');
-                }
-              });
-
+            if(value == "Shut Down") {
+                console.log("shutdown");
+                $('#nvfi-{{NVFI.id}}').button('reset');
+            }
+            else if(value == "Running") {
+                console.log("running");
+                $('#nvfi-{{NVFI.id}}').button('reset');
+            }
+            else {
+                $('#nvfi-{{NVFI.id}}').button('loading');
+                $('#dropdown-{{NVFI.id}}').button('loading');
+            }
+          });
 
     </script>
     {% endif %}

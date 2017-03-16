@@ -69,7 +69,7 @@ end
     end = end.render(
         ram=bbu.vnf.ram,
         cpu=bbu.vnf.cpu,
-        script=bbu.vnf.script,
+        script='olaaaa',
     )
 
     os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)

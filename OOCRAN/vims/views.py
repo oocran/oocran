@@ -41,10 +41,9 @@ def create(request):
                 vim = form.save(commit=False)
                 vim.save()
                 messages.success(request, "VIM successfully created!", extra_tags="alert alert-success")
-                return redirect("vims:list")
             else:
                 messages.success(request, "Passwords are different!", extra_tags="alert alert-danger")
-                return redirect("vims:list")
+            return redirect("vims:list")
 
     context = {
         "user": request.user,

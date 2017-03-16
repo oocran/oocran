@@ -14,7 +14,7 @@ def launch(id):
     utran.status = 'Launching'
     utran.save()
 
-    bbus = BBU.objects.filter(nvfi__name=utran.name)
+    bbus = BBU.objects.filter(ns__name=utran.name)
     # [bbu.assign_frequency() for bbu in bbus]
     if utran.vim == "Near":
         # utran.scenario.change_status(utran)
