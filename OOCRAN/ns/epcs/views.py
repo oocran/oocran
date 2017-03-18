@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Epc
+from ns.ns.models import Ns
 import json
 from OOCRAN.global_functions import paginator
 
@@ -65,3 +66,34 @@ def details(request, id=None):
         "epc": epc,
     }
     return render(request, "epcs/details.html", context)
+
+
+@login_required(login_url='/login/')
+def create(request, id=None):
+    form = EpcForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        try:
+            Ns.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
+            messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
+        except:
+            epc = form.save(commit=False)
+            operator = get_object_or_404(Operator, name=request.user.username)
+            epc.operator = operator
+            epc.vim = form.cleaned_data['vim']
+            # reply = epc.create()
+            reply = True
+            if reply is False:
+                messages.success(request, "VNF is not found!", extra_tags="alert alert-danger")
+            if reply is None:
+                messages.success(request, "The content format is not valid!", extra_tags="alert alert-danger")
+            if reply is True:
+                epc.save()
+                messages.success(request, "vEPC successfully created!", extra_tags="alert alert-success")
+
+        return redirect("epcs:list")
+
+    context = {
+        "user": request.user,
+        "form": form,
+    }
+    return render(request, "epcs/form.html", context)

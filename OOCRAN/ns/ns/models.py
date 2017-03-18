@@ -17,7 +17,6 @@ class Ns(models.Model):
     price = models.FloatField(default=0)
     total = models.FloatField(default=0)
     vim = models.CharField(max_length=120, default='Near')
-    graph = models.TextField(null=True, blank=True)
     launch_time = models.DateTimeField(null=True, blank=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)

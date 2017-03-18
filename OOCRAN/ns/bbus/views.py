@@ -98,7 +98,7 @@ def detail(request, id=None):
         "nvfi": utran,
         "object_list": nvfs,
     }
-    return render(request, "ns/detail.html", context)
+    return render(request, "utrans/detail.html", context)
 
 
 ##############################################################################
@@ -112,7 +112,7 @@ def list(request):
         "user": request.user,
         "object_list": scenarios,
     }
-    return render(request, "ns/list.html", context)
+    return render(request, "utrans/list.html", context)
 
 
 @login_required(login_url='/login/')
@@ -135,7 +135,7 @@ def info(request, id=None):
         "scenario": scenario,
         "utrans": utrans,
     }
-    return render(request, "ns/info.html", context)
+    return render(request, "utrans/info.html", context)
 
 
 @login_required(login_url='/login/')
@@ -149,4 +149,4 @@ def detail_utran(request, id=None):
         "nvfi": utran,
         "object_list": bbus,
     }
-    return render(request, "ns/detail.html", context)
+    return render(request, "utrans/detail.html", context)

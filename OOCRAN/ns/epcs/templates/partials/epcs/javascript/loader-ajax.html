@@ -4,7 +4,7 @@
 
         $.ajax({
             type: "GET",
-            url: "/deployments/{{scenario.id}}/create_epc/",
+            url: "/epcs/create/",
             success: function(response) {
                 $('.modal-content').html(response);
             },

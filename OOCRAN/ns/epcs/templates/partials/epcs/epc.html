@@ -4,7 +4,6 @@
     <thead>
     <tr>
         <th style="text-align: center;">Name</th>
-        <th style="text-align: center;">Num of Elements</th>
         <th style="text-align: center;">Price</th>
         <th style="text-align: center;">Cost</th>
         <th style="text-align: center;">Status</th>
@@ -13,10 +12,9 @@
     </thead>
     <tbody>
     {% for NVFI in object_list %}
-    {% if NVFI.area.name == area.name%}
+    {% if NVFI.area.name == area.name %}
     <tr>
         <td style="text-align: center;vertical-align: middle"><a href='{{NVFI.get_absolut_url}}'>{{NVFI.name}}</a></td>
-        <td style="text-align: center;vertical-align: middle">{{NVFI.rb_offer}}</td>
         <td style="text-align: center;vertical-align: middle">{{NVFI.price}}/h</td>
         <td style="text-align: center;vertical-align: middle">{{NVFI.cost}} $</td>
         <td id="status-{{NVFI.id}}" style="text-align: center;vertical-align: middle">

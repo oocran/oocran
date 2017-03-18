@@ -20,10 +20,12 @@ from .views import (
     list,
     delete,
     details,
+    create,
 )
 
 urlpatterns = [
     url(r'^gui/$', gui, name='gui'),
+    url(r'^create/$', create, name='create'),
     url(r'^(?P<id>\d+)/$', details, name='details'),
     url(r'^(?P<id>\d+)/delete/$', delete, name='delete'),
     url(r'^$', list, name='list'),
