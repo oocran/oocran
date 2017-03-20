@@ -23,7 +23,7 @@ def list_boxes():
     return list
 
 
-def create_vagrantfile(nvfi, bbus):
+def create_vagrantfile(nvfi, bbus, channels, ues):
 
     header = Template(u'''\
 Vagrant.configure("2") do |config|
@@ -36,7 +36,46 @@ Vagrant.configure("2") do |config|
         nvf = Template(u'''\
 config.vm.define "{{name}}" do |v|
     v.vm.box = "{{box}}"
-    #v.vm.network "private_network", ip: "{{network}}"
+  end
+  ''')
+        nvf = nvf.render(
+            box='debian/jessie64',
+            name=bbu.rrh.name,
+            network=bbu.rrh.ip,
+        )
+        nvfs = nvfs + nvf
+
+    end = Template(u'''\
+config.vm.provider "virtualbox" do |v|
+    v.memory = {{ram}}
+    v.cpus = {{cpu}}
+  end
+
+  config.vm.provider "libvirt" do |v|
+    v.random_hostname = true
+    v.driver = 'kvm'
+    v.memory = {{ram}}
+    v.cpus = {{cpu}}
+    v.kvm_hidden = true
+  end
+
+  #Update and upgrade
+  config.vm.provision "shell", inline: <<-SHELL
+    script
+  SHELL
+end
+  ''')
+    end = end.render(
+        ram=bbu.vnf.ram,
+        cpu=bbu.vnf.cpu,
+        script='olaaaa',
+    )
+
+
+for channel in channels:
+    nvf = Template(u'''\
+config.vm.define "{{name}}" do |v|
+    v.vm.box = "{{box}}"
   end
   ''')
         nvf = nvf.render(

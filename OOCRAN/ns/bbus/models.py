@@ -117,3 +117,26 @@ class BBU(models.Model):
 
     class Meta:
         ordering = ["-timestamp", "-update"]
+
+
+class Channel(models.Model):
+    operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
+    ns = models.ForeignKey(Ns, on_delete=models.CASCADE)
+    name = models.CharField(max_length=20)
+    sinr = models.FloatField(default=0.0)
+    delay = models.FloatField(default=0.0)
+    vnf = models.ForeignKey(Vnf, null=True, blank=True)
+    update = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+
+class UE(models.Model):
+    operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
+    ns = models.ForeignKey(Ns, on_delete=models.CASCADE)
+    name = models.CharField(max_length=20)
+    sensibility = models.FloatField(default=0.0)
+    service = models.FloatField(default=3600)
+    delay = models.FloatField(default=0.0)
+    vnf = models.ForeignKey(Vnf, null=True, blank=True)
+    update = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
