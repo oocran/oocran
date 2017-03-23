@@ -1,0 +1,28 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Core</th>
+      <th>RAM</th>
+      <th>Disk</th>
+      <th>Interfaces</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for vnf in object_list %}
+            <tr>
+              <td><a href='{{vnf.get_absolut_url}}'>{{vnf.name}}</a></td>
+              <td>{{vnf.cpu}}</td>
+              <td>{{vnf.ram}}</td>
+              <td>{{vnf.disk}}</td>
+              <td>{{vnf.interfaces}}</td>
+              <td>{{vnf.image}}</td>
+              <td>
+                <a href="{{vnf.id}}/delete/" class="btn btn-danger" role="button">Delete</a>
+              </td>
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>
