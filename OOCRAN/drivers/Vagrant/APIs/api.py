@@ -23,96 +23,193 @@ def list_boxes():
     return list
 
 
-def create_vagrantfile(nvfi, bbus, channels, ues):
-
+def create_vagrantfile(nvfi, bbus, channels=None, ues=None):
     header = Template(u'''\
-Vagrant.configure("2") do |config|
-  # boxes at https://atlas.hashicorp.com/search.
-  ''')
+    Vagrant.configure("2") do |config|
+      # boxes at https://atlas.hashicorp.com/search.
+      ''')
     header = header.render()
 
     nvfs = ""
-    for bbu in bbus:
+    for element in bbus:
         nvf = Template(u'''\
-config.vm.define "{{name}}" do |v|
-    v.vm.box = "{{box}}"
-  end
-  ''')
+
+      config.vm.define "{{name}}" do |{{name}}|
+        {{name}}.vm.box = "{{box}}"
+
+        {{name}}.vm.provider "virtualbox" do |v|
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+        end
+
+        {{name}}.vm.provider "libvirt" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "vmware_fusion" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "vmware_workstation" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "docker" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provision "shell", inline: <<-SHELL
+          {{script}}
+        SHELL
+      end
+
+    ''')
         nvf = nvf.render(
             box='debian/jessie64',
-            name=bbu.rrh.name,
-            network=bbu.rrh.ip,
+            name=element,
+            ram=element.vnf.ram,
+            cpu=element.vnf.cpu,
+            # script=element.vnf.ns,
+        )
+        nvfs = nvfs + nvf
+    ###############################################################
+    for element in channels:
+        nvf = Template(u'''\
+
+      config.vm.define "{{name}}" do |{{name}}|
+        {{name}}.vm.box = "{{box}}"
+
+        {{name}}.vm.provider "virtualbox" do |v|
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+        end
+
+        {{name}}.vm.provider "libvirt" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "vmware_fusion" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "vmware_workstation" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "docker" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provision "shell", inline: <<-SHELL
+          {{script}}
+        SHELL
+      end
+
+    ''')
+        nvf = nvf.render(
+            box='debian/jessie64',
+            name=element,
+            ram=element.vnf.ram,
+            cpu=element.vnf.cpu,
+            # script=element.vnf.ns,
+        )
+        nvfs = nvfs + nvf
+    ###################################################################
+    for element in ues:
+        nvf = Template(u'''\
+
+      config.vm.define "{{name}}" do |{{name}}|
+        {{name}}.vm.box = "{{box}}"
+
+        {{name}}.vm.provider "virtualbox" do |v|
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+        end
+
+        {{name}}.vm.provider "libvirt" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "vmware_fusion" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "vmware_workstation" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provider "docker" do |v|
+          v.random_hostname = true
+          v.driver = 'kvm'
+          v.memory = {{ram}}
+          v.cpus = {{cpu}}
+          v.kvm_hidden = true
+        end
+
+        {{name}}.vm.provision "shell", inline: <<-SHELL
+          {{script}}
+        SHELL
+      end
+
+    ''')
+        nvf = nvf.render(
+            box='debian/jessie64',
+            name=element,
+            ram=element.vnf.ram,
+            cpu=element.vnf.cpu,
+            # script=element.vnf.ns,
         )
         nvfs = nvfs + nvf
 
     end = Template(u'''\
-config.vm.provider "virtualbox" do |v|
-    v.memory = {{ram}}
-    v.cpus = {{cpu}}
-  end
-
-  config.vm.provider "libvirt" do |v|
-    v.random_hostname = true
-    v.driver = 'kvm'
-    v.memory = {{ram}}
-    v.cpus = {{cpu}}
-    v.kvm_hidden = true
-  end
-
-  #Update and upgrade
-  config.vm.provision "shell", inline: <<-SHELL
-    script
-  SHELL
-end
-  ''')
-    end = end.render(
-        ram=bbu.vnf.ram,
-        cpu=bbu.vnf.cpu,
-        script='olaaaa',
-    )
-
-
-for channel in channels:
-    nvf = Template(u'''\
-config.vm.define "{{name}}" do |v|
-    v.vm.box = "{{box}}"
-  end
-  ''')
-        nvf = nvf.render(
-            box='debian/jessie64',
-            name=bbu.rrh.name,
-            network=bbu.rrh.ip,
-        )
-        nvfs = nvfs + nvf
-
-    end = Template(u'''\
-config.vm.provider "virtualbox" do |v|
-    v.memory = {{ram}}
-    v.cpus = {{cpu}}
-  end
-
-  config.vm.provider "libvirt" do |v|
-    v.random_hostname = true
-    v.driver = 'kvm'
-    v.memory = {{ram}}
-    v.cpus = {{cpu}}
-    v.kvm_hidden = true
-  end
-
-  #Update and upgrade
-  config.vm.provision "shell", inline: <<-SHELL
-    script
-  SHELL
-end
-  ''')
-    end = end.render(
-        ram=bbu.vnf.ram,
-        cpu=bbu.vnf.cpu,
-        script='olaaaa',
-    )
+    end''')
+    end = end.render()
 
     os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)
-    outfile = open(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name + '/Vagrantfile',
-                   'w')
+    outfile = open('Vagrantfile', 'w')
     outfile.write(header + nvfs + end)
     outfile.close()

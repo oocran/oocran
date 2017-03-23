@@ -3,6 +3,7 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
+        <th>VNFM</th>
       <th>Import</th>
       <th>Actions</th>
     </tr>
@@ -11,7 +12,8 @@
         {% for object in object_list %}
             <tr>
               <td>{{object.name}}</a></td>
-              <td>{{object.user.email}}</td>
+                <td>{{object.email}}</td>
+                <td>{{object.vnfm}}</td>
               <td>{{object.price}} $</td>
               <td>
                 <a href="{% url 'operators:delete' object.id %}" class="btn btn-danger" role="button">Delete</a>

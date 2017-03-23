@@ -18,6 +18,19 @@ class ChangeCredenForm(forms.ModelForm):
 
 
 class OperatorForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(OperatorForm, self).__init__(*args, **kwargs)
+        self.fields['vnfm'] = forms.ChoiceField(required=False,
+                                                widget=forms.Select(attrs={"onChange": 'select(this);'}),
+                                                choices=[("Heat", "Heat"), ("Vagrant", "Vagrant")])
+        self.fields['vagrant_hypervisor'] = forms.ChoiceField(required=False, choices=[("libvirt", "libvirt"),
+                                                                                       ("VirtualBox", "VirtualBox"),
+                                                                                       ("Docker", "Docker"), (
+                                                                                       "Vmware fusion",
+                                                                                       "Vmware fusion"), (
+                                                                                       "Vmware workstation",
+                                                                                       "Vmware workstation")])
+
     password = forms.CharField(max_length=32, widget=forms.PasswordInput)
     password_confirmation = forms.CharField(max_length=32, widget=forms.PasswordInput)
     email = forms.EmailField()
@@ -28,6 +41,8 @@ class OperatorForm(forms.ModelForm):
             "name",
             "password",
             "password_confirmation",
+            "vnfm",
+            "vagrant_hypervisor",
             "email",
         ]
 
