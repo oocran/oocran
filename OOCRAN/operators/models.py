@@ -34,9 +34,10 @@ class Operator(models.Model):
         self.save()
 
     def remove(self):
-        vims = VIM.objects.all()
-        for vim in vims:
-            delete_user(self, vim)
+        if self.vnfm == "Heat":
+            vims = VIM.objects.all()
+            for vim in vims:
+                delete_user(self, vim)
 
 
 class Provider(Operator):

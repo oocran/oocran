@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from operators.models import Operator
-from ns.bbus.forms import DeploymentForm
+from ns.bbus.forms import DeploymentForm, DeploymentVagrantForm
 from .models import Ns, Utran, BBU
 from scenarios.models import Scenario
 from django.contrib.auth.decorators import login_required
@@ -13,7 +13,13 @@ from django.http import HttpResponse
 
 @login_required(login_url='/login/')
 def create(request, id=None):
-    form = DeploymentForm(request.POST or None, request.FILES or None)
+    operator = get_object_or_404(Operator, name=request.user.username)
+    if operator.vnfm == "Vagrant":
+        print operator.vnfm
+        form = DeploymentVagrantForm(request.POST or None, request.FILES or None)
+    else:
+        form = DeploymentForm(request.POST or None, request.FILES or None)
+
     scenario = get_object_or_404(Scenario, pk=id)
     if form.is_valid():
         try:
@@ -21,10 +27,12 @@ def create(request, id=None):
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             ns = form.save(commit=False)
-            operator = get_object_or_404(Operator, name=request.user.username)
             ns.operator = operator
             ns.scenario = scenario
-            ns.vim = form.cleaned_data['vim']
+            if operator.vnfm == "Vagrant":
+                ns.vim = "Vagrant"
+            else:
+                ns.vim = form.cleaned_data['vim']
             reply = ns.create()
             if reply is False:
                 messages.success(request, "VNF is not found!", extra_tags="alert alert-danger")

@@ -8,9 +8,7 @@
 <div class="modal-body">
     <form method="POST" action="{% url 'bbus:create' id=scenario.id %}" enctype="multipart/form-data">
         {%csrf_token%}
-        {{ form.name|bootstrap }}
-        {{ form.vim|bootstrap }}
-        {{ form.file|bootstrap }}
+        {{ form|bootstrap }}
         <input type="submit" class="btn btn-default" value="Create Pool"/>
     </form>
 </div>

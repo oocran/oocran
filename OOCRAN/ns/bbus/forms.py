@@ -7,13 +7,21 @@ class DeploymentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DeploymentForm, self).__init__(*args, **kwargs)
-        self.fields['vim'] = forms.ChoiceField(required=True,
-                                               choices=[('Near', 'Near'), ('Select', 'Select'), ('Local', 'Local')])
+        self.fields['vim'] = forms.ChoiceField(required=True, choices=[('Near', 'Near'), ('Select', 'Select')])
 
     class Meta:
         model = Utran
         fields = [
             "name",
             "vim",
+            "file",
+        ]
+
+
+class DeploymentVagrantForm(forms.ModelForm):
+    class Meta:
+        model = Utran
+        fields = [
+            "name",
             "file",
         ]

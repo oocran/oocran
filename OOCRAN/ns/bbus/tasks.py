@@ -19,7 +19,7 @@ def launch(id):
     if utran.vim == "Near":
         # utran.scenario.change_status(utran)
         OpenStack_create_deploy(utran, bbus)
-    elif utran.vim == "Local":
+    elif utran.vim == "Vagrant":
         Vagrant_create_deploy(utran, bbus)
 
     utran.status = 'Running'
@@ -40,7 +40,7 @@ def shut_down(id):
     if utran.vim == "Near":
         OpenStack_delete_deploy(utran)
         # utran.scenario.change_status(utran)
-    elif utran.vim == "Local":
+    elif utran.vim == "Vagrant":
         Vagrant_delete_deploy(utran)
 
     utran.status = 'Shut Down'
