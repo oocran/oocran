@@ -1,19 +1,18 @@
 from django import forms
-from .models import VIM
-from operators.models import Operator
+from .models import Vim, Image
 
 
-class VIMForm(forms.ModelForm):
+class VimForm(forms.ModelForm):
     password = forms.CharField(max_length=32, widget=forms.PasswordInput)
     password_confirmation = forms.CharField(max_length=32, widget=forms.PasswordInput)
 
     def __init__(self, *args, **kwargs):
-        super(VIMForm, self).__init__(*args, **kwargs)
+        super(VimForm, self).__init__(*args, **kwargs)
         self.fields['type'] = forms.ChoiceField(required=True,
-                                                choices=[('OpenStack', 'OpenStack'), ('Vagrant', 'Vagrant')])
+                                                choices=[('OpenStack', 'OpenStack')])
 
     class Meta:
-        model = VIM
+        model = Vim
         fields = [
             "type",
             "name",
@@ -29,14 +28,25 @@ class VIMForm(forms.ModelForm):
         ]
 
 
-class CredentialsForm(forms.ModelForm):
-    password = forms.CharField(max_length=32, widget=forms.PasswordInput)
-    password_confirmation = forms.CharField(max_length=32, widget=forms.PasswordInput)
+class ImageForm(forms.ModelForm):
+    file = forms.CharField(max_length=300)
+
+    def __init__(self, *args, **kwargs):
+        super(ImageForm, self).__init__(*args, **kwargs)
+        self.fields['format'] = forms.ChoiceField(required=True,
+                                                  choices=[('iso', 'ISO - Optical Disk Image'),
+                                                           ('ova', 'OVA - Open Virtual Appliance'),
+                                                           ('qcow2', 'QCOW2 - QEMU Emulator'), ('raw', 'Raw'),
+                                                           ('vdi', 'VDI - Virtual Disk Image'),
+                                                           ('vhd', 'VHD - Virtual Hard Disk'),
+                                                           ('aki', 'AKI - Amazon Kernel Image'),
+                                                           ('ami', 'AMI - Amazon Machine Image'),
+                                                           ('ari', 'ARI - Amazon Ramdisk Image'), ('docker', 'Docker')])
 
     class Meta:
-        model = Operator
+        model = Image
         fields = [
             "name",
-            "password",
-            "password_confirmation",
+            "file",
+            "format",
         ]

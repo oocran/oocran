@@ -5,14 +5,28 @@
 
 {% block content%}
     <h2 class="sub-header">List of VIMs</h2>
-
     {% include "partials/vims/vims.html" %}
     {% include "base/partials/paginator.html" %}
     <br>
     <a id="submit" onclick="loader()" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Create VIM</a>
 
+<br><br>
+
+<h2 class="sub-header">List of Images</h2>
+{% include "partials/vims/images.html" %}
+{% include "base/partials/paginator.html" %}
+<br>
+<a id="images" onclick="loader_images()" class="btn btn-default" role="button" data-toggle="modal"
+   data-target="#modal_images">Add Image</a>
+
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+<div class="modal fade" id="modal_images" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content"></div>
         </div>

@@ -9,6 +9,7 @@ class Nf(models.Model):
     name = models.CharField(max_length=120, default="srsLTE")
     description = models.TextField(null=True, blank=True, default="srsLTE Downlink")
     code = models.CharField(max_length=120, default="https://github.com/oocran/vbbu.git")
+    file = models.FileField(upload_to='files', null=True, blank=True)
     script = models.TextField(default="start.sh")
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)

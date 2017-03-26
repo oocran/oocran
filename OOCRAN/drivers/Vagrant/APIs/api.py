@@ -15,11 +15,12 @@ def vagrant_destroy(nvfi):
     shutil.rmtree(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)
 
 
-def list_boxes():
+def list_boxes(operator):
     v = vagrant.Vagrant()
     list = []
     for box in v.box_list():
-        list.append(box.name + ' - ' + box.provider)
+        if box.provider == operator.vagrant_hypervisor:
+            list.append(box)
     return list
 
 

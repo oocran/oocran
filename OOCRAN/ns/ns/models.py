@@ -43,14 +43,11 @@ class Ns(models.Model):
         else:
             return self.total
 
-<<<<<<< HEAD:OOCRAN/ns/ns/models.py
-=======
     def get_absolut_url(self):
-        return reverse("nvfis:detail", kwargs={"id": self.id})
+        return reverse("ns:detail", kwargs={"id": self.id})
 
     def active_shutdown(self):
         return True
 
->>>>>>> 9d64c38c31ee58ad4705a43cf1beddb6851034a3:OOCRAN/infrastructures/nvfis/models.py
     class Meta:
         ordering = ["-timestamp", "-update"]

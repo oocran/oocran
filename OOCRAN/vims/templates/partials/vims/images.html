@@ -1,0 +1,21 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="text-align: center;">Name</th>
+        <th style="text-align: center;">Format</th>
+        <th style="text-align: center;">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for image in images %}
+    <tr>
+        <td style="text-align: center;vertical-align: middle">{{image.name}}</td>
+        <td style="text-align: center;vertical-align: middle">{{image.format}}</td>
+        <td style="text-align: center;vertical-align: middle">
+            <a href="{{image.id}}/del_img/" class="btn btn-danger" role="button">Delete</a>
+        </td>
+    </tr>
+    {%endfor%}
+    </tbody>
+</table>
+

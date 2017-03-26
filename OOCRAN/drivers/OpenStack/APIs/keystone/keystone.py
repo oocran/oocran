@@ -21,15 +21,31 @@ def get_session(vim):
     return sess
 
 
-def get_token(nvfi, vim):
+def get_token(ns, vim):
      try:
         auth = v3.Password(
                             user_domain_name=vim.domain,
-                            username=nvfi.operator.name,
+            username=ns.operator.name,
                             project_domain_name=vim.project_domain,
-                            project_name=nvfi.operator.name,
-                            password=nvfi.operator.password,
+            project_name=ns.operator.name,
+            password=ns.operator.password,
                             auth_url="http://"+vim.ip+":5000/v3/")
+        sess = session.Session(auth=auth)
+        token = auth.get_token(sess)
+     except:
+         sys.exit(130)
+     return token
+
+
+def get_token_images():
+    try:
+        auth = v3.Password(
+            user_domain_name="default",
+            username="admin",
+            project_domain_name="default",
+            project_name="admin",
+            password="odissey09",
+            auth_url="http://controller:5000/v3/")
         sess = session.Session(auth=auth)
         token = auth.get_token(sess)
      except:

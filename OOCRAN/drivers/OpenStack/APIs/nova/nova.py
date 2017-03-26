@@ -1,10 +1,10 @@
 from novaclient import client
 from drivers.OpenStack.APIs.keystone.keystone import get_session
-from vims.models import VIM
+from vims.models import Vim
 
 
 def get_flavors(vnf):
-    vims = VIM.objects.all()
+    vims = Vim.objects.all()
     for vim in vims:
         nova = client.Client(2, session=get_session(vim))
         try:

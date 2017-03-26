@@ -3,9 +3,10 @@ from .models import Vnf
 from operators.models import Operator, Provider
 from .forms import VnfForm
 from nfs.models import Nf
+from vims.models import Image
 from django.contrib import messages
-from drivers.OpenStack.APIs.glance.glance import get_images
 from drivers.OpenStack.APIs.nova.nova import get_flavors
+from drivers.Vagrant.APIs.api import list_boxes
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator
 
@@ -25,7 +26,12 @@ def list(request):
 @login_required(login_url='/login/')
 def create(request):
     nfs = Nf.objects.filter(operator__name=request.user.username)
-    form = VnfForm(request.POST or None, request.FILES or None, nfs=nfs)  # , images=get_images(provider, scenario[0]))
+    operator = get_object_or_404(Operator, name=request.user.username)
+    if operator.vnfm == "Vagrant":
+        images = list_boxes(operator)
+    else:
+        images = Image.objects.all()
+    form = VnfForm(request.POST or None, request.FILES or None, nfs=nfs, images=images)
     if form.is_valid():
         try:
             Vnf.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])

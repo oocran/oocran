@@ -3,7 +3,7 @@ from django.db import models
 import math
 from django.core.urlresolvers import reverse
 from drivers.OpenStack.deployments.areas import create_area, delete_area
-from vims.models import VIM
+from vims.models import Vim
 from operators.models import Operator
 from .orchestrator import read_yaml, distance
 from celery import task
@@ -66,7 +66,7 @@ class Scenario(models.Model):
     price = models.FloatField(default=0)
     status = models.BooleanField(default="False")
     rrh = models.ManyToManyField(RRH)
-    vim = models.ForeignKey(VIM, null=True, blank=True,)
+    vim = models.ForeignKey(Vim, null=True, blank=True, )
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -140,7 +140,7 @@ class Scenario(models.Model):
         return array
 
     def choose_vim(self):
-        vims = VIM.objects.all()
+        vims = Vim.objects.all()
         res = {}
         for vim in vims:
             res[distance(self.longitude, self.latitude, vim.longitude, vim.latitude)] = vim

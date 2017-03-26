@@ -10,9 +10,9 @@
     </tr>
     </thead>
     <tbody>
-        {% for vim in object_list %}
+    {% for vim in vims %}
             <tr>
-              <td style="text-align: center;vertical-align: middle"><a href="#">{{vim.name}}</a></td>
+                <td style="text-align: center;vertical-align: middle">{{vim.name}}</td>
                 <td style="text-align: center;vertical-align: middle">{{vim.type}}</td>
               <td style="text-align: center;vertical-align: middle">{{vim.ip}}</td>
               <td style="text-align: center;vertical-align: middle">{{vim.latitude}}</td>

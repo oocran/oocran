@@ -11,3 +11,18 @@
         });
     }
 </script>
+
+<script>
+    function loader_images() {
+        $('.modal-content').html('<div style="width:180px;height:180px;margin:0 auto;text-align:center;margin-top:50px;margin-bottom:50px"><div class="loader"></div></div>');
+
+        $.ajax({
+            type: "GET",
+            url: "{% url 'vims:image' %}",
+            success: function(response) {
+                $('.modal-content').html(response);
+            },
+        });
+    }
+
+</script>

@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
-from vims.models import VIM
+from vims.models import Vim
 from drivers.OpenStack.APIs.keystone.keystone import create_user, delete_user
 
 
@@ -35,7 +35,7 @@ class Operator(models.Model):
 
     def remove(self):
         if self.vnfm == "Heat":
-            vims = VIM.objects.all()
+            vims = Vim.objects.all()
             for vim in vims:
                 delete_user(self, vim)
 

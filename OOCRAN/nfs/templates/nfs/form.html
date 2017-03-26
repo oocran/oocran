@@ -22,10 +22,24 @@
             </div>
             <div id="function" class="tab-pane fade">
                 <br>
-                {{form.code|bootstrap}}
+                {{form.type|bootstrap}}
+                <div id="source_code" style="display: none;">
+                    {{form.file|bootstrap}}
+                </div>
                 {{form.script|bootstrap}}
             </div>
         </div>
         <input type="submit" class="btn btn-default" value="Create NF"/>
     </form>
 </div>
+
+<script>
+	function select(object) {
+		if (object.value == "file") {
+			document.getElementById("source_code").style.display = "block";
+		}else {
+			document.getElementById("source_code").style.display = "none";
+		}
+	}
+
+</script>

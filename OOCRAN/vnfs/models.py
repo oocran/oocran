@@ -14,7 +14,6 @@ class Vnf(models.Model):
     disk = models.IntegerField(default=20)
     flavor = models.CharField(max_length=120)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    interfaces = models.IntegerField(default=1)
     nf = models.ManyToManyField(Nf, blank=True)
     image = models.CharField(max_length=120, default="UBU1404SERVER6GUHD380srsLTE_AUTOSTART")
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
