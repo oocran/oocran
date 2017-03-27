@@ -16,7 +16,6 @@ class NfForm(forms.ModelForm):
         fields = [
             "name",
             "description",
-            "code",
             "script",
             "file",
             "type",

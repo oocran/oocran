@@ -46,6 +46,9 @@ def create(request):
             else:
                 messages.success(request, "Passwords are different!", extra_tags="alert alert-danger")
             return redirect("vims:list")
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
+        return redirect("vims:list")
 
     context = {
         "user": request.user,
@@ -68,6 +71,9 @@ def image(request):
             image.save()
             messages.success(request, "Image successfully added!", extra_tags="alert alert-success")
             return redirect("vims:list")
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
+        return redirect("vims:list")
 
     context = {
         "user": request.user,

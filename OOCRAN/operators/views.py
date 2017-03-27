@@ -29,6 +29,9 @@ def change_password(request):
          else:
             messages.success(request, "Passwords are different!", extra_tags="alert alert-danger")
             return redirect("operators:home")
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
+        return redirect("operators:home")
 
     context = {
         "user": request.user,
@@ -53,6 +56,9 @@ def add(request):
         else:
             messages.success(request, "Password and confirmation are differents!", extra_tags="alert alert-danger")
 
+        return redirect("operators:list")
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
         return redirect("operators:list")
 
     context = {

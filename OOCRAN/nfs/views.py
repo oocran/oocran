@@ -22,6 +22,7 @@ def list(request):
 @login_required(login_url='/login/')
 def create(request):
     form = NfForm(request.POST or None, request.FILES or None)
+    print form.errors
     if form.is_valid():
         try:
             Nf.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
@@ -31,6 +32,9 @@ def create(request):
             nf.operator = get_object_or_404(Operator, name=request.user.username)
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
             nf.save()
+        return redirect("nfs:list")
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
         return redirect("nfs:list")
 
     context = {

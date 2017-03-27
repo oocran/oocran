@@ -52,6 +52,9 @@ def create(request):
                 messages.success(request, "Scenario Successfully created!", extra_tags="alert alert-success")
 
         return redirect("scenarios:list")
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
+        return redirect("scenarios:list")
 
     context = {
         "user": request.user,

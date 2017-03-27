@@ -43,6 +43,9 @@ def create(request, id=None):
                 messages.success(request, "NS successfully created!", extra_tags="alert alert-success")
 
         return redirect("bbus:info", id=id)
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
+        return redirect("bbus:info", id=id)
 
     context = {
         "user": request.user,
