@@ -48,9 +48,9 @@ def get_token_images():
             auth_url="http://controller:5000/v3/")
         sess = session.Session(auth=auth)
         token = auth.get_token(sess)
-     except:
+    except:
         sys.exit(130)
-     return token
+    return token
 
 
 def get_project_id(operator, vim):

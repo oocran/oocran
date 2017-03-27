@@ -86,7 +86,10 @@ def delete(request, id=None):
 
 @login_required(login_url='/login/')
 def home(request):
+    operator = get_object_or_404(Operator, name=request.user.username)
+
     context = {
         "user": request.user,
+        "operator": operator,
     }
     return render(request, "operators/home.html", context)

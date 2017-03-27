@@ -5,6 +5,68 @@
 {% block head %}{% endblock head%}
 
 {% block content%}
-    {% if user.is_staff %}
-{% endif %}
+<div style="position: relative;" id="content"></div>
+<h2 class="sub-header">Overview</h2>
+
+<ol class="breadcrumb">
+    <li>Overview</li>
+</ol>
+
+<h3 style="margin-left:900px">Total price:0$</h3>
+<br>
+<div class="panel panel-default">
+    <div class="panel-heading">Configuration</div>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>VNF Manager</th>
+            <td>{{operator.vnfm}}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{operator.email}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+
+<div>
+    <div style="float:left;margin-left:20px;width:30%" class="panel panel-default">
+        <div style="height:130px" class="panel-body">
+            <br>
+            <i style="float:left;font-size: 80px" class="glyphicon glyphicon-filter"></i>
+            <div style="float:left;margin-left:20px">
+                <p>Running: 0</p>
+                <p>Saved: 10</p>
+            </div>
+        </div>
+        <div style="text-align:center;font-weight:bold;" class="panel-footer">UMTS Terrestrial Radio Access Network
+        </div>
+    </div>
+    <div style="float:left;margin-left:20px;width:30%" class="panel panel-default">
+        <div style="height:130px" class="panel-body">
+            <br>
+            <i style="float:left;font-size: 80px" class="glyphicon glyphicon-cloud"></i>
+            <div style="float:left;margin-left:20px">
+                <p>Running: 0</p>
+                <p>Saved: 10</p>
+            </div>
+        </div>
+        <div style="text-align:center;font-weight:bold;" class="panel-footer">Virtual Evelope Packet Core</div>
+    </div>
+    <div style="float:left;margin-left:20px;width:30%" class="panel panel-default">
+        <div style="height:130px" class="panel-body">
+            <br>
+            <i style="float:left;font-size: 80px" class="glyphicon glyphicon-signal"></i>
+            <div style="float:left;margin-left:20px">
+                <p>BW first band: 0 MHz</p>
+                <p>BW second band: 0 MHz</p>
+                <p>BW thrid band: 0 MHz</p>
+            </div>
+        </div>
+        <div style="text-align:center;font-weight:bold;" class="panel-footer">Spectrum</div>
+    </div>
+</div>
+</div>
 {% endblock %}
