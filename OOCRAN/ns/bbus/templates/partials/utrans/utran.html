@@ -5,7 +5,7 @@
         <th style="text-align: center;">Rb offer</th>
         <th style="text-align: center;">Price</th>
         <th style="text-align: center;">Cost</th>
-        <th style="text-align: center;">VIM</th>
+        <th style="text-align: center;">VIM policy</th>
         <th style="text-align: center;">Status</th>
         <th style="text-align: center;">Actions</th>
     </tr>
@@ -41,22 +41,23 @@
     </tr>
 
     <script>
-        $(document).ready(function(){
-            var value = "{{NVFI.status}}";
+                $(document).ready(function(){
+                    var value = "{{NVFI.status}}";
 
-            if(value == "Shut Down") {
-                console.log("shutdown");
-                $('#nvfi-{{NVFI.id}}').button('reset');
-            }
-            else if(value == "Running") {
-                console.log("running");
-                $('#nvfi-{{NVFI.id}}').button('reset');
-            }
-            else {
-                $('#nvfi-{{NVFI.id}}').button('loading');
-                $('#dropdown-{{NVFI.id}}').button('loading');
-            }
-        });
+                    if(value == "Shut Down") {
+                        console.log("shutdown");
+                        $('#nvfi-{{NVFI.id}}').button('reset');
+                    }
+                    else if(value == "Running") {
+                        console.log("running");
+                        $('#nvfi-{{NVFI.id}}').button('reset');
+                    }
+                    else {
+                        $('#nvfi-{{NVFI.id}}').button('loading');
+                        $('#dropdown-{{NVFI.id}}').button('loading');
+                    }
+                });
+
     </script>
     {% endif %}
     {% include "partials/utrans/javascript/launch-shutdown.html" %}

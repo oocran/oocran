@@ -27,10 +27,12 @@ def list(request):
 def create(request):
     nfs = Nf.objects.filter(operator__name=request.user.username)
     operator = get_object_or_404(Operator, name=request.user.username)
+
     if operator.vnfm == "Vagrant":
         images = list_boxes(operator)
     else:
         images = Image.objects.all()
+
     form = VnfForm(request.POST or None, request.FILES or None, nfs=nfs, images=images)
     if form.is_valid():
         try:
@@ -40,8 +42,12 @@ def create(request):
             vnf = form.save(commit=False)
             # vnf.flavor = get_flavors(vnf)
             vnf.operator = get_object_or_404(Operator, name=request.user.username)
-            messages.success(request, "Successfully created!", extra_tags="alert alert-success")
             vnf.save()
+            vnf.add_nf(form.cleaned_data['nf'])
+            messages.success(request, "Successfully created!", extra_tags="alert alert-success")
+            return redirect("vnfs:list")
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
         return redirect("vnfs:list")
 
     context = {

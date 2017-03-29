@@ -9,12 +9,14 @@
         {{vnf.description | linebreaksbr}}<br/>
     </div>
 </div>
-<h3>Code</h3>
+{% if vnf.file != null%}
+<h3>File</h3>
 <div class="panel panel-default">
     <div class="panel-body">
-        {{vnf.code}}<br/>
+        {{vnf.file}}<br/>
     </div>
-</div>
+    </div>
+{% endif %}
 <h3>Script code</h3>
 <div class="panel panel-default">
     <div class="panel-body">

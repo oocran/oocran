@@ -28,7 +28,7 @@ class Operator(models.Model):
         user = User.objects.create_user(username=self.name, password=self.password, email=email)
         self.user = user
         if self.vnfm == "Heat":
-            vims = VIM.objects.all()
+            vims = Vim.objects.all()
             for vim in vims:
                 create_user(self, vim)
         self.save()
@@ -41,8 +41,7 @@ class Operator(models.Model):
 
 
 class Provider(Operator):
-    fuel = models.CharField(max_length=120, default="https://10.20.0.2:8443")
-    sdn = models.CharField(max_length=120, default="https://sdn:8080")
     spectrum = models.FloatField(default=0)
+    network = models.FloatField(default=0)
     cpu = models.FloatField(default=0)
     ram = models.FloatField(default=0)

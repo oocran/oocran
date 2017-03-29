@@ -5,7 +5,6 @@ from .orchestrator import price, read_yaml, jsontoheat
 from scenarios.models import Scenario
 from vnfs.models import Vnf, Operator
 from django.utils import timezone
-from drivers.OpenStack.deployments.deployments import create_gui
 
 
 class Ns(models.Model):

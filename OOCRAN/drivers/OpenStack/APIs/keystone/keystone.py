@@ -7,13 +7,12 @@ from keystoneclient.v3 import client
 def get_session(vim):
     try:
         auth = v3.Password(
-                            user_domain_name=vim.domain,
-                            username=vim.username,
-                            project_domain_name=vim.project_domain,
-                            project_name=vim.project,
-                            password=vim.password,
-                            auth_url="http://"+vim.ip+":5000/v3/")
-
+            user_domain_name=vim.domain,
+            username=vim.username,
+            project_domain_name=vim.project_domain,
+            project_name=vim.project,
+            password=vim.password,
+            auth_url="http://" + vim.ip + ":5000/v3/")
         sess = session.Session(auth=auth)
         print "Authentification succesfully."
     except:
@@ -24,12 +23,12 @@ def get_session(vim):
 def get_token(ns, vim):
      try:
         auth = v3.Password(
-                            user_domain_name=vim.domain,
+            user_domain_name=vim.domain,
             username=ns.operator.name,
-                            project_domain_name=vim.project_domain,
+            project_domain_name=vim.project_domain,
             project_name=ns.operator.name,
             password=ns.operator.password,
-                            auth_url="http://"+vim.ip+":5000/v3/")
+            auth_url="http://" + vim.ip + ":5000/v3/")
         sess = session.Session(auth=auth)
         token = auth.get_token(sess)
      except:
@@ -41,10 +40,10 @@ def get_token_images():
     try:
         auth = v3.Password(
             user_domain_name="default",
-            username="admin",
+            username="****",
             project_domain_name="default",
-            project_name="admin",
-            password="odissey09",
+            project_name="****",
+            password="***",
             auth_url="http://controller:5000/v3/")
         sess = session.Session(auth=auth)
         token = auth.get_token(sess)

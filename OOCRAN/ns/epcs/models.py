@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from ns.ns.models import Ns
 from django.db import models
 from django.core.urlresolvers import reverse
-from drivers.OpenStack.deployments.deployments import create_gui
 from ns.ns.orchestrator import jsontoheat
 
 

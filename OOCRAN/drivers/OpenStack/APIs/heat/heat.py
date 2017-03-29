@@ -4,8 +4,9 @@ from drivers.OpenStack.APIs.keystone.keystone import get_project_id
 from drivers.OpenStack.APIs.keystone.keystone import get_token
 
 
-def credentials(nvfi, vim):
-    heat = Client('1', endpoint="http://"+vim.ip+":8004/v1/"+get_project_id(nvfi.operator, vim), token=get_token(nvfi, vim))
+def credentials(ns, vim):
+    heat = Client('1', endpoint="http://" + vim.ip + ":8004/v1/" + get_project_id(ns.operator, vim),
+                  token=get_token(ns, vim))
     return heat
 
 

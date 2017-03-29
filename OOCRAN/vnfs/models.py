@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.db import models
 from operators.models import Operator
@@ -26,6 +27,12 @@ class Vnf(models.Model):
 
     def get_nfs(self):
         return
+
+    def add_nf(self, nfs):
+        for id in nfs:
+            print id
+            self.nf.add(get_object_or_404(Nf, id=id))
+
 
     class Meta:
         ordering = ["-timestamp", "-update"]

@@ -37,7 +37,6 @@ def read_yaml(file, operator):
             data = check_parameters(parameters)
             vnf = check_vnf(data['vnf'], operator)
             if check_content(parameters) is not False and data is not False and vnf is not False:
-                print "dins"
                 data['name'] = data['name'] + '-' + data['ip']
                 data['vnf'] = vnf
                 data['operator'] = operator

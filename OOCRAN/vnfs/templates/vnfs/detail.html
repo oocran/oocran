@@ -26,7 +26,10 @@
 <h3>Network Functions</h3>
 	<div class="panel panel-default">
 		<div class="panel-body">
-            {{vnf.nf}}<br/>
+			{% for nf in vnf.nf.all %}
+			{{nf}} - {{nf.description}}
+			<br/>
+			{% endfor%}
 		</div>
 	</div>
 {%endblock content%}
