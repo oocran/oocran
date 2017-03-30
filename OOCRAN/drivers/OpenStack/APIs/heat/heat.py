@@ -10,9 +10,9 @@ def credentials(ns, vim):
     return heat
 
 
-def create_stack(nvfi, template, vim):
-    heat = credentials(nvfi, vim)
-    stack = heat.stacks.create(stack_name=nvfi.name, template=template, parameters={})
+def create_stack(ns, template, vim):
+    heat = credentials(ns, vim)
+    stack = heat.stacks.create(stack_name=ns.name, template=template, parameters={})
     uid = stack['stack']['id']
 
     stack = heat.stacks.get(stack_id=uid).to_dict()
@@ -27,7 +27,7 @@ def create_stack(nvfi, template, vim):
         return "Stack fall to unknow status: {}".format(stack)
 
 
-def delete_stack(nvfi, vim):
-    heat = credentials(nvfi,vim)
-    stack = heat.stacks.get(nvfi.name)
+def delete_stack(ns, vim):
+    heat = credentials(ns, vim)
+    stack = heat.stacks.get(ns.name)
     heat.stacks.delete(stack.parameters['OS::stack_id'])

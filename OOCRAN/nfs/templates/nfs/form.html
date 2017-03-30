@@ -12,6 +12,7 @@
         {%csrf_token%}
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#info">Information</a></li>
+            <li><a data-toggle="tab" href="#dependencies">Dependencies</a></li>
             <li><a data-toggle="tab" href="#function">Function</a></li>
         </ul>
         <div class="tab-content">
@@ -20,12 +21,18 @@
                 {{ form.name|bootstrap }}
                 {{ form.description|bootstrap }}
             </div>
-            <div id="function" class="tab-pane fade">
+            <div id="dependencies" class="tab-pane fade">
                 <br>
                 {{form.type|bootstrap}}
-                <div id="source_code" style="display: none;">
+                <div id="package" style="display: block;">
                     {{form.file|bootstrap}}
                 </div>
+                <div id="installation" style="display: block;">
+                    {{form.dependencies|bootstrap}}
+                </div>
+            </div>
+            <div id="function" class="tab-pane fade">
+                <br>
                 {{form.script|bootstrap}}
             </div>
         </div>
@@ -36,10 +43,17 @@
 <script>
 	function select(object) {
 		if (object.value == "file") {
-			document.getElementById("source_code").style.display = "block";
+			document.getElementById("package").style.display = "block";
+			document.getElementById("installation").style.display = "block";
+		}else if (object.value == "script") {
+		    document.getElementById("package").style.display = "none";
+			document.getElementById("installation").style.display = "block";
+		}else if (object.value == "puppet" || object.value == "ansible") {
+			document.getElementById("package").style.display = "block";
+			document.getElementById("installation").style.display = "none";
 		}else {
-			document.getElementById("source_code").style.display = "none";
+			document.getElementById("package").style.display = "block";
+			document.getElementById("installation").style.display = "block";
 		}
 	}
-
 </script>

@@ -12,7 +12,6 @@
     </thead>
     <tbody>
     {% for NVFI in utrans %}
-    {% if NVFI.area.name == area.name%}
     <tr>
         <td style="text-align: center;vertical-align: middle"><a href='{{NVFI.get_absolut_url}}'>{{NVFI.name}}</a></td>
         <td style="text-align: center;vertical-align: middle">{{NVFI.rb_offer}}</td>
@@ -25,7 +24,7 @@
             <button type="button" style="display:inline-block;" id="nvfi-{{NVFI.id}}" data-loading-text="Working..."
                     class="btn btn-default">{% if NVFI.status == "Running" %}Shut Down{% elif NVFI.status == "Shut
                 Down"%}Launch{% endif %}
-            </button>
+                </button>
             <div class="dropdown" style="display:inline-block;">
                 <button id="dropdown-{{NVFI.id}}" class="btn btn-default dropdown-toggle" type="button"
                         data-toggle="dropdown" data-loading-text="">
@@ -39,27 +38,25 @@
             </div>
         </td>
     </tr>
-
     <script>
-                $(document).ready(function(){
-                    var value = "{{NVFI.status}}";
+            $(document).ready(function(){
+                var value = "{{NVFI.status}}";
 
-                    if(value == "Shut Down") {
-                        console.log("shutdown");
-                        $('#nvfi-{{NVFI.id}}').button('reset');
-                    }
-                    else if(value == "Running") {
-                        console.log("running");
-                        $('#nvfi-{{NVFI.id}}').button('reset');
-                    }
-                    else {
-                        $('#nvfi-{{NVFI.id}}').button('loading');
-                        $('#dropdown-{{NVFI.id}}').button('loading');
-                    }
-                });
+                if(value == "Shut Down") {
+                    console.log("shutdown");
+                    $('#nvfi-{{NVFI.id}}').button('reset');
+                }
+                else if(value == "Running") {
+                    console.log("running");
+                    $('#nvfi-{{NVFI.id}}').button('reset');
+                }
+                else {
+                    $('#nvfi-{{NVFI.id}}').button('loading');
+                    $('#dropdown-{{NVFI.id}}').button('loading');
+                }
+            });
 
     </script>
-    {% endif %}
     {% include "partials/utrans/javascript/launch-shutdown.html" %}
     {%endfor%}
     </tbody>

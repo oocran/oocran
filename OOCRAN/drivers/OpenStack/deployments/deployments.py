@@ -5,7 +5,7 @@ from drivers.OpenStack.APIs.keystone.keystone import get_token
 
 def create_deploy(nvfi, bbus):
     header = Template(u'''\
-heat_template_version: 2015-10-15
+heat_template_version: 2014-10-16
 description: {{description}}
 
 parameters:
@@ -13,6 +13,7 @@ parameters:
     type: string
     description: Network ID to use for the instance.
     default: 6de45ecf-4aac-4161-bd8c-ce24951ef6d2
+
 resources:
   credentials:
     type: OS::Heat::CloudConfig
@@ -43,14 +44,12 @@ script_server{{num}}:
         cd /home/ubuntu
         {{script}}
 
-
   server{{num}}_init:
     type: OS::Heat::MultipartMime
     properties:
       parts:
       - config: {get_resource: credentials}
       - config: {get_resource: script_server{{num}}}
-
 
   server{{num}}:
     type: OS::Nova::Server

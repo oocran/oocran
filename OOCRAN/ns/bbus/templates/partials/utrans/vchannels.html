@@ -9,16 +9,15 @@
     </tr>
     </thead>
     <tbody>
-    {% for NVFI in utrans %}
-    {% if NVFI.area.name == area.name%}
+    {% for channel in utrans %}
     <tr>
-        <td style="text-align: center;vertical-align: middle"><a href='{{NVFI.get_absolut_url}}'>{{NVFI.name}}</a></td>
+        <td style="text-align: center;vertical-align: middle"><a href='{{channel.get_absolut_url}}'>{{channel.name}}</a>
+        </td>
         <td style="text-align: center;vertical-align: middle">12 dB</td>
         <td style="text-align: center;vertical-align: middle"> 1 ms</td>
-        <td style="text-align: center;vertical-align: middle">{{NVFI.price}}/h</td>
-        <td style="text-align: center;vertical-align: middle">{{NVFI.cost}} $</td>
+        <td style="text-align: center;vertical-align: middle">{{channel.price}}/h</td>
+        <td style="text-align: center;vertical-align: middle">{{channel.cost}} $</td>
     </tr>
-    {% endif %}
     {% include "partials/utrans/javascript/launch-shutdown.html" %}
     {%endfor%}
     </tbody>

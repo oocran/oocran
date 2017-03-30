@@ -18,6 +18,7 @@ class RRH(models.Model):
     pt = models.IntegerField(default=20)
     neighbor = models.CharField(max_length=500, null=True, blank=True)
     bw = models.CharField(max_length=500, default=20)
+    driver_version = models.CharField(default="1.0.0", max_length=20)
     freCs = models.CharField(max_length=500, null=True, blank=True, default='')
     first_band = models.CharField(default="2390000000-2400000000", max_length=50)
     second_band = models.CharField(default="2400000000-2500000000", max_length=50)

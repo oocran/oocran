@@ -15,7 +15,6 @@ from django.http import HttpResponse
 def create(request, id=None):
     operator = get_object_or_404(Operator, name=request.user.username)
     if operator.vnfm == "Vagrant":
-        print operator.vnfm
         form = DeploymentVagrantForm(request.POST or None, request.FILES or None)
     else:
         form = DeploymentForm(request.POST or None, request.FILES or None)
@@ -141,6 +140,7 @@ def state(request, id=None):
 def info(request, id=None):
     scenario = get_object_or_404(Scenario, id=id)
     utrans = Utran.objects.filter(scenario=scenario)
+    utrans = paginator(request, utrans)
 
     context = {
         "scenario": scenario,
