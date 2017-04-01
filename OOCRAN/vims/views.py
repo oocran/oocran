@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
-from .models import Vim, Image
+from .models import Vim
+from images.models import Image
 from OOCRAN.global_functions import paginator
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import VimForm, ImageForm
+from .forms import VimForm
 
 
 @staff_member_required
@@ -55,37 +56,3 @@ def create(request):
         "form": form,
     }
     return render(request, "vims/form.html", context)
-
-
-@staff_member_required
-def image(request):
-    form = ImageForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        try:
-            Image.objects.get(name=form.cleaned_data['name'])
-            messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
-        except:
-            image = form.save(commit=False)
-            # image.download(form.cleaned_data['file'])
-            image.upload()
-            image.save()
-            messages.success(request, "Image successfully added!", extra_tags="alert alert-success")
-            return redirect("vims:list")
-    if form.errors:
-        messages.success(request, form.errors, extra_tags="alert alert-danger")
-        return redirect("vims:list")
-
-    context = {
-        "user": request.user,
-        "form": form,
-    }
-    return render(request, "vims/form_images.html", context)
-
-
-@staff_member_required
-def del_img(request, id=None):
-    image = get_object_or_404(Image, pk=id)
-    image.delete()
-
-    messages.success(request, "Image successfully deleted!", extra_tags="alert alert-success")
-    return redirect("vims:list")

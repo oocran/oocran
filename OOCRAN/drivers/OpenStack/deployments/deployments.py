@@ -1,55 +1,50 @@
 from jinja2 import Template
 from drivers.OpenStack.APIs.heat.heat import create_stack, delete_stack
-from drivers.OpenStack.APIs.keystone.keystone import get_token
 
 
-def create_deploy(nvfi, bbus):
-    header = Template(u'''\
-heat_template_version: 2014-10-16
-description: {{description}}
-
-parameters:
-  NetID:
-    type: string
-    description: Network ID to use for the instance.
-    default: 6de45ecf-4aac-4161-bd8c-ce24951ef6d2
-
-resources:
-  credentials:
-    type: OS::Heat::CloudConfig
-    properties:
-      cloud_config:
-        chpasswd:
-          list: |
-            ubuntu:ubuntu
-          expire: False
-
-  ''')
-    header = header.render(
-        description=nvfi.description,
-        user=nvfi.operator.name,
-        password=nvfi.operator.password,
-    )
-
+def add_nfs(user, nfs):
     elements = ""
     num = 0
-    for bbu in bbus:
-        nvf = Template(u'''\
-script_server{{num}}:
+
+    for nf in nfs:
+        nf_template = Template(u'''\
+nf_{{num}}:
     type: OS::Heat::SoftwareConfig
     properties:
-      group: ungrouped
+      group: {{group}}
       config: |
         #!/bin/sh
-        cd /home/ubuntu
-        {{script}}
+        cd /home/{{user}}
+        {{dependencies}}
 
-  server{{num}}_init:
+  ''')
+        nf_template = nf_template.render(
+            group=nf.type,
+            num=num,
+            user=user,
+            dependencies=nf.dependencies,
+        )
+        elements = elements + nf_template
+        num += 1
+
+    return [num, elements]
+
+
+def add_bbus(user, bbus):
+    elements = ""
+    num = 0
+
+    for bbu in bbus:
+        [nfs_num, nfs] = add_nfs(user, bbu.vnf.nf.all())
+
+        nvf = Template(u'''\
+server{{num}}_init:
     type: OS::Heat::MultipartMime
     properties:
       parts:
+      - config: {get_resource: user_config}
       - config: {get_resource: credentials}
-      - config: {get_resource: script_server{{num}}}
+{{nfs}}
 
   server{{num}}:
     type: OS::Nova::Server
@@ -64,15 +59,9 @@ script_server{{num}}:
          get_resource: server{{num}}_init
 
   ''')
-
-        if bbu.bw_dl == 1400000:
-            f = 6
-        if bbu.bw_dl == 3000000:
-            f = 3
-
-        script = ""
-        for nf in bbu.vnf.nf.all():
-            script = script + nf.script
+        list_nfs = ""
+        for nf in range(0, nfs_num):
+            list_nfs += "      - config: {get_resource: nf_" + str(nf) + "}"
 
         nvf = nvf.render(
             name=bbu.rrh.name,
@@ -80,16 +69,58 @@ script_server{{num}}:
             net=bbu.rrh.place,
             flavor="small",
             num=num,
-            # script=str(bbu.vnf.script).replace('\n', '').replace('\r', ';').replace('{{ip}}',bbu.name.split('-')[1]).replace('{{pt}}',str(bbu.pt)).replace('{{freC}}',str(bbu.freC_DL)).replace('{{BW}}',str(f)),
-            script=script,
+            nfs=list_nfs,
         )
-        elements = elements + nvf
-        num = num + 1
+        elements += nfs + nvf
+        num += 1
 
-    template = header+elements
+    return elements
+
+
+def create_deploy(ns, bbus):
+    user = str(ns.operator.user.username),
+
+    header = Template(u'''\
+heat_template_version: 2014-10-16
+description: {{description}}
+
+parameters:
+  NetID:
+    type: string
+    description: Network ID to use for the instance.
+    default: net
+
+resources:
+  credentials:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        chpasswd:
+          list: |
+            {{user}}:{{password}}
+          expire: False
+
+  user_config:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        users:
+        - default
+        - name: {{user}}
+
+  ''')
+    header = header.render(
+        description=ns.description,
+        user=user,
+        password=ns.operator.password,
+    )
+
+    list_bbus = add_bbus(user, bbus)
+
+    template = header + list_bbus
     print template
-    create_stack(nvfi, template, nvfi.scenario.vim)
+    # create_stack(ns, template, ns.scenario.vim)
 
 
-def delete_deploy(nvfi):
-    delete_stack(nvfi, nvfi.scenario.vim)
+def delete_deploy(ns):
+    delete_stack(ns, ns.scenario.vim)

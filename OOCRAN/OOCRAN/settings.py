@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'ns.ns',
     'ns.epcs',
     'vims',
+    'libraries',
+    'images',
     'django_celery_beat',
     'scenarios',
     'bootstrapform',

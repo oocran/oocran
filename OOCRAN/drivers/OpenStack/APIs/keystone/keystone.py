@@ -32,7 +32,7 @@ def get_token(ns, vim):
         sess = session.Session(auth=auth)
         token = auth.get_token(sess)
      except:
-         sys.exit(130)
+         print "Authentification failed."
      return token
 
 
@@ -40,15 +40,15 @@ def get_token_images():
     try:
         auth = v3.Password(
             user_domain_name="default",
-            username="****",
+            username="admin",
             project_domain_name="default",
-            project_name="****",
-            password="***",
+            project_name="admin",
+            password="odissey09",
             auth_url="http://controller:5000/v3/")
         sess = session.Session(auth=auth)
         token = auth.get_token(sess)
     except:
-        sys.exit(130)
+        print "Authentification failed."
     return token
 
 
@@ -65,7 +65,7 @@ def get_project_id(operator, vim):
         keystone = client.Client(session=sess_admin)
         project = keystone.projects.find(name=operator.user.username)
     except:
-         sys.exit(130)
+        print "Authentification failed."
     return project.id
 
 

@@ -1,32 +1,5 @@
 from django import forms
-from .models import Vim
-from images.models import Image
-
-
-class VimForm(forms.ModelForm):
-    password = forms.CharField(max_length=32, widget=forms.PasswordInput)
-    password_confirmation = forms.CharField(max_length=32, widget=forms.PasswordInput)
-
-    def __init__(self, *args, **kwargs):
-        super(VimForm, self).__init__(*args, **kwargs)
-        self.fields['type'] = forms.ChoiceField(required=True,
-                                                choices=[('OpenStack', 'OpenStack')])
-
-    class Meta:
-        model = Vim
-        fields = [
-            "type",
-            "name",
-            "ip",
-            "latitude",
-            "longitude",
-            "username",
-            "password",
-            "password_confirmation",
-            "project_domain",
-            "project",
-            "domain",
-        ]
+from .models import Image
 
 
 class ImageForm(forms.ModelForm):

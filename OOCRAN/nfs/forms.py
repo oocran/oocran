@@ -9,7 +9,8 @@ class NfForm(forms.ModelForm):
         super(NfForm, self).__init__(*args, **kwargs)
         self.fields['type'] = forms.ChoiceField(required=False,
                                                 widget=forms.Select(attrs={"onChange": 'select(this);'}),
-                                                choices=[("file", "file"), ("script", "script"), ("ansible", "ansible"),
+                                                choices=[("ungrouped", "file"), ("ungrouped", "script"),
+                                                         ("ansible", "ansible"),
                                                          ("puppet", "puppet")])
 
     class Meta:
@@ -20,5 +21,5 @@ class NfForm(forms.ModelForm):
             "script",
             "file",
             "type",
-            "dependencies",
+            "libraries",
         ]

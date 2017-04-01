@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Vnf
+from images.models import Image
 from operators.models import Operator, Provider
 from .forms import VnfForm
 from nfs.models import Nf
-from vims.models import Image
 from django.contrib import messages
 from drivers.OpenStack.APIs.nova.nova import get_flavors
 from drivers.Vagrant.APIs.api import list_boxes

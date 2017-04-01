@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.db import models
 from operators.models import Operator
