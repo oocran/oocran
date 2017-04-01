@@ -3,15 +3,11 @@ from .models import Nf
 
 
 class NfForm(forms.ModelForm):
-    type = forms.CharField(max_length=32)
 
     def __init__(self, *args, **kwargs):
+        self.libraries = kwargs.pop('libraries')
         super(NfForm, self).__init__(*args, **kwargs)
-        self.fields['type'] = forms.ChoiceField(required=False,
-                                                widget=forms.Select(attrs={"onChange": 'select(this);'}),
-                                                choices=[("ungrouped", "file"), ("ungrouped", "script"),
-                                                         ("ansible", "ansible"),
-                                                         ("puppet", "puppet")])
+        self.fields['libraries'] = forms.MultipleChoiceField(choices=[(x.id, x) for x in self.libraries])
 
     class Meta:
         model = Nf
@@ -20,6 +16,6 @@ class NfForm(forms.ModelForm):
             "description",
             "script",
             "file",
-            "type",
             "libraries",
+            "libraries_order",
         ]

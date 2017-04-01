@@ -12,6 +12,7 @@ class Nf(models.Model):
     file = models.FileField(upload_to='nfs', null=True, blank=True)
     script = models.TextField(default="start.sh")
     type = models.CharField(default="", null=True, blank=True, max_length=50)
+    libraries_order = models.TextField(blank=True, null=True)
     libraries = models.ManyToManyField(Library, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)

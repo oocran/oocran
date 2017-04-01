@@ -1,5 +1,39 @@
 {% load bootstrap %}
 
+<style>
+    #availiable, #selected {
+    float: left;
+    width: 45%;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    }
+</style>
+<script>
+    options = []
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+
+        if($('#selected').find(document.getElementById(data)).length){
+            options.push(document.getElementById(data).id);
+            $('#id_libraries option[value=' + document.getElementById(data).id + ']').attr('selected', true);
+            $('#id_libraries_order').val(options);
+        }
+    }
+
+</script>
+
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
@@ -23,12 +57,20 @@
             </div>
             <div id="dependencies" class="tab-pane fade">
                 <br>
-                {{form.type|bootstrap}}
-                <div id="package" style="display: block;">
-                    {{form.file|bootstrap}}
+                <div id="availiable" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    {% for library in libraries %}
+                    <div draggable="true" ondragstart="drag(event)" id="{{library.id}}" width="88" height="31" id=""
+                         style="with:100%;background-color:#ddd;text-align:center;padding-top:8px;padding-bottom:8px;margin-top:3px">
+                        {{library}}
+                    </div>
+                    {% endfor %}
                 </div>
-                <div id="installation" style="display: block;">
-                    {{form.dependencies|bootstrap}}
+
+                <div id="selected" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+                <div style="display:none">
+                    {{form.libraries|bootstrap}}
+                    {{form.libraries_order|bootstrap}}
                 </div>
             </div>
             <div id="function" class="tab-pane fade">
@@ -36,24 +78,6 @@
                 {{form.script|bootstrap}}
             </div>
         </div>
-        <input type="submit" class="btn btn-default" value="Create NF"/>
+        <input id="submit" type="submit" class="btn btn-default" value="Create NF"/>
     </form>
 </div>
-
-<script>
-	function select(object) {
-		if (object.value == "file") {
-			document.getElementById("package").style.display = "block";
-			document.getElementById("installation").style.display = "block";
-		}else if (object.value == "script") {
-		    document.getElementById("package").style.display = "none";
-			document.getElementById("installation").style.display = "block";
-		}else if (object.value == "puppet" || object.value == "ansible") {
-			document.getElementById("package").style.display = "block";
-			document.getElementById("installation").style.display = "none";
-		}else {
-			document.getElementById("package").style.display = "block";
-			document.getElementById("installation").style.display = "block";
-		}
-	}
-</script>
