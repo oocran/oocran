@@ -17,14 +17,14 @@ from django.conf.urls import url
 
 from .views import (
     list,
-    # create,
+    create,
     # detail,
-    # delete,
+    delete,
 )
 
 urlpatterns = [
     url(r'^$', list, name="list"),
-    # url(r'^create/$', create, name='create'),
+    url(r'^create/$', create, name='create'),
     # url(r'^(?P<id>\d+)/$', detail, name='detail'),
-    # url(r'^(?P<id>\d+)/delete/$', delete, name='delete'),
+    url(r'^(?P<id>\d+)/delete/$', delete, name='delete'),
 ]

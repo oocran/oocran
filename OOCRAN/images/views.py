@@ -5,22 +5,23 @@ from .models import Image
 from OOCRAN.global_functions import paginator
 from django.contrib.auth.decorators import login_required
 from .forms import ImageForm
+from django.db.models import Q
 
 
 @login_required(login_url='/login/')
 def list(request):
-    queryset_list = Image.objects.filter(operator__name=request.user.username)
+    queryset_list = Image.objects.filter(Q(operator__name=request.user.username) | Q(operator__name="admin"))
     queryset = paginator(request, queryset_list)
 
     context = {
         "user": request.user,
-        "object_list": queryset,
+        "images": queryset,
     }
-    return render(request, "nfs/libraries.html", context)
+    return render(request, "images/list.html", context)
 
 
 @login_required(login_url='/login/')
-def image(request):
+def create(request):
     form = ImageForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         try:
@@ -32,22 +33,22 @@ def image(request):
             image.upload()
             image.save()
             messages.success(request, "Image successfully added!", extra_tags="alert alert-success")
-            return redirect("vims:list")
+            return redirect("images:list")
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")
-        return redirect("vims:list")
+        return redirect("images:list")
 
     context = {
         "user": request.user,
         "form": form,
     }
-    return render(request, "vims/form_images.html", context)
+    return render(request, "images/form.html", context)
 
 
 @login_required(login_url='/login/')
-def del_img(request, id=None):
+def delete(request, id=None):
     image = get_object_or_404(Image, pk=id)
     image.delete()
 
     messages.success(request, "Image successfully deleted!", extra_tags="alert alert-success")
-    return redirect("vims:list")
+    return redirect("images:list")

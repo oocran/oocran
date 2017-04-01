@@ -13,5 +13,4 @@ class NfModelAdmin(admin.ModelAdmin):
     class Meta:
         model = Nf
 
-
 admin.site.register(Nf, NfModelAdmin)

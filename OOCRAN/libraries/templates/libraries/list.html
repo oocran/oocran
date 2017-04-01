@@ -4,15 +4,15 @@
 {% block head %}{% endblock head%}
 
 {% block content%}
-<div style="position: relative;" id="content"></div>
-<h2 class="sub-header">Catalog of Libraries</h2>
-{% include "partials/nfs/libraries.html" %}
-{% include "base/partials/paginator.html" %}
-</br>
-
+<h2 class="sub-header">List of Libraries</h2>
+{% include "partials/libraries/libraries.html" %}
+{% include "base/partials/paginator.html" with object_list=libraries %}
+<br>
 <a id="submit" onclick="loader()" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Add
     Library</a>
 
+<br><br>
+<!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content"></div>
@@ -20,6 +20,6 @@
 </div>
 {% endblock content %}
 
-{%block javascript %}
-{% include "partials/nfs/loader-ajax.html" %}
-{%endblock javascript %}
+{%block javascript%}
+{% include "partials/libraries/javascript/loader-ajax.html"%}
+{%endblock javascript%}

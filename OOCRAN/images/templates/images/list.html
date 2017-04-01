@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block head %}{% endblock head%}
+
+{% block content%}
+<h2 class="sub-header">List of Images</h2>
+{% include "partials/images/images.html" %}
+{% include "base/partials/paginator.html" with object_list=images %}
+<br>
+<a id="submit" onclick="loader_images()" class="btn btn-default" role="button" data-toggle="modal"
+   data-target="#myModal">Add Image</a>
+
+<br><br>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+{% endblock content %}
+
+{%block javascript%}
+{% include "partials/images/javascript/loader-ajax.html"%}
+{%endblock javascript%}

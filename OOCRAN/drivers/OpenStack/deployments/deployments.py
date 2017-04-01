@@ -18,6 +18,7 @@ nf_{{num}}:
         {{dependencies}}
 
   ''')
+
         nf_template = nf_template.render(
             group=nf.type,
             num=num,

@@ -5,13 +5,18 @@ import os
 import os.path
 import urllib
 from vnfs.models import Vnf
+from operators.models import Operator
 
 
 class Image(models.Model):
     name = models.CharField(max_length=120)
+    operator = models.ForeignKey(Operator, on_delete=models.CASCADE, null=True, blank=True)
     format = models.CharField(max_length=120)
-    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, )
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __unicode__(self):
+        return self.name
 
     def download(self, url):
         destination = "/tmp/images"
