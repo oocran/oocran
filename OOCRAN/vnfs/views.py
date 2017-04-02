@@ -4,11 +4,13 @@ from images.models import Image
 from operators.models import Operator, Provider
 from .forms import VnfForm
 from nfs.models import Nf
+from vims.models import Vim
 from django.contrib import messages
 from drivers.OpenStack.APIs.nova.nova import get_flavors
 from drivers.Vagrant.APIs.api import list_boxes
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator
+import tasks
 
 
 @login_required(login_url='/login/')
@@ -44,6 +46,8 @@ def create(request):
             vnf.operator = get_object_or_404(Operator, name=request.user.username)
             vnf.save()
             vnf.add_nf(form.cleaned_data['nf'])
+            vim = Vim.objects.all()
+            tasks.create_vnf.delay(vnf.id, vim[0].id)
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
             return redirect("vnfs:list")
     if form.errors:

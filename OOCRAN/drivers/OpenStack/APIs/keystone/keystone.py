@@ -1,6 +1,5 @@
 from keystoneauth1.identity import v3
 from keystoneauth1 import session
-import sys
 from keystoneclient.v3 import client
 
 
@@ -12,6 +11,22 @@ def get_session(vim):
             project_domain_name=vim.project_domain,
             project_name=vim.project,
             password=vim.password,
+            auth_url="http://" + vim.ip + ":5000/v3/")
+        sess = session.Session(auth=auth)
+        print "Authentification succesfully."
+    except:
+        print "Authentification failed."
+    return sess
+
+
+def get_session_servers(operator, vim):
+    try:
+        auth = v3.Password(
+            user_domain_name=vim.domain,
+            username=operator.name,
+            project_domain_name=vim.project_domain,
+            project_name=operator.name,
+            password=operator.password,
             auth_url="http://" + vim.ip + ":5000/v3/")
         sess = session.Session(auth=auth)
         print "Authentification succesfully."

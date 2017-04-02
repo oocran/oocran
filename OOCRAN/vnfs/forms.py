@@ -3,13 +3,11 @@ from .models import Vnf
 
 
 class VnfForm(forms.ModelForm):
-    create = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
         self.images = kwargs.pop('images')
         self.nfs = kwargs.pop('nfs')
         super(VnfForm, self).__init__(*args, **kwargs)
-        self.fields['create'].label = "Convert to a new Image"
         self.fields['image'] = forms.ChoiceField(required=False, choices=[(x.name, x.name) for x in self.images])
         self.fields['nf'] = forms.MultipleChoiceField(
             choices=[(x.id, x) for x in
@@ -25,5 +23,4 @@ class VnfForm(forms.ModelForm):
             "disk",
             "image",
             "nf",
-            "create",
         ]

@@ -1,5 +1,5 @@
 from novaclient import client
-from drivers.OpenStack.APIs.keystone.keystone import get_session
+from drivers.OpenStack.APIs.keystone.keystone import get_session, get_session_servers
 from vims.models import Vim
 
 
@@ -15,3 +15,12 @@ def get_flavors(vnf):
         flavor = flavor.name
 
     return flavor
+
+
+def create_snapshot(vnf):
+    vims = Vim.objects.all()
+    nova = client.Client(2, session=get_session_servers(vnf.operator, vims[0]))
+    server = nova.servers.list()
+    nova.servers.create_image(server[0].id, vnf.name)
+
+    print "snapshot"
