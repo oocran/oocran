@@ -11,6 +11,7 @@ class Library(models.Model):
     file = models.FileField(upload_to='nfs', null=True, blank=True)
     type = models.CharField(null=True, blank=True, max_length=50)
     script = models.TextField(default="sudo apt-get install volk")
+    visibility = models.CharField(default="Private", max_length=50)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
 
@@ -18,8 +19,13 @@ class Library(models.Model):
         return self.name
 
     def get_absolut_url(self):
-        # return reverse("libraries:detail", kwargs={"id": self.id})
-        return self.name
+        return reverse("libraries:details", kwargs={"id": self.id})
+
+    def check_file(self):
+        if bool(self.file) is False:
+            return True
+        else:
+            return False
 
     class Meta:
         ordering = ["-timestamp", "-update"]

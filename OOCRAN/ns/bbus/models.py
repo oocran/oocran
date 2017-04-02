@@ -65,6 +65,9 @@ class BBU(models.Model):
     color_UL = models.CharField(max_length=20, null=True, blank=True)
     bw_ul = models.IntegerField(null=True, blank=True)
     #
+    cpu = models.IntegerField(null=True, blank=True)
+    ram = models.IntegerField(null=True, blank=True)
+    disk = models.IntegerField(null=True, blank=True)
     vnf = models.ForeignKey(Vnf, null=True, blank=True)
     radio = models.CharField(max_length=120, null=True, blank=True, default=0)
     rrh = models.ForeignKey(RRH, null=True, blank=True)

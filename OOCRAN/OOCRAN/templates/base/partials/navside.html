@@ -5,7 +5,6 @@
             <li class="collapsed active" style="background-color: #333">
               <a href="{% url 'operators:home' %}" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i class="glyphicon glyphicon-home"></i> Home <span class="arrow"></span></a>
             </li>
-            {% if not user.is_staff %}
             <li  data-toggle="collapse" data-target="#resources" class="collapsed active" style="background-color: #f5f5f5">
                 <a href="#" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i
                         class="glyphicon glyphicon-th"></i> Catalog <span class="arrow"></span></a>
@@ -19,6 +18,7 @@
                 </li>
                 <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'vnfs:list' %}">VNF Catalog</a></li>
             </ul>
+              {% if not user.is_staff %}
             <li  data-toggle="collapse" data-target="#infrastructures" class="collapsed active">
                 <a href="#" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i
                         class="glyphicon glyphicon-cloud"></i> Network Services <span class="arrow"></span></a>

@@ -1,0 +1,29 @@
+{%extends "base/base.html"%}
+
+{%block content%}
+<h2 class="sub-header">Details of {{library.name}}</h2>
+	<br/>
+	<h3>Description</h3>
+	<div class="panel panel-default">
+		<div class="panel-body">
+            {{library.description | linebreaksbr}}<br/>
+		</div>
+	</div>
+{% if library.check_file == True %}
+<h3>File</h3>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <a href="{{library.file}}" download>
+            Download source code
+        </a>
+        <br/>
+    </div>
+</div>
+{% endif %}
+<h3>Source Code</h3>
+	<div class="panel panel-default">
+		<div class="panel-body">
+            {{library.script | linebreaksbr}}
+		</div>
+	</div>
+{%endblock content%}

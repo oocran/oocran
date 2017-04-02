@@ -1,0 +1,26 @@
+{%extends "base/base.html"%}
+
+{%block content%}
+<h2 class="sub-header">Details of {{nf.name}}</h2>
+<br/>
+<h3>Description</h3>
+<div class="panel panel-default">
+    <div class="panel-body">
+        {{nf.description | linebreaksbr}}<br/>
+    </div>
+    </div>
+<h3>Libraries</h3>
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% for library in nf.get_libraries_order %}
+        <a href="{{library.get_absolut_url}}">{{library.name}}</a> - {{library.description}}<br>
+        {% endfor %}
+    </div>
+    </div>
+<h3>Launch</h3>
+<div class="panel panel-default">
+    <div class="panel-body">
+        {{nf.script | linebreaksbr}}<br/>
+    </div>
+    </div>
+{%endblock content%}

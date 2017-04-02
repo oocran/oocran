@@ -32,6 +32,8 @@ def create(request):
         except:
             nf = form.save(commit=False)
             nf.operator = get_object_or_404(Operator, name=request.user.username)
+            if request.user.is_staff:
+                nf.visibility = "Public"
             nf.save()
             for library in form.cleaned_data['libraries']:
                 nf.libraries.add(get_object_or_404(Library, id=library))
@@ -60,11 +62,11 @@ def delete(request, id=None):
 
 
 @login_required(login_url='/login/')
-def detail(request, id=None):
-    instance = Nf.objects.get(id=id)
+def details(request, id=None):
+    nf = Nf.objects.get(id=id)
 
     context = {
         "user": request.user,
-        "vnf": instance,
+        "nf": nf,
     }
-    return render(request, "nfs/detail.html", context)
+    return render(request, "nfs/details.html", context)

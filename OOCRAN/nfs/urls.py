@@ -18,13 +18,13 @@ from django.conf.urls import url
 from .views import (
     list,
     create,
-    detail,
+    details,
     delete,
 )
 
 urlpatterns = [
     url(r'^$', list, name="list"),
     url(r'^create/$', create, name='create'),
-    url(r'^(?P<id>\d+)/$', detail, name='detail'),
+    url(r'^(?P<id>\d+)/$', details, name='details'),
     url(r'^(?P<id>\d+)/delete/$', delete, name='delete'),
 ]

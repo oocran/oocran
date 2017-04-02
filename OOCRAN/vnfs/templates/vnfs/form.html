@@ -11,7 +11,6 @@
 		{%csrf_token%}
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#info">Information</a></li>
-			<li><a data-toggle="tab" href="#requeriments">Requeriments</a></li>
 			<li><a data-toggle="tab" href="#function">Function</a></li>
 		</ul>
 		<div class="tab-content">
@@ -19,12 +18,6 @@
 			  	<br>
 			  	{{ form.name|bootstrap }}
 			  	{{ form.description|bootstrap }}
-			</div>
-			<div id="requeriments" class="tab-pane fade">
-				<br>
-				{{form.cpu|bootstrap}}
-				{{form.ram|bootstrap}}
-				{{form.disk|bootstrap}}
 			</div>
 			<div id="function" class="tab-pane fade">
 				<br>

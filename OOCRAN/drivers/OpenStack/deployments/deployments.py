@@ -11,19 +11,18 @@ def add_nfs(user, nfs):
 nf_{{num}}:
     type: OS::Heat::SoftwareConfig
     properties:
-      group: {{group}}
+      group: ungrouped
       config: |
         #!/bin/sh
         cd /home/{{user}}
-        {{dependencies}}
+        {{script}}
 
   ''')
 
         nf_template = nf_template.render(
-            group=nf.type,
             num=num,
             user=user,
-            dependencies=nf.dependencies,
+            script=nf.script,
         )
         elements = elements + nf_template
         num += 1
@@ -66,8 +65,7 @@ server{{num}}_init:
 
         nvf = nvf.render(
             name=bbu.rrh.name,
-            image=bbu.vnf.image,
-            net=bbu.rrh.place,
+            image=bbu.vnf.name,
             flavor="small",
             num=num,
             nfs=list_nfs,
@@ -78,8 +76,7 @@ server{{num}}_init:
     return elements
 
 
-def create_deploy(ns, bbus):
-    user = str(ns.operator.user.username),
+def create_deploy(ns, bbus, channels=None, ues=None):
 
     header = Template(u'''\
 heat_template_version: 2014-10-16
@@ -92,31 +89,15 @@ parameters:
     default: net
 
 resources:
-  credentials:
-    type: OS::Heat::CloudConfig
-    properties:
-      cloud_config:
-        chpasswd:
-          list: |
-            {{user}}:{{password}}
-          expire: False
-
-  user_config:
-    type: OS::Heat::CloudConfig
-    properties:
-      cloud_config:
-        users:
-        - default
-        - name: {{user}}
 
   ''')
     header = header.render(
         description=ns.description,
-        user=user,
+        user=ns.operator.user.username,
         password=ns.operator.password,
     )
 
-    list_bbus = add_bbus(user, bbus)
+    list_bbus = add_bbus(ns.operator.user.username, bbus)
 
     template = header + list_bbus
     print template

@@ -3,16 +3,22 @@
     <tr>
         <th style="text-align: center;">Name</th>
         <th style="text-align: center;">Description</th>
+        <th style="text-align: center;">Visibility</th>
         <th style="text-align: center;">Actions</th>
     </tr>
     </thead>
     <tbody>
     {% for library in libraries %}
     <tr>
-        <td style="text-align: center;vertical-align: middle">{{library.name}}</td>
+        <td style="text-align: center;vertical-align: middle"><a href='{{library.get_absolut_url}}'>{{library.name}}</a></td>
         <td style="text-align: center;vertical-align: middle">{{library.description}}</td>
+        <td style="text-align: center;vertical-align: middle">{{library.visibility}}</td>
         <td style="text-align: center;vertical-align: middle">
+            {% if library.visibility == "Public" and user.is_staff %}
             <a href="{{library.id}}/delete/" class="btn btn-danger" role="button">Delete</a>
+            {% elif library.visibility == "Private"%}
+            <a href="{{library.id}}/delete/" class="btn btn-danger" role="button">Delete</a>
+            {% endif %}
         </td>
     </tr>
     {%endfor%}

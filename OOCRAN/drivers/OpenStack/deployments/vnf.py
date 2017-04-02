@@ -7,7 +7,7 @@ def add_nfs(vnf):
     num = 0
 
     for nf in vnf.nf.all():
-        for library in nf.libraries.all():
+        for library in nf.get_libraries_order():
             nf_template = Template(u'''\
 nf_{{num}}:
     type: OS::Heat::SoftwareConfig

@@ -18,9 +18,6 @@ class VnfForm(forms.ModelForm):
         fields = [
             "name",
             "description",
-            "cpu",
-            "ram",
-            "disk",
             "image",
             "nf",
         ]

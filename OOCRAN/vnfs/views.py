@@ -47,6 +47,8 @@ def create(request):
             vnf.save()
             vnf.add_nf(form.cleaned_data['nf'])
             vim = Vim.objects.all()
+            if request.user.is_staff:
+                vnf.visibility = "Public"
             tasks.create_vnf.delay(vnf.id, vim[0].id)
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
             return redirect("vnfs:list")
@@ -71,11 +73,11 @@ def delete(request, id=None):
 
 
 @login_required(login_url='/login/')
-def detail(request, id=None):
-    instance = Vnf.objects.get(id=id)
+def details(request, id=None):
+    vnf = Vnf.objects.get(id=id)
         
     context = {
         "user": request.user,
-        "vnf": instance,
+        "vnf": vnf,
     }
-    return render(request, "vnfs/detail.html", context)
+    return render(request, "vnfs/details.html", context)

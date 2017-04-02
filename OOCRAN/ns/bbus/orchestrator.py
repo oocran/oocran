@@ -5,7 +5,7 @@ import yaml
 from vnfs.models import Vnf
 from scenarios.models import RRH
 
-keys = ["name", "ip", "vnf", "bw_dl", "bw_ul", "pt", "type"]
+keys = ["name", "ip", "vnf", "bw_dl", "bw_ul", "pt", "type", "cpu", "ram", "disk"]
 
 
 def check_content(parameters):
@@ -91,7 +91,7 @@ def price(nvf, spectre):
     if spectre == 10000000:
         price_spec = 400.0
 
-    price_comp = (price_spec + nvf.vnf.ram * 0.005 + nvf.vnf.cpu * 0.005)
+    price_comp = (price_spec + nvf.ram * 0.005 + nvf.cpu * 0.005)
     price = price_spec + price_comp
 
     return float(price)

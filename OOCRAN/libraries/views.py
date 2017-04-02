@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Library
 from operators.models import Operator
 from .forms import LibraryForm
+from django.db.models import Q
 from OOCRAN.global_functions import paginator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -10,7 +11,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 @login_required(login_url='/login/')
 def list(request):
-    queryset_list = Library.objects.filter(operator__name=request.user.username)
+    queryset_list = Library.objects.filter(Q(operator__name=request.user.username) | Q(operator__name="admin"))
     queryset = paginator(request, queryset_list)
 
     context = {
@@ -31,7 +32,10 @@ def create(request):
             library = form.save(commit=False)
             if library.type == "file" or library.type == "script":
                 library.type = "ungrouped"
+
             library.operator = get_object_or_404(Operator, name=request.user.username)
+            if request.user.is_staff:
+                library.visibility = "Public"
             library.save()
             messages.success(request, "Library successfully added!", extra_tags="alert alert-success")
             return redirect("libraries:list")
@@ -53,3 +57,14 @@ def delete(request, id=None):
 
     messages.success(request, "Library successfully deleted!", extra_tags="alert alert-success")
     return redirect("libraries:list")
+
+
+@login_required(login_url='/login/')
+def details(request, id=None):
+    library = get_object_or_404(Library, pk=id)
+
+    context = {
+        "user": request.user,
+        "library": library,
+    }
+    return render(request, "libraries/details.html", context)

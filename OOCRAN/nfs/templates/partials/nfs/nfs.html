@@ -3,16 +3,22 @@
     <tr>
         <th>Name</th>
         <th>Description</th>
+        <th>Visibility</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    {% for vnf in object_list %}
+    {% for nf in object_list %}
     <tr>
-        <td><a href='{{vnf.get_absolut_url}}'>{{vnf.name}}</a></td>
-        <td>{{vnf.description}}</td>
+        <td><a href='{{nf.get_absolut_url}}'>{{nf.name}}</a></td>
+        <td>{{nf.description}}</td>
+        <td>{{nf.visibility}}</td>
         <td>
-            <a href="{{vnf.id}}/delete/" class="btn btn-danger" role="button">Delete</a>
+            {% if nf.visibility == "Public" and user.is_staff %}
+            <a href="{{nf.id}}/delete/" class="btn btn-danger" role="button">Delete</a>
+            {% elif nf.visibility == "Private"%}
+            <a href="{{nf.id}}/delete/" class="btn btn-danger" role="button">Delete</a>
+            {% endif %}
         </td>
     </tr>
     {%endfor%}
