@@ -1,12 +1,13 @@
 from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-from ns.ns.models import Ns
+from ns.ns.models import Ns, Nvf
 from operators.models import Operator
 from vnfs.models import Vnf
+import yaml
 from scenarios.models import RRH, Scenario
 from django.db import models
-from .orchestrator import read_yaml, price
+from .orchestrator import read_yaml, price, read_channels, read_ues
 from .orchestrator import planification_DL, planification_UL
 
 
@@ -37,43 +38,35 @@ class Utran(Ns):
             bbu.save()
 
     def create(self):
-        list = read_yaml(self.file, self.operator)
-        if list and list is not True and list is not False:
-            self.save()
-            self.create_BBU(list)
-            self.save()
-        if list is False:
+        doc = yaml.load(self.file)
+        bbus = read_yaml(doc, self.operator)
+        channels = read_channels(doc, self.operator)
+        ues = read_ues(doc, self.operator)
+        if bbus is False:
             return False
-        if list is True:
+        if bbus is True:
             return None
+        else:
+            self.save()
+            self.create_BBU(bbus)
+            self.save()
         return True
 
 
-class BBU(models.Model):
-    operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
-    ns = models.ForeignKey(Ns, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
-    type = models.CharField(max_length=20)
+class BBU(Nvf):
     # Downlink
-    freC_DL = models.PositiveIntegerField(null=True, blank=True)
+    freC_DL = models.PositiveIntegerField(null=True, blank=True, default=20)
     color_DL = models.CharField(max_length=20, null=True, blank=True, default="#AA0000")
-    bw_dl = models.IntegerField(null=True, blank=True)
-    rb = models.IntegerField(null=True, blank=True)
-    pt = models.FloatField(null=True, blank=True)
+    bw_dl = models.IntegerField(null=True, blank=True, default=20)
+    rb = models.IntegerField(null=True, blank=True, default=20)
+    pt = models.FloatField(null=True, blank=True, default=20)
     # Uplink
-    freC_UL = models.PositiveIntegerField(null=True, blank=True)
-    color_UL = models.CharField(max_length=20, null=True, blank=True)
-    bw_ul = models.IntegerField(null=True, blank=True)
+    freC_UL = models.PositiveIntegerField(null=True, blank=True, default=20)
+    color_UL = models.CharField(max_length=20, null=True, blank=True, default=20)
+    bw_ul = models.IntegerField(null=True, blank=True, default=20)
     #
-    cpu = models.IntegerField(null=True, blank=True)
-    ram = models.IntegerField(null=True, blank=True)
-    disk = models.IntegerField(null=True, blank=True)
-    vnf = models.ForeignKey(Vnf, null=True, blank=True)
     radio = models.CharField(max_length=120, null=True, blank=True, default=0)
     rrh = models.ForeignKey(RRH, null=True, blank=True)
-    users = models.IntegerField(null=True, blank=True, default=0)
-    update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __unicode__(self):
         return self.name.split('-')[1]
@@ -122,24 +115,12 @@ class BBU(models.Model):
         ordering = ["-timestamp", "-update"]
 
 
-class Channel(models.Model):
-    operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
-    ns = models.ForeignKey(Ns, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
+class Channel(Nvf):
     sinr = models.FloatField(default=0.0)
     delay = models.FloatField(default=0.0)
-    vnf = models.ForeignKey(Vnf, null=True, blank=True)
-    update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
 
-class UE(models.Model):
-    operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
-    ns = models.ForeignKey(Ns, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
+class UE(Nvf):
     sensibility = models.FloatField(default=0.0)
     service = models.FloatField(default=3600)
     delay = models.FloatField(default=0.0)
-    vnf = models.ForeignKey(Vnf, null=True, blank=True)
-    update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)

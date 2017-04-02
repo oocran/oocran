@@ -50,3 +50,18 @@ class Ns(models.Model):
 
     class Meta:
         ordering = ["-timestamp", "-update"]
+
+
+class Nvf(models.Model):
+    operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
+    name = models.CharField(max_length=120)
+    ns = models.ForeignKey(Ns, on_delete=models.CASCADE)
+    cpu = models.IntegerField(null=True, blank=True, default=1)
+    ram = models.IntegerField(null=True, blank=True, default=1024)
+    disk = models.IntegerField(null=True, blank=True, default=1)
+    vnf = models.ForeignKey(Vnf, null=True, blank=True)
+    update = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name

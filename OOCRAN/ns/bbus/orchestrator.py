@@ -1,19 +1,16 @@
 from math import radians, cos, sin, asin, sqrt
 import numpy as np
 import random
-import yaml
 from vnfs.models import Vnf
 from scenarios.models import RRH
 
-keys = ["name", "ip", "vnf", "bw_dl", "bw_ul", "pt", "type", "cpu", "ram", "disk"]
 
-
-def check_content(parameters):
+def check_content(parameters, keys):
     if not set(keys) <= set(parameters):
         return False
 
 
-def check_parameters(parameters):
+def check_parameters(parameters, keys):
     for k, v in parameters.items():
         if v is None:
             return False
@@ -28,15 +25,14 @@ def check_vnf(data, operator):
     return vnf
 
 
-def read_yaml(file, operator):
-    doc = yaml.load(file)
-
+def read_yaml(doc, operator):
+    keys = ["name", "ip", "vnf", "bw_dl", "bw_ul", "pt", "cpu", "ram", "disk"]
     list = []
     try:
         for rrh, parameters in doc.items():
-            data = check_parameters(parameters)
+            data = check_parameters(parameters, keys)
             vnf = check_vnf(data['vnf'], operator)
-            if check_content(parameters) is not False and data is not False and vnf is not False:
+            if check_content(parameters, keys) is not False and data is not False and vnf is not False:
                 data['name'] = data['name'] + '-' + data['ip']
                 data['vnf'] = vnf
                 data['operator'] = operator
@@ -48,6 +44,31 @@ def read_yaml(file, operator):
         return list
     except:
         return True
+
+
+def read_channels(doc, operator):
+    keys = ["vnf", "cpu", "ram", "disk", "sinr", "delay"]
+    list = []
+    for bbu, conf in doc.items():
+        if conf.has_key('channel'):
+            channel = conf['channel']
+            data = check_parameters(channel, keys)
+            vnf = check_vnf(data['vnf'], operator)
+            if check_content(channel, keys) is not False and data is not False and vnf is not False:
+                print data
+
+
+def read_ues(doc, operator):
+    keys = ["vnf", "cpu", "ram", "disk", "sensibility", "service"]
+    list = []
+    for bbu, conf in doc.items():
+        if conf.has_key('users'):
+            users = conf['users']
+            for ue, params in users.items():
+                data = check_parameters(params, keys)
+                vnf = check_vnf(data['vnf'], operator)
+                if check_content(params, keys) is not False and data is not False and vnf is not False:
+                    print data
 
 
 def jsontoheat(code):
