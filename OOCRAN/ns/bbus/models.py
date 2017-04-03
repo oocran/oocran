@@ -7,7 +7,7 @@ from vnfs.models import Vnf
 import yaml
 from scenarios.models import RRH, Scenario
 from django.db import models
-from .orchestrator import read_yaml, price, read_channels, read_ues
+from .orchestrator import read_bbus, price, read_channels, read_ues
 from .orchestrator import planification_DL, planification_UL
 
 
@@ -37,11 +37,27 @@ class Utran(Ns):
             self.price += price(bbu, bbu.bw_dl)
             bbu.save()
 
+    def create_Channel(self, list):
+        for element in list:
+            channel = Channel(**element)
+            channel.ns = self
+            channel.operator = self.operator
+            channel.save()
+
+    def create_UE(self, list):
+        for element in list:
+            ue = UE(**element)
+            ue.ns = self
+            ue.operator = self.operator
+            ue.save()
+
     def create(self):
         doc = yaml.load(self.file)
-        bbus = read_yaml(doc, self.operator)
+
+        bbus = read_bbus(doc, self.operator)
         channels = read_channels(doc, self.operator)
         ues = read_ues(doc, self.operator)
+
         if bbus is False:
             return False
         if bbus is True:
@@ -49,6 +65,10 @@ class Utran(Ns):
         else:
             self.save()
             self.create_BBU(bbus)
+            if channels is not None:
+                self.create_Channel(channels)
+            if ues is not None:
+                self.create_UE(ues)
             self.save()
         return True
 

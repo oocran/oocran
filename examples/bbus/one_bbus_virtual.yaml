@@ -10,6 +10,7 @@ bbu1:
   pt: 40
   type: virtual
   channel:
+    name: channel1
     vnf: LTE
     cpu: 1
     ram: 1024

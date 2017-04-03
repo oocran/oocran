@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from .models import Utran, BBU
+from .models import Utran, BBU, Channel, UE
 from drivers.OpenStack.deployments.deployments import delete_deploy as OpenStack_delete_deploy
 from celery import task
 from django.utils import timezone
@@ -15,10 +15,13 @@ def launch(id):
     utran.save()
 
     bbus = BBU.objects.filter(ns__name=utran.name)
+    channels = Channel.objects.filter(ns__name=utran.name)
+    ues = UE.objects.filter(ns__name=utran.name)
+
     [bbu.assign_frequency() for bbu in bbus]
     if utran.vim == "Near":
         # utran.scenario.change_status(utran)
-        OpenStack_create_deploy(utran, bbus)
+        OpenStack_create_deploy(utran, bbus, channels, ues)
     elif utran.vim == "Vagrant":
         Vagrant_create_deploy(utran, bbus)
 

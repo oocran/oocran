@@ -30,14 +30,14 @@ nf_{{num}}:
     return [num, elements]
 
 
-def add_bbus(user, bbus):
+def add_nvf(user, nvfs):
     elements = ""
     num = 0
 
-    for bbu in bbus:
-        [nfs_num, nfs] = add_nfs(user, bbu.vnf.nf.all())
+    for nvf in nvfs:
+        [nfs_num, nfs] = add_nfs(user, nvf.vnf.nf.all())
 
-        nvf = Template(u'''\
+        t = Template(u'''\
 server{{num}}_init:
     type: OS::Heat::MultipartMime
     properties:
@@ -46,6 +46,20 @@ server{{num}}_init:
       - config: {get_resource: credentials}
 {{nfs}}
 
+  server{{num}}_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: network
+      fixed_ips:
+        - subnet_id: network
+
+  server{{num}}_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: provider
+      port_id: { get_resource: server{{num}}_port }
+
+
   server{{num}}:
     type: OS::Nova::Server
     properties:
@@ -53,7 +67,7 @@ server{{num}}_init:
       image: {{image}}
       flavor: {{flavor}}
       networks:
-      - network: network
+        - port: { get_resource: server{{num}}_port }
       user_data_format: RAW
       user_data:
          get_resource: server{{num}}_init
@@ -63,14 +77,14 @@ server{{num}}_init:
         for nf in range(0, nfs_num):
             list_nfs += "      - config: {get_resource: nf_" + str(nf) + "}"
 
-        nvf = nvf.render(
-            name=bbu.rrh.name,
-            image=bbu.vnf.name,
+        t = t.render(
+            name=nvf.name,
+            image=nvf.vnf.name,
             flavor="small",
             num=num,
             nfs=list_nfs,
         )
-        elements += nfs + nvf
+        elements += nfs + t
         num += 1
 
     return elements
@@ -89,6 +103,22 @@ parameters:
     default: net
 
 resources:
+  credentials:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        chpasswd:
+          list: |
+            {{user}}:{{password}}
+          expire: False
+
+  user_config:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        users:
+        - default
+        - name: {{user}}
 
   ''')
     header = header.render(
@@ -97,11 +127,15 @@ resources:
         password=ns.operator.password,
     )
 
-    list_bbus = add_bbus(ns.operator.user.username, bbus)
+    list_bbus = add_nvf(ns.operator.user.username, bbus)
+    if channels is not None:
+        list_channels = add_nvf(ns.operator.user.username, channels)
+    if ues is not None:
+        list_ues = add_nvf(ns.operator.user.username, ues)
 
-    template = header + list_bbus
+    template = header + list_bbus + list_channels + list_ues
     print template
-    # create_stack(ns, template, ns.scenario.vim)
+    create_stack(ns, template, ns.scenario.vim)
 
 
 def delete_deploy(ns):
