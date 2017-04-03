@@ -39,17 +39,25 @@ class Utran(Ns):
 
     def create_Channel(self, list):
         for element in list:
+            bbu = get_object_or_404(BBU, name=element['bbu'])
+            element.pop('bbu')
             channel = Channel(**element)
             channel.ns = self
             channel.operator = self.operator
             channel.save()
+            bbu.canal = channel
+            bbu.save()
 
     def create_UE(self, list):
         for element in list:
+            bbu = get_object_or_404(BBU, name=element['bbu'])
+            element.pop('bbu')
             ue = UE(**element)
             ue.ns = self
             ue.operator = self.operator
             ue.save()
+            bbu.ues.add(ue)
+            bbu.save()
 
     def create(self):
         doc = yaml.load(self.file)
@@ -73,6 +81,19 @@ class Utran(Ns):
         return True
 
 
+class Channel(Nvf):
+    sinr = models.FloatField(default=0.0)
+    delay = models.FloatField(default=0.0)
+
+
+class UE(Nvf):
+    sensibility = models.FloatField(default=0.0)
+    service = models.FloatField(default=3600)
+    delay = models.FloatField(default=0.0)
+    longitude = models.FloatField(default=12.3)
+    latitude = models.FloatField(default=1.3)
+
+
 class BBU(Nvf):
     # Downlink
     freC_DL = models.PositiveIntegerField(null=True, blank=True, default=20)
@@ -87,15 +108,17 @@ class BBU(Nvf):
     #
     radio = models.CharField(max_length=120, null=True, blank=True, default=0)
     rrh = models.ForeignKey(RRH, null=True, blank=True)
+    canal = models.ForeignKey(Channel, null=True, blank=True)
+    ues = models.ManyToManyField(UE, blank=True)
 
     def __unicode__(self):
-        return self.name.split('-')[1]
+        return self.name
 
     def get_absolut_url(self):
         return reverse("bbus:bbu", kwargs={"id": self.id})
 
     def get_name(self):
-        return self.name.split('-')[1]
+        return self.name
 
     def rb_assigment(self):
         if self.bw_dl == 1400000:
@@ -135,12 +158,4 @@ class BBU(Nvf):
         ordering = ["-timestamp", "-update"]
 
 
-class Channel(Nvf):
-    sinr = models.FloatField(default=0.0)
-    delay = models.FloatField(default=0.0)
 
-
-class UE(Nvf):
-    sensibility = models.FloatField(default=0.0)
-    service = models.FloatField(default=3600)
-    delay = models.FloatField(default=0.0)

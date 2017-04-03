@@ -49,12 +49,10 @@
 
 <h2 class="sub-header">Associated Virtual Channel</h2>
 {% include "partials/utrans/vchannels.html" %}
-{% include "base/partials/paginator.html" with object_list=channels %}
-
+<br>
 <h2 class="sub-header">Associated Virtual User Equipment</h2>
-{% include "partials/utrans/vchannels.html" %}
-{% include "base/partials/paginator.html" %}
-
+{% include "partials/utrans/vue.html" %}
+<br>
 <h3>Monitoring</h3>
 <div class="users-rb" style="float:left;text-align:center">
     <div id="users" class="flot-mark"></div>

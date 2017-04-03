@@ -33,7 +33,6 @@ def read_bbus(doc, operator):
             data = check_parameters(parameters, keys)
             vnf = check_vnf(data['vnf'], operator)
             if check_content(parameters, keys) is not False and data is not False and vnf is not False:
-                data['name'] = data['name'] + '-' + data['ip']
                 data['vnf'] = vnf
                 data['operator'] = operator
                 data['rrh'] = RRH.objects.get(ip=data['ip'])
@@ -57,6 +56,7 @@ def read_channels(doc, operator):
                 vnf = check_vnf(data['vnf'], operator)
                 if check_content(channel, keys) is not False and data is not False and vnf is not False:
                     data['vnf'] = vnf
+                    data['bbu'] = bbu
                     list.append(data)
                 else:
                     return False
@@ -79,6 +79,7 @@ def read_ues(doc, operator):
                     vnf = check_vnf(data['vnf'], operator)
                     if check_content(params, keys) is not False and data is not False and vnf is not False:
                         data['vnf'] = vnf
+                        data['bbu'] = bbu
                         list.append(data)
             else:
                 return None

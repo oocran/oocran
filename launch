@@ -14,6 +14,7 @@ then
     celery -A OOCRAN worker -l info &
     python manage.py runserver 0.0.0.0:8000
 else
-    echo "Mode doesn't found!"
-    exit 0
+    gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
+    #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"	
+    python manage.py runserver
 fi

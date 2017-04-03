@@ -6,67 +6,17 @@
         <th style="text-align: center;">Latitude</th>
         <th style="text-align: center;">Sensibility</th>
         <th style="text-align: center;">Service</th>
-        <th style="text-align: center;">Price</th>
-        <th style="text-align: center;">Cost</th>
-        <th style="text-align: center;">Status</th>
-        <th style="text-align: center;">Actions</th>
     </tr>
     </thead>
     <tbody>
-    {% for NVFI in utrans %}
-    {% if NVFI.area.name == area.name%}
+    {% for ue in bbu.ues.all %}
     <tr>
-        <td style="text-align: center;vertical-align: middle"><a href='{{NVFI.get_absolut_url}}'>{{NVFI.name}}</a></td>
-        <td style="text-align: center;vertical-align: middle">2.2</td>
-        <td style="text-align: center;vertical-align: middle">1.2</td>
-        <td style="text-align: center;vertical-align: middle">3.2</td>
+        <td style="text-align: center;vertical-align: middle">{{ue.name}}</td>
+        <td style="text-align: center;vertical-align: middle">{{ue.longitude}}</td>
+        <td style="text-align: center;vertical-align: middle">{{ue.latitude}}</td>
+        <td style="text-align: center;vertical-align: middle">{{ue.sensibility}}</td>
         <td style="text-align: center;vertical-align: middle">Voice</td>
-        <td style="text-align: center;vertical-align: middle">{{NVFI.price}}/h</td>
-        <td style="text-align: center;vertical-align: middle">{{NVFI.cost}} $</td>
-        <td style="text-align: center;vertical-align: middle">{{NVFI.vim}}</td>
-        <td id="status-{{NVFI.id}}" style="text-align: center;vertical-align: middle"><p
-                style="clear:left;margin-bottom:0px">{{NVFI.status}}</p></td>
-        <td style="text-align: center;vertical-align: middle">
-            <button type="button" style="display:inline-block;" id="nvfi-{{NVFI.id}}" data-loading-text="Working..."
-                    class="btn btn-default">{% if NVFI.status == "Running" %}Shut Down{% elif NVFI.status == "Shut
-                Down"%}Launch{% endif %}
-            </button>
-            <div class="dropdown" style="display:inline-block;">
-                <button id="dropdown-{{NVFI.id}}" class="btn btn-default dropdown-toggle" type="button"
-                        data-toggle="dropdown" data-loading-text="">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="{{NVFI.get_absolut_url}}">Details</a></li>
-                    <li><a href="{% url 'ns:template' %}">Template</a></li>
-                    <li><a style="color:red" href="{% url 'bbus:delete' NVFI.id %}">Delete</a></li>
-                </ul>
-            </div>
-        </td>
     </tr>
-
-    <script>
-                      $(document).ready(function(){
-                        var value = "{{NVFI.status}}";
-
-                        if(value == "Shut Down") {
-                            console.log("shutdown");
-                            $('#nvfi-{{NVFI.id}}').button('reset');
-                        }
-                        else if(value == "Running") {
-                            console.log("running");
-                            $('#nvfi-{{NVFI.id}}').button('reset');
-                        }
-                        else {
-                            $('#nvfi-{{NVFI.id}}').button('loading');
-                            $('#dropdown-{{NVFI.id}}').button('loading');
-                        }
-                      });
-
-
-    </script>
-    {% endif %}
-    {% include "partials/utrans/javascript/launch-shutdown.html" %}
     {%endfor%}
     </tbody>
 </table>
