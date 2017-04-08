@@ -4,6 +4,7 @@ from django.db import models
 from .orchestrator import price, read_yaml, jsontoheat
 from scenarios.models import Scenario
 from vnfs.models import Vnf, Operator
+from vims.models import Vim
 from django.utils import timezone
 
 
@@ -15,7 +16,8 @@ class Ns(models.Model):
     status = models.CharField(max_length=120, default="Shut Down")
     price = models.FloatField(default=0)
     total = models.FloatField(default=0)
-    vim = models.CharField(max_length=120, default='Near')
+    vim_option = models.CharField(max_length=120, default="Near")
+    vim = models.ForeignKey(Vim, on_delete=models.CASCADE, null=True, blank=True)
     launch_time = models.DateTimeField(null=True, blank=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -60,6 +62,8 @@ class Nvf(models.Model):
     ram = models.IntegerField(null=True, blank=True, default=1024)
     disk = models.IntegerField(null=True, blank=True, default=1)
     vnf = models.ForeignKey(Vnf, null=True, blank=True)
+    flavor = models.CharField(max_length=120, default="small")
+    mgmt_ip = models.CharField(max_length=120, blank=True, null=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 

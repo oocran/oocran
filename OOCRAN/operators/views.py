@@ -48,7 +48,7 @@ def add(request):
             operator = form.save(commit=False)
             if operator.check_used_name():
                 operator.create(form.cleaned_data['email'])
-                # update_scenarios(operator)
+                update_scenarios(operator)
                 messages.success(request, "Operator successfully created!", extra_tags="alert alert-success")
                 return redirect("operators:list")
             else:

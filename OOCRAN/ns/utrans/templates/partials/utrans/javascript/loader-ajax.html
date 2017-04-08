@@ -4,13 +4,10 @@
 
         $.ajax({
             type: "GET",
-            url: "{% url 'bbus:create' id=scenario.id %}",
+            url: "{% url 'utrans:create' id=scenario.id %}",
             success: function(response) {
                 $('.modal-content').html(response);
             },
         });
     }
-
-
-
 </script>

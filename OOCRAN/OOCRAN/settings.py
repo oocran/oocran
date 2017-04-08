@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'operators',
     'vnfs',
     'OOCRAN',
-    'ns.bbus',
+    'ns.utrans',
     'ns.ns',
     'ns.epcs',
     'vims',

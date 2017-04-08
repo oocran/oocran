@@ -1,5 +1,5 @@
 from jinja2 import Template
-from drivers.OpenStack.APIs.heat.heat import create_stack_vnf, delete_stack
+from drivers.OpenStack.APIs.heat.heat import create_stack, delete_stack
 
 
 def add_nfs(vnf):
@@ -118,9 +118,25 @@ resources:
     nfv = nvf(vnf)
 
     template = header + nfv
-    print template
-    create_stack_vnf(vnf, template, vim)
+    create_stack(name=vnf.name,
+                 template=template,
+                 domain=vim.domain,
+                 username=vim.username,
+                 project_domain_name=vim.project_domain,
+                 project_name=vim.project,
+                 password=vim.password,
+                 ip=vim.ip,
+                 operator_name=vnf.operator.name,
+                 operator_password=vnf.operator.password)
 
 
-def delete_deploy(ns):
-    delete_stack(ns, ns.scenario.vim)
+def delete(vnf, vim):
+    delete_stack(name=vnf.name,
+                 domain=vim.domain,
+                 username=vim.username,
+                 project_domain_name=vim.project_domain,
+                 project_name=vim.project,
+                 password=vim.password,
+                 ip=vim.ip,
+                 operator_name=vnf.operator.name,
+                 operator_password=vnf.operator.password)

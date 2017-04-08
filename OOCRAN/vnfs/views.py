@@ -42,14 +42,15 @@ def create(request):
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             vnf = form.save(commit=False)
-            # vnf.flavor = get_flavors(vnf)
             vnf.operator = get_object_or_404(Operator, name=request.user.username)
-            vnf.save()
-            vnf.add_nf(form.cleaned_data['nf'])
-            vim = Vim.objects.all()
             if request.user.is_staff:
                 vnf.visibility = "Public"
-            tasks.create_vnf.delay(vnf.id, vim[0].id)
+            else:
+                vnf.visibility = "Private"
+            vnf.save()
+
+            vnf.add_nf(form.cleaned_data['nf'])
+
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
             return redirect("vnfs:list")
     if form.errors:
@@ -65,8 +66,11 @@ def create(request):
 
 @login_required(login_url='/login/')
 def delete(request, id=None):
-    instance = get_object_or_404(Vnf, id=id)
-    instance.delete()
+    vnf = get_object_or_404(Vnf, id=id)
+    # tasks.delete_vnf.delay(vnf.id)
+    # image = Image.objects.get(name=vnf.name)
+    # image.delete()
+    vnf.delete()
 
     messages.success(request, "VNF successfully deleted!", extra_tags="alert alert-success")
     return redirect("vnfs:list")

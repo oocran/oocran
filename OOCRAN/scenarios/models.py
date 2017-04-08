@@ -2,7 +2,7 @@ from __future__ import unicode_literals, absolute_import
 from django.db import models
 import math
 from django.core.urlresolvers import reverse
-from drivers.OpenStack.deployments.areas import create_area, delete_area
+from drivers.OpenStack.deployments.infrastructure import create_infrastructure, delete_area
 from vims.models import Vim
 from operators.models import Operator
 from .orchestrator import read_yaml, distance
@@ -12,17 +12,17 @@ from celery import task
 class RRH(models.Model):
     name = models.CharField(max_length=120)
     ip = models.CharField(max_length=120)
-    place = models.CharField(default="", max_length=500)
+    place = models.CharField(max_length=500)
     latitude = models.CharField(max_length=120)
     longitude = models.CharField(max_length=120)
     pt = models.IntegerField(default=20)
     neighbor = models.CharField(max_length=500, null=True, blank=True)
-    bw = models.CharField(max_length=500, default=20)
-    driver_version = models.CharField(default="1.0.0", max_length=20)
+    bw = models.CharField(max_length=500)
+    driver_version = models.CharField(max_length=20)
     freCs = models.CharField(max_length=500, null=True, blank=True, default='')
-    first_band = models.CharField(default="2390000000-2400000000", max_length=50)
-    second_band = models.CharField(default="2400000000-2500000000", max_length=50)
-    third_band = models.CharField(default="2500000000-2600000000", max_length=50)
+    first_band = models.CharField(max_length=50)
+    second_band = models.CharField(max_length=50)
+    third_band = models.CharField(max_length=50)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -65,9 +65,7 @@ class Scenario(models.Model):
     file = models.FileField(upload_to='btss/')
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
     price = models.FloatField(default=0)
-    status = models.BooleanField(default="False")
     rrh = models.ManyToManyField(RRH)
-    vim = models.ForeignKey(Vim, null=True, blank=True, )
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -95,21 +93,6 @@ class Scenario(models.Model):
         [scenario.delete() for scenario in scenarios]
         rrhs = RRH.objects.filter(place=self.name)
         [rrh.delete() for rrh in rrhs]
-
-    def change_status(self, nvfi):
-        if self.status is False:
-            create_area(self)
-            self.status = True
-            self.save()
-        elif self.status is True:
-            self.status = False
-            delete_area(self)
-            self.save()
-        else:
-            if any(nvfi) is False:
-                self.status = False
-                delete_area(self)
-                self.save()
 
     def create_frontend(self, list):
         self.save()
@@ -140,33 +123,39 @@ class Scenario(models.Model):
         array += "]"
         return array
 
-    def choose_vim(self):
-        vims = Vim.objects.all()
-        res = {}
-        for vim in vims:
-            res[distance(self.longitude, self.latitude, vim.longitude, vim.latitude)] = vim
-        res = sorted(res.items(), key=lambda x: x[0])
-        self.vim = res[0][1]
-        self.save()
-
     @task()
     def add_operator(id):
         admin = Scenario.objects.get(pk=id)
         operators = Operator.objects.filter()
         for operator in operators:
             if not operator.user.is_staff:
-                scenario = Scenario(name=admin.name,
-                                    latitude=admin.latitude,
-                                    longitude=admin.longitude,
-                                    description=admin.description,
-                                    file=admin.file,
-                                    operator=operator,
-                                    price=admin.price,
-                                    vim=admin.vim,)
+                scenario = Scenario(
+                    name=admin.name,
+                    latitude=admin.latitude,
+                    longitude=admin.longitude,
+                    description=admin.description,
+                    file=admin.file,
+                    operator=operator,
+                    price=admin.price,
+                    vim=admin.vim, )
                 scenario.save()
                 rrhs = admin.rrh.all()
                 [scenario.rrh.add(rrh) for rrh in rrhs]
                 scenario.save()
+
+    def update_operators(self, operator):
+        scenario = Scenario(
+            name=self.name,
+            latitude=self.latitude,
+            longitude=self.longitude,
+            description=self.description,
+            file=self.file,
+            operator=operator,
+            price=self.price, )
+        scenario.save()
+        rrhs = self.rrh.all()
+        [scenario.rrh.add(rrh) for rrh in rrhs]
+        scenario.save()
 
     class Meta:
         ordering = ["-timestamp", "-update"]

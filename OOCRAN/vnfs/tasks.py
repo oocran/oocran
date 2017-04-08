@@ -3,9 +3,9 @@ from .models import Vnf
 from vims.models import Vim
 from images.models import Image
 from celery import task
-import time
-from drivers.OpenStack.deployments.vnf import create
+from drivers.OpenStack.deployments.vnf import create, delete
 from drivers.OpenStack.APIs.nova.nova import create_snapshot
+from drivers.OpenStack.APIs.glance.glance import delete_image
 
 
 @task()
@@ -13,10 +13,17 @@ def create_vnf(vnf, vim):
     vnf = Vnf.objects.get(pk=vnf)
     vim = Vim.objects.get(pk=vim)
     create(vnf, vim)
-    time.sleep(5)
-    create_snapshot(vnf)
-    image = Image.objects.create(name=vnf.name, format="qcow2", operator=vnf.operator)
-    print "Vnf created"
+    # create_snapshot(vnf)
+    # Image.objects.create(name=vnf.name, format="qcow2", operator=vnf.operator)
+    delete(vnf, vim)
+    print "Vnf created!!!"
+
+
+@task()
+def delete_vnf(vnf):
+    vnf = Vnf.objects.get(pk=vnf)
+    delete_image(vnf)
+    print "Vnf deleted"
 
 
 @task()

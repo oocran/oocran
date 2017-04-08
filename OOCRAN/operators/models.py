@@ -3,15 +3,16 @@ from django.contrib.auth.models import User
 from django.db import models
 from vims.models import Vim
 from drivers.OpenStack.APIs.keystone.keystone import create_user, delete_user
+from drivers.OpenStack.deployments.infrastructure import create_infrastructure
 
 
 class Operator(models.Model):
     name = models.CharField(max_length=120)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    password = models.CharField(null=True, blank=True,max_length=120)
+    password = models.CharField(max_length=120)
     email = models.EmailField(null=True, blank=True)
-    vnfm = models.CharField(max_length=120, default="Heat")
-    vagrant_hypervisor = models.CharField(max_length=120, default="libvirt")
+    vnfm = models.CharField(max_length=120)
+    vagrant_hypervisor = models.CharField(max_length=120)
     price = models.FloatField(default=0)
 
     def __unicode__(self):
@@ -27,10 +28,12 @@ class Operator(models.Model):
     def create(self, email):
         user = User.objects.create_user(username=self.name, password=self.password, email=email)
         self.user = user
+        self.save()
         if self.vnfm == "Heat":
             vims = Vim.objects.all()
             for vim in vims:
                 create_user(self, vim)
+                create_infrastructure(self, vim)
         self.save()
 
     def remove(self):

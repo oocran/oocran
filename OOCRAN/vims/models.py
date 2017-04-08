@@ -1,14 +1,10 @@
 from __future__ import unicode_literals
-from drivers.OpenStack.APIs.glance.glance import upload_image
 from django.db import models
-import os
-import os.path
-import urllib
 
 
 class Vim(models.Model):
     name = models.CharField(max_length=120)
-    type = models.CharField(max_length=120, default='OpenStack')
+    type = models.CharField(max_length=120)
     ip = models.CharField(max_length=120)
     latitude = models.FloatField(max_length=120)
     longitude = models.FloatField(max_length=120)

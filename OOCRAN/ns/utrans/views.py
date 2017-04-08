@@ -2,8 +2,9 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from operators.models import Operator
-from ns.bbus.forms import DeploymentForm, DeploymentVagrantForm
+from ns.utrans.forms import DeploymentForm, DeploymentVagrantForm
 from .models import Ns, Utran, BBU
+from vims.models import Vim
 from scenarios.models import Scenario
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator
@@ -31,7 +32,9 @@ def create(request, id=None):
             if operator.vnfm == "Vagrant":
                 ns.vim = "Vagrant"
             else:
-                ns.vim = form.cleaned_data['vim']
+                ns.vim_option = form.cleaned_data['vim_option']
+                ns.vim = get_object_or_404(Vim, name="UPC")
+
             reply = ns.create()
             if reply is False:
                 messages.success(request, "VNF is not found!", extra_tags="alert alert-danger")
@@ -41,10 +44,10 @@ def create(request, id=None):
                 ns.save()
                 messages.success(request, "NS successfully created!", extra_tags="alert alert-success")
 
-        return redirect("bbus:info", id=id)
+        return redirect("utrans:info", id=id)
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")
-        return redirect("bbus:info", id=id)
+        return redirect("utrans:info", id=id)
 
     context = {
         "user": request.user,
@@ -61,7 +64,7 @@ def launch(request, id=None):
     utran.save()
 
     messages.success(request, "NS successfully Launched!", extra_tags="alert alert-success")
-    return redirect("bbus:info", id=utran.scenario.id)
+    return redirect("utrans:info", id=utran.scenario.id)
 
 
 @login_required(login_url='/login/')
@@ -70,7 +73,7 @@ def shut_down(request, id=None):
     tasks.shut_down.delay(id)
 
     messages.success(request, "NS shut down!", extra_tags="alert alert-success")
-    return redirect("bbus:info", id=utran.scenario.id)
+    return redirect("utrans:info", id=utran.scenario.id)
 
 
 @login_required(login_url='/login/')
@@ -94,7 +97,7 @@ def delete(request, id=None):
     utran.delete()
 
     messages.success(request, "NS successfully deleted!", extra_tags="alert alert-success")
-    return redirect("bbus:info", id=utran.scenario.id)
+    return redirect("utrans:info", id=utran.scenario.id)
 
 
 @login_required(login_url='/login/')
