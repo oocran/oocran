@@ -13,7 +13,7 @@
     <li class="active">{{bbu.get_name}}</li>
 </ol>
 
-<div class="panel panel-default">
+<div class="panel panel-default" style="float:left;width:45%;margin-right:15px;margin-bottom:50px">
     <div class="panel-heading">Parameters</div>
     <table class="table">
         <tbody>
@@ -42,17 +42,51 @@
             <td>{{bbu.bw_ul}}</td>
             <td>Hz</td>
         </tr>
+        <tr>
+            <th>Management IP</th>
+            <td>{{bbu.mgmt_ip}}</td>
+            <td>Hz</td>
+        </tr>
         </tbody>
     </table>
 </div>
 <br>
 
+<div class="panel panel-default" style="float:right;width:45%;margin-top:20px;margin-bottom:150px">
+    <div class="panel-heading">Resources</div>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Number of CPUs</th>
+            <td>{{bbu.cpu}}</td>
+            <td>cores</td>
+        </tr>
+        <tr>
+            <th>RAM</th>
+            <td>{{bbu.ram}}</td>
+            <td>GB</td>
+        </tr>
+        <tr>
+            <th>Disc Assigned</th>
+            <td>{{bbu.disk}}</td>
+            <td>GB</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{%if bbu.canal != None %}
 <h2 class="sub-header">Associated Virtual Channel</h2>
 {% include "partials/utrans/vchannels.html" %}
 <br>
+{%endif%}
+
+{%if bbu.ues != None %}
 <h2 class="sub-header">Associated Virtual User Equipment</h2>
 {% include "partials/utrans/vue.html" %}
 <br>
+{%endif%}
+
 <h3>Monitoring</h3>
 <div class="users-rb" style="float:left;text-align:center">
     <div id="users" class="flot-mark"></div>

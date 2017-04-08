@@ -35,14 +35,8 @@ def create(request, id=None):
                 ns.vim_option = form.cleaned_data['vim_option']
                 ns.vim = get_object_or_404(Vim, name="UPC")
 
-            reply = ns.create()
-            if reply is False:
-                messages.success(request, "VNF is not found!", extra_tags="alert alert-danger")
-            if reply is None:
-                messages.success(request, "The content format is not valid!", extra_tags="alert alert-danger")
-            if reply is True:
-                ns.save()
-                messages.success(request, "NS successfully created!", extra_tags="alert alert-success")
+            [reply, tag] = ns.create()
+            messages.success(request, reply, extra_tags=tag)
 
         return redirect("utrans:info", id=id)
     if form.errors:

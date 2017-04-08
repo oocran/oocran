@@ -74,18 +74,20 @@ class Utran(Ns):
             self.create_Channel(channels)
             self.create_UE(ues)
             self.save()
-            return True
+            return "NS successfully created!", "alert alert-success"
+        elif type(bbus) is list and type(ues) is list and channels is None:
+            self.save()
+            self.create_BBU(bbus)
+            self.create_UE(ues)
+            self.save()
+            return "NS successfully created!", "alert alert-success"
         elif type(bbus) is list and channels is None and ues is None:
             self.save()
             self.create_BBU(bbus)
             self.save()
-            return True
-        elif bbus is False or channels is False or ues is False:
-            return None
-        elif bbus is True or channels is True or ues is True:
-            return False
+            return "NS successfully created!", "alert alert-success"
         else:
-            return False
+            return "The content format is not valid!", "alert alert-danger"
 
     def choose_vim(self):
         vims = Vim.objects.all()

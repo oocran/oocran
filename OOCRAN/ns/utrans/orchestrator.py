@@ -32,17 +32,23 @@ def read_bbus(doc, operator):
         for rrh, parameters in doc.items():
             data = check_parameters(parameters, keys)
             vnf = check_vnf(data['vnf'], operator)
-            if check_content(parameters, keys) is not False and data is not False and vnf is not False:
-                data['vnf'] = vnf
-                data['operator'] = operator
-                data['rrh'] = RRH.objects.get(ip=data['ip'])
-                data.pop('ip')
-                list.append(data)
+            if check_content(parameters, keys) is not False:
+                if data is not False:
+                    if vnf is not False:
+                        data['vnf'] = vnf
+                        data['operator'] = operator
+                        data['rrh'] = RRH.objects.get(ip=data['ip'])
+                        data.pop('ip')
+                        list.append(data)
+                    else:
+                        return "VNF is not found!", "alert alert-danger"
+                else:
+                    return "The content format is not valid!", "alert alert-danger"
             else:
-                return False
+                return "The content format is not valid!", "alert alert-danger"
         return list
     except:
-        return True
+        return "The content format is not valid!", "alert alert-danger"
 
 
 def read_channels(doc, operator):
@@ -54,17 +60,23 @@ def read_channels(doc, operator):
                 channel = conf['channel']
                 data = check_parameters(channel, keys)
                 vnf = check_vnf(data['vnf'], operator)
-                if check_content(channel, keys) is not False and data is not False and vnf is not False:
-                    data['vnf'] = vnf
-                    data['bbu'] = bbu
-                    list.append(data)
+                if check_content(channel, keys) is not False:
+                    if data is not False:
+                        if vnf is not False:
+                            data['vnf'] = vnf
+                            data['bbu'] = bbu
+                            list.append(data)
+                        else:
+                            return "VNF is not found!", "alert alert-danger"
+                    else:
+                        return "The content format is not valid!", "alert alert-danger"
                 else:
-                    return False
+                    return "The content format is not valid!", "alert alert-danger"
             else:
                 return None
         return list
     except:
-        return True
+        return "The content format is not valid!", "alert alert-danger"
 
 
 def read_ues(doc, operator):
@@ -77,15 +89,23 @@ def read_ues(doc, operator):
                 for ue, params in users.items():
                     data = check_parameters(params, keys)
                     vnf = check_vnf(data['vnf'], operator)
-                    if check_content(params, keys) is not False and data is not False and vnf is not False:
-                        data['vnf'] = vnf
-                        data['bbu'] = bbu
-                        list.append(data)
+                    if check_content(params, keys) is not False:
+                        if data is not False:
+                            if vnf is not False:
+                                data['vnf'] = vnf
+                                data['bbu'] = bbu
+                                list.append(data)
+                            else:
+                                return "VNF is not found!", "alert alert-danger"
+                        else:
+                            return "The content format is not valid!", "alert alert-danger"
+                    else:
+                        return "The content format is not valid!", "alert alert-danger"
             else:
                 return None
         return list
     except:
-        return True
+        return "The content format is not valid!", "alert alert-danger"
 
 
 def jsontoheat(code):
