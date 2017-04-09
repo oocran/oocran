@@ -23,8 +23,11 @@ def create_stack(name, template, domain, username, project_domain_name, project_
         sleep(10)
 
     if stack['stack_status'] == 'CREATE_COMPLETE':
-        print stack
+        for output in stack['outputs']:
+            print output['output_key']
+            print output['output_value']
         print "Stack succesfully created."
+        return stack['outputs']
     else:
         return "Stack fall to unknow status: {}".format(stack)
 

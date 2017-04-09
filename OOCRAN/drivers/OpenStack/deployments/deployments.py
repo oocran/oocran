@@ -132,8 +132,8 @@ outputs:
 
     for nvf in range(0, num):
         output = Template(u'''\
-vnf{{num}}_mgmt:
-    value: { get_attr: [ vnf{{num}}, networks, provider, 0 ] }
+vnf{{num}}:
+    value: { get_attr: [ vnf{{num}}_floating_ip, floating_ip_address ] }
   ''')
 
         output = output.render(
@@ -191,20 +191,35 @@ resources:
 
     template = header + list_bbus + list_channels + list_ues + output
     print template
-    '''create_stack(name=ns.name,
-                 template=template,
-                 domain=ns.vim.domain,
-                 username=ns.vim.username,
-                 project_domain_name=ns.vim.project_domain,
-                 project_name=ns.vim.project,
-                 password=ns.vim.password,
-                 ip=ns.vim.ip,
-                 operator_name=ns.operator.name,
-                 operator_password=ns.operator.password)'''
+    ips = create_stack(name=ns.name,
+                       template=template,
+                       domain=ns.vim.domain,
+                       username=ns.vim.username,
+                       project_domain_name=ns.vim.project_domain,
+                       project_name=ns.vim.project,
+                       password=ns.vim.password,
+                       ip=ns.vim.ip,
+                       operator_name=ns.operator.name,
+                       operator_password=ns.operator.password)
 
+    num = 0
+    for nfv in bbus:
+        nfv.mgmt_ip = ips[num]['output_value']
+        nfv.save()
+        num += 1
+    if channels is not None:
+        for nfv in channels:
+            nfv.mgmt_ip = ips[num]['output_value']
+            nfv.save()
+            num += 1
+    if ues is not None:
+        for nfv in ues:
+            nfv.mgmt_ip = ips[num]['output_value']
+            nfv.save()
+            num += 1
 
 def delete_deploy(ns):
-    '''delete_stack(name=ns.name,
+    delete_stack(name=ns.name,
                  domain=ns.vim.domain,
                  username=ns.vim.username,
                  project_domain_name=ns.vim.project_domain,
@@ -212,4 +227,4 @@ def delete_deploy(ns):
                  password=ns.vim.password,
                  ip=ns.vim.ip,
                  operator_name=ns.operator.name,
-                 operator_password=ns.operator.password)'''
+                 operator_password=ns.operator.password)

@@ -138,6 +138,13 @@ class BBU(Nvf):
     def get_name(self):
         return self.name
 
+    def get_ues(self):
+        if len(self.ues.all()) != 0:
+            return self.ues
+        else:
+            print 2
+            return None
+
     def rb_assigment(self):
         if self.bw_dl == 1400000:
             self.rb = 18000000

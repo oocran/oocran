@@ -57,6 +57,7 @@
             </div>
             <div id="dependencies" class="tab-pane fade">
                 <br>
+                <h5>List of Libraries</h5>
                 <div id="availiable" ondrop="drop(event)" ondragover="allowDrop(event)">
                     {% for library in libraries %}
                     <div draggable="true" ondragstart="drag(event)" id="{{library.id}}" width="88" height="31" id=""
@@ -65,7 +66,7 @@
                     </div>
                     {% endfor %}
                 </div>
-
+                <h5>Selected Libraries</h5>
                 <div id="selected" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
                 <div style="display:none">
