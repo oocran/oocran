@@ -34,6 +34,8 @@ def create(request):
             nf.operator = get_object_or_404(Operator, name=request.user.username)
             if request.user.is_staff:
                 nf.visibility = "Public"
+            else:
+                nf.visibility = "Private"
             nf.save()
             for library in form.cleaned_data['libraries']:
                 nf.libraries.add(get_object_or_404(Library, id=library))

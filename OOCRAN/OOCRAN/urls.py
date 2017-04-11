@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^vims/', include("vims.urls", namespace='vims')),
     url(r'^epcs/', include("ns.epcs.urls", namespace='epcs')),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', home,name="home"),
+    url(r'^$', home, name="home"),
 
 
     url(r'^login/$', views.login, {'template_name': 'base/login.html', 'authentication_form': LoginForm}, name='login'),

@@ -9,15 +9,14 @@
     </tr>
     </thead>
     <tbody>
-    {% for area in object_list %}
+    {% for scenario in object_list %}
     <tr>
-        <td style="text-align: center;vertical-align: middle"><a href="{% url 'utrans:info' area.id %}">{{area.name}}</a>
-        </td>
-        <td style="text-align: center;vertical-align: middle">{{area.get_infrastructure}}</td>
-        <td style="text-align: center;vertical-align: middle">{{area.get_active_infrastructures}}</td>
-        <td style="text-align: center;vertical-align: middle">{{area.price}} $</td>
+        <td style="text-align: center;vertical-align: middle"><a href="{% url 'utrans:info' scenario.id %}">{{scenario.name}}</a></td>
+        <td style="text-align: center;vertical-align: middle">{{scenario.get_infrastructure}}</td>
+        <td style="text-align: center;vertical-align: middle">{{scenario.get_active_infrastructures}}</td>
+        <td style="text-align: center;vertical-align: middle">{{scenario.price}} $</td>
         <td style="text-align: center;vertical-align: middle">
-            <a href="{% url 'utrans:info' area.id %}" class="btn btn-default" role="button">Scenario specifications</a>
+            <a href="{% url 'utrans:info' scenario.id %}" class="btn btn-default" role="button">Scenario specifications</a>
         </td>
     </tr>
     {%endfor%}

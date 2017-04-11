@@ -42,6 +42,7 @@ def create(request):
         except:
             if form.cleaned_data['password'] == form.cleaned_data['password_confirmation']:
                 vim = form.save(commit=False)
+                vim.set_public_network()
                 vim.save()
                 messages.success(request, "VIM successfully created!", extra_tags="alert alert-success")
             else:

@@ -12,12 +12,10 @@
 {% if library.check_file == True %}
 <h3>File</h3>
 <div class="panel panel-default">
-    <div class="panel-body">
-        <a href="{{library.file}}" download>
-            Download source code
-        </a>
-        <br/>
-    </div>
+	<div class="panel-body">
+		<a href="{{library.file.url}}" download>Download source code</a>
+		<br/>
+	</div>
 </div>
 {% endif %}
 <h3>Source Code</h3>

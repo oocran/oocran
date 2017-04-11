@@ -61,8 +61,9 @@ class Scenario(models.Model):
     latitude = models.FloatField(max_length=120, default='41.275621')
     longitude = models.FloatField(max_length=120, default='1.986591')
     description = models.TextField(default='Sample one mobile network deployed on the EETAC')
-    infrastructures = models.CharField(max_length=120, default='0/0')
-    file = models.FileField(upload_to='btss/')
+    total_infras = models.IntegerField(default=0)
+    active_infras = models.IntegerField(default=0)
+    file = models.FileField(upload_to='scenarios/')
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
     price = models.FloatField(default=0)
     rrh = models.ManyToManyField(RRH)
@@ -76,10 +77,10 @@ class Scenario(models.Model):
         return reverse("scenarios:details", kwargs={"id": self.id})
 
     def get_infrastructure(self):
-        return self.infrastructures.split('/')[0]
+        return self.total_infras
 
     def get_active_infrastructures(self):
-        return self.infrastructures.split('/')[1]
+        return self.active_infras
 
     def get_bts(self):
         bts = self.bts.all()

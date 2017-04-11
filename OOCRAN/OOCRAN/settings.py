@@ -136,7 +136,6 @@ LOGIN_REDIRECT_URL = '/operators'
 
 #Celery
 BROKER_URL = "amqp://oocran:oocran@localhost:5672/oocran"
-
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

@@ -42,7 +42,6 @@ def shut_down(id):
     utran.remove_frecuencies()
 
     if utran.vim_option == "Near":
-        print "dins"
         OpenStack_delete_deploy(utran)
     elif utran.vim_option == "Vagrant":
         Vagrant_delete_deploy(utran)

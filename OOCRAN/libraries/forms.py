@@ -9,9 +9,7 @@ class LibraryForm(forms.ModelForm):
         super(LibraryForm, self).__init__(*args, **kwargs)
         self.fields['type'] = forms.ChoiceField(required=False,
                                                 widget=forms.Select(attrs={"onChange": 'select(this);'}),
-                                                choices=[("file", "file"), ("script", "script"),
-                                                         ("ansible", "ansible"),
-                                                         ("puppet", "puppet")])
+                                                choices=[("file", "file"), ("script", "script")])  # ,("ansible", "ansible"),("puppet", "puppet")])
 
     class Meta:
         model = Library

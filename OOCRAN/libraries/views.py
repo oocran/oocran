@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.contrib.sites.shortcuts import get_current_site
 from .models import Library
 from operators.models import Operator
 from .forms import LibraryForm
@@ -30,12 +30,7 @@ def create(request):
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             library = form.save(commit=False)
-            if library.type == "file" or library.type == "script":
-                library.type = "ungrouped"
-
-            library.operator = get_object_or_404(Operator, name=request.user.username)
-            if request.user.is_staff:
-                library.visibility = "Public"
+            library.create(request)
             library.save()
             messages.success(request, "Library successfully added!", extra_tags="alert alert-success")
             return redirect("libraries:list")

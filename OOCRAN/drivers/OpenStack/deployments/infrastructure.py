@@ -42,10 +42,9 @@ resources:
 
   ''')
     template = file.render(
-        external="0db4e24b-a657-43e3-bb65-9aaf7c9fb21d",
+        external=vim.public_network,
     )
 
-    print template
     create_stack(name="infrastructure",
                  template=template,
                  domain=vim.domain,

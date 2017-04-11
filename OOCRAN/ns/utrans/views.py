@@ -2,9 +2,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from operators.models import Operator
-from ns.utrans.forms import DeploymentForm, DeploymentVagrantForm
+from ns.utrans.forms import DeploymentForm
 from .models import Ns, Utran, BBU
-from vims.models import Vim
 from scenarios.models import Scenario
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator
@@ -15,12 +14,10 @@ from django.http import HttpResponse
 @login_required(login_url='/login/')
 def create(request, id=None):
     operator = get_object_or_404(Operator, name=request.user.username)
-    if operator.vnfm == "Vagrant":
-        form = DeploymentVagrantForm(request.POST or None, request.FILES or None)
-    else:
-        form = DeploymentForm(request.POST or None, request.FILES or None)
-
     scenario = get_object_or_404(Scenario, pk=id)
+
+    form = DeploymentForm(request.POST or None, request.FILES or None)
+
     if form.is_valid():
         try:
             Ns.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
@@ -29,12 +26,6 @@ def create(request, id=None):
             ns = form.save(commit=False)
             ns.operator = operator
             ns.scenario = scenario
-            if operator.vnfm == "Vagrant":
-                ns.vim = "Vagrant"
-            else:
-                ns.vim_option = form.cleaned_data['vim_option']
-                ns.vim = get_object_or_404(Vim, name="UPC")
-
             [reply, tag] = ns.create()
             messages.success(request, reply, extra_tags=tag)
 
@@ -54,6 +45,8 @@ def create(request, id=None):
 @login_required(login_url='/login/')
 def launch(request, id=None):
     utran = get_object_or_404(Utran, id=id)
+    utran.scenario.active_infras += 1
+    utran.scenario.save()
     tasks.launch.delay(id)
     utran.save()
 
@@ -64,6 +57,8 @@ def launch(request, id=None):
 @login_required(login_url='/login/')
 def shut_down(request, id=None):
     utran = get_object_or_404(Utran, id=id)
+    utran.scenario.active_infras -= 1
+    utran.scenario.save()
     tasks.shut_down.delay(id)
 
     messages.success(request, "NS shut down!", extra_tags="alert alert-success")
@@ -84,6 +79,9 @@ def bbu(request, id=None):
 @login_required(login_url='/login/')
 def delete(request, id=None):
     utran = get_object_or_404(Utran, pk=id)
+    utran.scenario.total_infras -= 1
+    utran.scenario.save()
+
     if utran.status == "Running":
         utran.scenario.price += round(utran.cost(), 3)
         utran.scenario.save()

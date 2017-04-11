@@ -62,6 +62,15 @@ class Utran(Ns):
             bbu.save()
 
     def create(self):
+        self.scenario.total_infras += 1
+        self.scenario.save()
+
+        if self.operator.vnfm == "Vagrant":
+            self.vim = "Vagrant"
+        else:
+            self.vim_option = "Near"
+            self.vim = get_object_or_404(Vim, name="UPC")
+
         doc = yaml.load(self.file)
 
         bbus = read_bbus(doc, self.operator)

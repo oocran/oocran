@@ -28,9 +28,14 @@ class Nf(models.Model):
         lista = []
         order = self.libraries_order.split(',')
         for nf in order:
-            print nf
             lista.append(get_object_or_404(Library, id=nf))
         return lista
+
+    def check_libraries(self):
+        if len(self.libraries) == 0:
+            return False
+        else:
+            return self.libraries
 
     class Meta:
         ordering = ["-timestamp", "-update"]

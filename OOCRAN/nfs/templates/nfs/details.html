@@ -9,6 +9,7 @@
         {{nf.description | linebreaksbr}}<br/>
     </div>
     </div>
+{% if nf.check_libraries != False%}
 <h3>Libraries</h3>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -16,7 +17,8 @@
         <a href="{{library.get_absolut_url}}">{{library.name}}</a> - {{library.description}}<br>
         {% endfor %}
     </div>
-    </div>
+</div>
+{% endif%}
 <h3>Launch</h3>
 <div class="panel panel-default">
     <div class="panel-body">
