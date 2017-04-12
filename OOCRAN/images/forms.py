@@ -3,7 +3,6 @@ from .models import Image
 
 
 class ImageForm(forms.ModelForm):
-    file = forms.CharField(max_length=300)
 
     def __init__(self, *args, **kwargs):
         super(ImageForm, self).__init__(*args, **kwargs)
@@ -21,6 +20,5 @@ class ImageForm(forms.ModelForm):
         model = Image
         fields = [
             "name",
-            "file",
             "format",
         ]

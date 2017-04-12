@@ -26,5 +26,11 @@ class Vnf(models.Model):
         for id in nfs:
             self.nf.add(get_object_or_404(Nf, id=id))
 
+    def check_nf(self):
+        if len(self.nf) == 0:
+            return False
+        else:
+            return self.nf.all()
+
     class Meta:
         ordering = ["-timestamp", "-update"]

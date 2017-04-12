@@ -5,12 +5,11 @@ from .models import Image
 from OOCRAN.global_functions import paginator
 from django.contrib.auth.decorators import login_required
 from .forms import ImageForm
-from django.db.models import Q
 
 
 @login_required(login_url='/login/')
 def list(request):
-    queryset_list = Image.objects.filter(Q(operator__name=request.user.username) | Q(operator__name="admin"))
+    queryset_list = Image.objects.all()
     queryset = paginator(request, queryset_list)
 
     context = {
@@ -29,8 +28,6 @@ def create(request):
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             image = form.save(commit=False)
-            # image.download(form.cleaned_data['file'])
-            image.upload()
             image.save()
             messages.success(request, "Image successfully added!", extra_tags="alert alert-success")
             return redirect("images:list")

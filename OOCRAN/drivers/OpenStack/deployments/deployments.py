@@ -25,7 +25,7 @@ def add_nfs(nvf):
                 name=nvf.name,
                 nf=num_nf,
                 user=nvf.operator.name,
-                library=library.script,
+                library=library.script.replace('\n', '\n        '),
             )
             elements += nf_template
             num_nf += 1

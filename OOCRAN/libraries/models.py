@@ -34,10 +34,12 @@ class Library(models.Model):
             return False
 
     def create(self, request):
-        if self.type == "file" or self.type == "script":
+        if self.type == "file":
             self.type = "ungrouped"
             file = 'wget http://' + get_current_site(request).domain + '/resources/libraries/' + request.user.username + '/' + str(self.file) + '\n'
             self.script = file + self.script
+        elif self.type == "script":
+            self.type = "ungrouped"
 
         self.operator = get_object_or_404(Operator, name=request.user.username)
         if request.user.is_staff:
