@@ -1,43 +1,100 @@
 {% load staticfiles %}
 
 <script>
+    $( document ).ready(function() {
+        if("{{NVFI.status}}"=='Working-launch'){
+            var check = setInterval(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/ns/"+{{NVFI.id}}+"/state/",
+                        success: function(response) {
+                            if (response == "True"){
+                                $('#status-{{NVFI.id}}').html('Running');
+                                clearInterval(check);
+                            }
+                        },
+                    });
+            }, 5000);
+        }
+
+        else if("{{NVFI.status}}"=='Working-shutdown'){
+             var check = setInterval(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/ns/"+{{NVFI.id}}+"/state/",
+                        success: function(response) {
+                            if (response == "True"){
+                                $('#status-{{NVFI.id}}').html('Shut Down');
+                                clearInterval(check);
+                            }
+                        },
+                    });
+             }, 5000);
+        }
+        else{
+            console.log("nothing");
+        }
+
+    });
+
+</script>
+
+<script>
     $(function() {
 
         var state = 0;
         var interval = null;
 
         $("#nvfi-{{NVFI.id}}").click(function(){
-            if($("#status-{{NVFI.id}}").text()=='Shut Down'){
-                $('#nvfi-{{NVFI.id}}').button({loadingText: 'Launching...'});
-                $("#nvfi-{{NVFI.id}}").button('loading');
+            if($("#nvfi-{{NVFI.id}}").text()=='Launch'){
+                $("#nvfi-{{NVFI.id}}").text('Shut Down');
                 $('#status-{{NVFI.id}}').html('<p style="margin-bottom:0px">Launching</p><img style="clear:left;margin-top:-3px" width="75px" height="25px" src="{% static 'base/images/charging.gif' %}">');
 
                 $.ajax({
                     type: "GET",
                     url: "/utrans/"+{{NVFI.id}}+"/launch/",
                     success: function(response) {
-                        $('#status-{{NVFI.id}}').html('Running');
-                        $("#nvfi-{{NVFI.id}}").button('reset');
-                        $('#nvfi-{{NVFI.id}}').html('Shut Down');
                     },
                 });
+
+                var check = setInterval(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/ns/"+{{NVFI.id}}+"/state/",
+                        success: function(response) {
+                            if (response == "True"){
+                                $('#status-{{NVFI.id}}').html('Running');
+                                clearInterval(check);
+                            }
+                        },
+                    });
+                }, 5000);
+
             }
 
-            else if($('#status-{{NVFI.id}}').text()=='Running'){
-                $('#nvfi-{{NVFI.id}}').button({loadingText: 'Shutting Down...'});
-                $("#nvfi-{{NVFI.id}}").button('loading');
+            else if($('#nvfi-{{NVFI.id}}').text()=='Shut Down'){
+                $("#nvfi-{{NVFI.id}}").text('Launch');
                 $('#status-{{NVFI.id}}').html('<p style="margin-bottom:0px">Deleting</p><img style="clear:left;margin-top:-3px" width="75px" height="25px" src="{% static 'base/images/charging.gif' %}">');
-
 
                 $.ajax({
                     type: "GET",
                     url: "/utrans/"+{{NVFI.id}}+"/shut_down/",
                     success: function(response) {
-                        $('#status-{{NVFI.id}}').html('Shut Down');
-                        $("#nvfi-{{NVFI.id}}").button('reset');
-                        $('#nvfi-{{NVFI.id}}').html('Launch');
                     },
                 });
+
+                var check = setInterval(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/ns/"+{{NVFI.id}}+"/state/",
+                        success: function(response) {
+                            if (response == "True"){
+                                $('#status-{{NVFI.id}}').html('Shut Down');
+                                clearInterval(check);
+                            }
+                        },
+                    });
+                }, 5000);
 
             }
             else{

@@ -6,12 +6,13 @@ from drivers.OpenStack.deployments.deployments import create_deploy as OpenStack
 from drivers.OpenStack.deployments.deployments import delete_deploy as OpenStack_delete_deploy
 from drivers.Vagrant.APIs.api import vagrant_launch as Vagrant_create_deploy
 from drivers.Vagrant.APIs.api import vagrant_destroy as Vagrant_delete_deploy
+import time
 
 
 @task()
 def launch(id):
     utran = Utran.objects.get(pk=id)
-    utran.status = 'Launching'
+    utran.status = 'Working-launch'
     utran.save()
 
     bbus = BBU.objects.filter(ns__name=utran.name)
@@ -34,7 +35,7 @@ def launch(id):
 @task()
 def shut_down(id):
     utran = Utran.objects.get(pk=id)
-    utran.status = 'Stoping'
+    utran.status = 'Working-shutdown'
     utran.save()
 
     utran.scenario.price += round(utran.cost(), 3)

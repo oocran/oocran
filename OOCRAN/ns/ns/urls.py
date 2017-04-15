@@ -16,9 +16,11 @@ Including another URLconf
 
 from django.conf.urls import url
 from .views import (
-    get_template
+    get_template,
+    state,
 )
 
 urlpatterns = [
     url(r'^template/$', get_template, name='template'),
+    url(r'^(?P<id>\d+)/state/$', state, name='state'),
 ]
