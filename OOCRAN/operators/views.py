@@ -49,6 +49,7 @@ def add(request):
             if operator.check_used_name():
                 operator.create(form.cleaned_data['email'])
                 update_scenarios(operator)
+                operator.create_influxdb_user()
                 messages.success(request, "Operator successfully created!", extra_tags="alert alert-success")
                 return redirect("operators:list")
             else:
@@ -83,6 +84,7 @@ def list(request):
 @staff_member_required
 def delete(request, id=None):
     operator = get_object_or_404(Operator, id=id)
+    operator.delete_influxdb_user()
     operator.remove()
     operator.user.delete()
 

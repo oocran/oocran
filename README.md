@@ -17,6 +17,10 @@ Features
 * Graphical User Interface for the NVFI orchestrator.
 * OSS/BBS implementation.
 
+Requeriments
+============
+* Influxdb
+
 Installation
 ============
 Please refer to the OOCRAN Installation guide for a thorough walkthrough [wiki](https://github.com/oocran/oocran/wiki/Installation).

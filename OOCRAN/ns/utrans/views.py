@@ -27,6 +27,7 @@ def create(request, id=None):
             ns.operator = operator
             ns.scenario = scenario
             [reply, tag] = ns.create()
+            ns.create_influxdb_database()
             messages.success(request, reply, extra_tags=tag)
 
         return redirect("utrans:info", id=id)
@@ -79,6 +80,7 @@ def bbu(request, id=None):
 @login_required(login_url='/login/')
 def delete(request, id=None):
     utran = get_object_or_404(Utran, pk=id)
+    utran.delete_influxdb_database()
     utran.scenario.total_infras -= 1
     utran.scenario.save()
 

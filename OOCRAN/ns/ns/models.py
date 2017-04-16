@@ -1,11 +1,11 @@
 from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 from django.db import models
-from .orchestrator import price, read_yaml, jsontoheat
-from scenarios.models import Scenario
 from vnfs.models import Vnf, Operator
 from vims.models import Vim
 from django.utils import timezone
+from influxdb import InfluxDBClient
+from OOCRAN.settings import INFLUXDB
 
 
 class Ns(models.Model):
@@ -28,9 +28,19 @@ class Ns(models.Model):
     def get_scenario(self):
         return self.area.name
 
-    def jsonread(self):
-        [elements, connections] = jsontoheat(self.graph)
-        # create_gui(self, elements, connections)
+    def create_influxdb_database(self):
+        db = "ns_" + str(self.id)
+        client = InfluxDBClient(**INFLUXDB['default'])
+        print("Create database: " + db)
+        client.create_database(db)
+        print("Add grants")
+        client.grant_privilege("all", db, self.operator.name)
+
+    def delete_influxdb_database(self):
+        db = "ns_" + str(self.id)
+        client = InfluxDBClient(**INFLUXDB['default'])
+        print("Delete database: " + db)
+        client.drop_database(db)
 
     def cost(self):
         if self.status == "Running":

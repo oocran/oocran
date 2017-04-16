@@ -142,3 +142,12 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_RESULT_BACKEND = 'django-cache'
 
+# InfluxDB
+INFLUXDB = {
+    'default': {
+        'host': '127.0.0.1',
+        'port': '8086',
+        'username': 'root',
+        'password': 'root',
+    }
+}

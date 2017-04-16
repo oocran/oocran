@@ -17,6 +17,13 @@ sudo rabbitmqctl add_user oocran oocran
 sudo rabbitmqctl add_vhost oocran
 sudo rabbitmqctl set_permissions -p oocran oocran ".*" ".*" ".*"
 
+#InfluxDB
+sudo apt-get install influxdb
+sudo echo deb https://packagecloud.io/grafana/stable/debian/ jessie main >> /etc/apt/sources.list
+curl https://packagecloud.io/gpg.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install grafana
+
 #Configuration Mysql
 #mysql -u root -p
 #CREATE USER 'oocran'@'localhost' IDENTIFIED BY 'oocran';

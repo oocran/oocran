@@ -1,9 +1,11 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
+from OOCRAN.settings import INFLUXDB
 from django.db import models
 from vims.models import Vim
 from drivers.OpenStack.APIs.keystone.keystone import create_user, delete_user
 from drivers.OpenStack.deployments.infrastructure import create_infrastructure
+from influxdb import InfluxDBClient
 
 
 class Operator(models.Model):
@@ -41,6 +43,19 @@ class Operator(models.Model):
             vims = Vim.objects.all()
             for vim in vims:
                 delete_user(self, vim)
+
+    def create_influxdb_user(self):
+        dbuser = self.name
+        dbuser_password = self.password
+        client = InfluxDBClient(**INFLUXDB['default'])
+        print("Create user: " + dbuser)
+        client.create_user(dbuser, dbuser_password, admin=False)
+
+    def delete_influxdb_user(self):
+        dbuser = self.name
+        client = InfluxDBClient(**INFLUXDB['default'])
+        print("Delete user: " + dbuser)
+        client.drop_user(dbuser)
 
 
 class Provider(Operator):

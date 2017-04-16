@@ -1,6 +1,10 @@
 #!/bin/bash
 
-#pip install -r requirements.txt
+#Requeriments
+pip install -r requirements.txt
+sudo apt install influxdb-client -y
+influx  -execute "CREATE USER 'admin' WITH PASSWORD 'oocran' WITH ALL PRIVILEGES"
+influx  -execute "CREATE DATABASE oocran"
 
 #Change secret key
 cd OOCRAN

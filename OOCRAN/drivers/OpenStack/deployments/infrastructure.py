@@ -23,6 +23,7 @@ resources:
       network_id: { get_resource: network }
       cidr: 10.0.0.0/24
       gateway_ip: 10.0.0.1
+      dns_nameservers: [ "8.8.8.8", "8.8.4.4" ]
       allocation_pools:
         - start: 10.0.0.2
           end: 10.0.0.254
