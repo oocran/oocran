@@ -46,14 +46,17 @@ def add_launch(user, nvf):
       config: |
         #!/bin/sh
         cd /home/{{user}}
-        {{script}}
+{{script}}
 
   ''')
+        cmds = nf.script.split("\n")
+        for cmd in cmds:
+            script = "        " + cmd + "\n"
 
         nf_template = nf_template.render(
             name=nvf.name,
             user=user,
-            script=nf.script,
+            script=script,
         )
         elements += nf_template
         num += 1

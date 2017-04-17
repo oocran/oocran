@@ -8,7 +8,7 @@ then
     #celery -A OOCRAN worker -l info &
     gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
     #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
-    sudo service grafana-server start
+    #sudo service grafana-server start
     python manage.py runserver
 elif [[ $1 = "prod" ]];
 then
@@ -18,6 +18,6 @@ then
 else
     gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
     #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
-    sudo service grafana-server start
+    #sudo service grafana-server start
     python manage.py runserver
 fi

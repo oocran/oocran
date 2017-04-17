@@ -147,7 +147,7 @@ INFLUXDB = {
     'default': {
         'host': '127.0.0.1',
         'port': '8086',
-        'username': 'root',
-        'password': 'root',
+        'username': 'admin',
+        'password': 'oocran',
     }
 }
