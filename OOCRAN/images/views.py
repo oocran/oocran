@@ -24,13 +24,13 @@ def create(request):
     form = ImageForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         try:
-            Image.objects.get(name=form.cleaned_data['name'])
+            Image.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             image = form.save(commit=False)
             image.save()
             messages.success(request, "Image successfully added!", extra_tags="alert alert-success")
-            return redirect("images:list")
+        return redirect("images:list")
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")
         return redirect("images:list")

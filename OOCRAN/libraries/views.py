@@ -26,14 +26,15 @@ def create(request):
     form = LibraryForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         try:
-            Library.objects.get(name=form.cleaned_data['name'])
+            Library.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             library = form.save(commit=False)
             library.create(request)
+            library.operator = get_object_or_404(Operator, name=request.user.username)
             library.save()
             messages.success(request, "Library successfully added!", extra_tags="alert alert-success")
-            return redirect("libraries:list")
+        return redirect("libraries:list")
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")
         return redirect("libraries:list")

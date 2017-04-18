@@ -48,11 +48,9 @@ def create(request):
             else:
                 vnf.visibility = "Private"
             vnf.save()
-
             vnf.add_nf(form.cleaned_data['nf'])
-
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
-            return redirect("vnfs:list")
+        return redirect("vnfs:list")
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")
         return redirect("vnfs:list")
