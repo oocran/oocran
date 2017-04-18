@@ -10,8 +10,7 @@ class VnfForm(forms.ModelForm):
         super(VnfForm, self).__init__(*args, **kwargs)
         self.fields['image'] = forms.ChoiceField(required=False, choices=[(x.name, x.name) for x in self.images])
         self.fields['nf'] = forms.MultipleChoiceField(
-            choices=[(x.id, x) for x in
-                     self.nfs])  # forms.ChoiceField(required=True, choices=[(x, x) for x in self.nfs])
+            choices=[(x.id, x) for x in self.nfs])  # forms.ChoiceField(required=True, choices=[(x, x) for x in self.nfs])
 
     class Meta:
         model = Vnf

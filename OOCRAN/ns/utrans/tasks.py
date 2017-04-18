@@ -23,7 +23,7 @@ def launch(id):
 
     if utran.vim_option == "Near":
         OpenStack_create_deploy(utran, bbus, channels, ues)
-    elif utran.vim == "Vagrant":
+    elif utran.vim_option == "Vagrant":
         Vagrant_create_deploy(utran, bbus)
 
     utran.status = 'Running'

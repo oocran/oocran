@@ -3,16 +3,16 @@ from jinja2 import Template
 import os, shutil
 
 
-def vagrant_launch(nvfi, bbus):
-    create_vagrantfile(nvfi, bbus)
-    v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name)
-    v.up(provider=nvfi.operator.vagrant_hypervisor)
+def vagrant_launch(ns, bbus):
+    create_vagrantfile(ns, bbus)
+    v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + '/' + ns.name)
+    v.up(provider=ns.operator.vagrant_hypervisor)
 
 
-def vagrant_destroy(nvfi):
-    v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + '/' + nvfi.name)
+def vagrant_destroy(ns):
+    v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + '/' + ns.name)
     v.destroy()
-    shutil.rmtree(os.getcwd() + '/drivers/Vagrant/repository/' + nvfi.operator.name + "/" + nvfi.name)
+    shutil.rmtree(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name)
 
 
 def list_boxes(operator):
@@ -42,13 +42,15 @@ def create_nvf(element, count, ns):
 ''')
     script = ""
     for nf in element.vnf.nf.all():
-        script = script + nf.script + "\n"
+        for library in nf.get_libraries_order():
+            script += library.script.replace('\n', '\n      ') + '\n      '
+        script += nf.script + "\n"
 
     nvf = nvf.render(
         box='debian/jessie64',
         name="vnf" + str(count),
-        ram=element.vnf.ram,
-        cpu=element.vnf.cpu,
+        ram=element.ram,
+        cpu=element.cpu,
         hypervisor=ns.operator.vagrant_hypervisor,
         script=script
     )

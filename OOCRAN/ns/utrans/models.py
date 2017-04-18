@@ -66,7 +66,7 @@ class Utran(Ns):
         self.scenario.save()
 
         if self.operator.vnfm == "Vagrant":
-            self.vim = "Vagrant"
+            self.vim_option = "Vagrant"
         else:
             self.vim_option = "Near"
             self.vim = get_object_or_404(Vim, name="UPC")
