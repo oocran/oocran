@@ -1,23 +1,40 @@
 #!/usr/bin/python
 
+'''
+    usage: python influx.py --nvf marti --ip localhost --db oocran --user admin --pass oocran --time 1
+'''
+
 import requests
 import sys
 import psutil
 from time import sleep
+import argparse
 
-NVF = "bbu"  # NVF name
-IP = "localhost"  # The IP of the influxdb instance
-DB = "oocran"  # The influx database
-USER = "admin"  # The influxdb user
-PASSWORD = "oocran"  # The influx user password
-TIME = 1  # Delay in seconds between two consecutive updates
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument('-n', '--nvf', help='NVF name', required=True)
+parser.add_argument('-i', '--ip', help='The IP of the influxdb instance', required=True)
+parser.add_argument('-d', '--db', help='The influx database', required=True)
+parser.add_argument('-u', '--user', help='The influxdb user', required=True)
+parser.add_argument('-p', '--pass', help='The influx user password', required=True)
+parser.add_argument('-t', '--time', help='Delay in seconds between two consecutive updates', required=True)
+args = vars(parser.parse_args())
+
+NVF = args['nvf']
+IP = args['ip']
+DB = args['db']
+USER = args['user']
+PASSWORD = args['pass']
+TIME = float(args['time'])
+
 
 while True:
-    cpu = 'cpu value=%s' % psutil.cpu_percent()
-    disk = 'disk value=%s' % psutil.disk_usage('/')
-    ram = 'ram value=%s' % psutil.virtual_memory()
+    cpu = 'cpu_' + NVF + ' value=%s' % psutil.cpu_percent()
+    disk = 'disk_' + NVF + ' value=%s' % psutil.disk_usage('/').percent
+    ram = 'ram_' + NVF + ' value=%s' % psutil.virtual_memory().percent
 
     r = requests.post("http://%s:8086/write?db=%s" % (IP, DB), auth=(USER, PASSWORD), data=cpu)
+    r = requests.post("http://%s:8086/write?db=%s" % (IP, DB), auth=(USER, PASSWORD), data=disk)
+    r = requests.post("http://%s:8086/write?db=%s" % (IP, DB), auth=(USER, PASSWORD), data=ram)
     if r.status_code != 204:
         print 'Failed to add point to influxdb (%d) - aborting.' % r.status_code
         sys.exit(1)
