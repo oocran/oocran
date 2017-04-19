@@ -32,7 +32,7 @@ class Nf(models.Model):
         return lista
 
     def check_libraries(self):
-        if len(self.libraries) == 0:
+        if len(self.libraries.all()) == 0:
             return False
         else:
             return self.libraries

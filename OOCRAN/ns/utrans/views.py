@@ -8,6 +8,7 @@ from scenarios.models import Scenario
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator
 import tasks
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
 
 
@@ -156,5 +157,6 @@ def detail_utran(request, id=None):
         "user": utran.operator,
         "nvfi": utran,
         "object_list": bbus,
+        "url": get_current_site(request).domain.split(':')[0],
     }
     return render(request, "utrans/detail.html", context)

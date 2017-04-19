@@ -7,28 +7,29 @@ def add_nfs(nvf):
     num_nf = 0
 
     for nf in nvf.vnf.nf.all():
-        for library in nf.get_libraries_order():
-            nf_template = Template(u'''\
-{{name}}_nf{{nf}}:
-    type: OS::Heat::SoftwareConfig
-    properties:
-      group: {{group}}
-      config: |
-        #!/bin/sh
-        cd /home/{{user}}
-        {{library}}
+        if nf.check_libraries() is not False:
+            for library in nf.get_libraries_order():
+                nf_template = Template(u'''\
+    {{name}}_nf{{nf}}:
+        type: OS::Heat::SoftwareConfig
+        properties:
+          group: {{group}}
+          config: |
+            #!/bin/sh
+            cd /home/{{user}}
+            {{library}}
 
-  ''')
+      ''')
 
-            nf_template = nf_template.render(
-                group=library.type,
-                name=nvf.name,
-                nf=num_nf,
-                user=nvf.operator.name,
-                library=library.script.replace('\n', '\n        '),
-            )
-            elements += nf_template
-            num_nf += 1
+                nf_template = nf_template.render(
+                    group=library.type,
+                    name=nvf.name,
+                    nf=num_nf,
+                    user=nvf.operator.name,
+                    library=library.script.replace('\n', '\n        '),
+                )
+                elements += nf_template
+                num_nf += 1
 
     return [num_nf, elements]
 

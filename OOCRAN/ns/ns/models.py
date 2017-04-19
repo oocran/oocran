@@ -6,6 +6,7 @@ from vims.models import Vim
 from django.utils import timezone
 from influxdb import InfluxDBClient
 from OOCRAN.settings import INFLUXDB
+import paramiko
 
 
 class Ns(models.Model):
@@ -79,3 +80,13 @@ class Nvf(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def connect(self, command):
+        client = paramiko.SSHClient()
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.WarningPolicy())
+        client.connect(self.mgmt_ip, username=self.operator.name, password=self.operator.password)
+        stdin, stdout, stderr = client.exec_command(command)
+        for line in stdout:
+            print line.strip('\n')
+        client.close()

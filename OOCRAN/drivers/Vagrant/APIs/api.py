@@ -42,8 +42,9 @@ def create_nvf(element, count, ns):
 ''')
     script = ""
     for nf in element.vnf.nf.all():
-        for library in nf.get_libraries_order():
-            script += library.script.replace('\n', '\n      ') + '\n      '
+        if nf.check_libraries() is not False:
+            for library in nf.get_libraries_order():
+                script += library.script.replace('\n', '\n      ') + '\n      '
         script += nf.script + "\n"
 
     nvf = nvf.render(
