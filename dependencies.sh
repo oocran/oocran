@@ -9,8 +9,8 @@ fi
 
 sudo apt-get update
 sudo apt-get install python-pip -y
-sudo apt-get install mysql-server -y
-sudo apt-get install rabbitmq-server -y
+#sudo apt-get install mysql-server -y
+#sudo apt-get install rabbitmq-server -y
 
 #Configure RabbitMQ
 sudo rabbitmqctl add_user oocran oocran
