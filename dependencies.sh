@@ -9,6 +9,7 @@ fi
 
 sudo apt-get update
 sudo apt-get install python-pip -y
+sudo apt install influxdb-client -y
 #sudo apt-get install mysql-server -y
 #sudo apt-get install rabbitmq-server -y
 
@@ -18,11 +19,11 @@ sudo rabbitmqctl add_vhost oocran
 sudo rabbitmqctl set_permissions -p oocran oocran ".*" ".*" ".*"
 
 #InfluxDB
-sudo apt-get install influxdb
-sudo echo deb https://packagecloud.io/grafana/stable/debian/ jessie main >> /etc/apt/sources.list
-curl https://packagecloud.io/gpg.key | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install grafana
+#sudo apt-get install influxdb
+#sudo echo deb https://packagecloud.io/grafana/stable/debian/ jessie main >> /etc/apt/sources.list
+#curl https://packagecloud.io/gpg.key | sudo apt-key add -
+#sudo apt-get update
+#sudo apt-get install grafana
 
 #Configuration Mysql
 #mysql -u root -p
