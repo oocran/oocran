@@ -13,8 +13,8 @@ then
 elif [[ $1 = "prod" ]];
 then
     celery -A OOCRAN worker -l info &
-    sudo service grafana-server start
-    python manage.py runserver 0.0.0.0:8000
+    #sudo service grafana-server start
+    python manage.py runserver 0.0.0.0:4000
 else
     gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
     #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"

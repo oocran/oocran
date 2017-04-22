@@ -10,6 +10,7 @@ fi
 sudo apt-get update
 sudo apt-get install python-pip -y
 sudo apt install influxdb-client -y
+sudo apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev -y
 #sudo apt-get install mysql-server -y
 #sudo apt-get install rabbitmq-server -y
 
