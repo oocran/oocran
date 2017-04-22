@@ -2,6 +2,7 @@
 
 #Requeriments
 pip install -r requirements.txt
+pip install python-neutronclient --upgrade
 #influx  -execute "CREATE USER admin WITH PASSWORD 'oocran' WITH ALL PRIVILEGES"
 
 #Change secret key
