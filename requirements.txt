@@ -16,4 +16,3 @@ influxdb
 psutil
 paramiko
 python-vagrant==0.5.14
-tensorflow

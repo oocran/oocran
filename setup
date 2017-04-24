@@ -2,12 +2,10 @@
 
 #Requeriments
 pip install -r requirements.txt
-pip install python-neutronclient --upgrade
-#influx  -execute "CREATE USER admin WITH PASSWORD 'oocran' WITH ALL PRIVILEGES"
 
 #Change secret key
 cd OOCRAN
-python -c "import string,random; uni=string.ascii_letters+string.digits+string.punctuation; print 'SECRET_KEY =' + repr(''.join([random.SystemRandom().choice(uni) for i in range(random.randint(45,50))]))" > OOCRAN/secret_key.py
+KEY=$(python -c "import string,random; uni=string.ascii_letters+string.digits+string.punctuation; print 'SECRET_KEY =' + repr(''.join([random.SystemRandom().choice(uni) for i in range(random.randint(45,50))]))" > OOCRAN/secret_key.py)
 
 #Create database
 python manage.py makemigrations
@@ -18,7 +16,7 @@ echo "Create admin User"
 USER="admin"
 PASS="oocran"
 
-echo "from operators.models import Provider;from django.contrib.auth.models import User;user = User(username='"$USER"');user.set_password('"$PASS"');user.is_staff=True;user.is_superuser = True;user.save();admin = Provider(user=user,name='"$USER"', password='"$PASS"');admin.save()" | python manage.py shell
+ADMIN=$(echo "from operators.models import Provider;from django.contrib.auth.models import User;user = User(username='"$USER"');user.set_password('"$PASS"');user.is_staff=True;user.is_superuser = True;user.save();admin = Provider(user=user,name='"$USER"', password='"$PASS"');admin.save()" | python manage.py shell)
 
 echo ""
 echo "Installation Finished!!"

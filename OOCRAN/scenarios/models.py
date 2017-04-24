@@ -2,10 +2,8 @@ from __future__ import unicode_literals, absolute_import
 from django.db import models
 import math
 from django.core.urlresolvers import reverse
-from drivers.OpenStack.deployments.infrastructure import create_infrastructure, delete_area
-from vims.models import Vim
 from operators.models import Operator
-from .orchestrator import read_yaml, distance
+from .orchestrator import read_yaml
 from celery import task
 
 
@@ -106,7 +104,6 @@ class Scenario(models.Model):
     def create_scenarios(self):
         list = read_yaml(self.file)
         if list:
-            self.choose_vim()
             self.create_frontend(list)
             self.add_operator.delay(self.id)
         else:

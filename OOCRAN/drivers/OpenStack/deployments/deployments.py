@@ -10,16 +10,16 @@ def add_nfs(nvf):
         if nf.check_libraries() is not False:
             for library in nf.get_libraries_order():
                 nf_template = Template(u'''\
-    {{name}}_nf{{nf}}:
-        type: OS::Heat::SoftwareConfig
-        properties:
-          group: {{group}}
-          config: |
-            #!/bin/sh
-            cd /home/{{user}}
-            {{library}}
+{{name}}_nf{{nf}}:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      group: {{group}}
+      config: |
+        #!/bin/sh
+        cd /home/{{user}}
+        {{library}}
 
-      ''')
+  ''')
 
                 nf_template = nf_template.render(
                     group=library.type,
@@ -52,7 +52,7 @@ def add_launch(user, nvf):
   ''')
         cmds = nf.script.split("\n")
         for cmd in cmds:
-            script = "        " + cmd + "\n"
+            script = "        " + cmd + "\n        "
 
         nf_template = nf_template.render(
             name=nvf.name,

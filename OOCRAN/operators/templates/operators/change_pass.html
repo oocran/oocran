@@ -5,6 +5,24 @@
 <h2 class="sub-header">Change GUI Crendetials</h2>
 <form method="POST" action="" enctype="multipart/form-data">{%csrf_token%}
 	{{ form | bootstrap }}
-	<input type="submit" class="btn btn-default" value="Update"/>
+	<a onclick="confirmation()" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Update</a>
+	<!--<input type="submit" class="btn btn-default" value="Update"/>-->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content"></div>
+		</div>
+	</div>
 </form>
 {% endblock content %}
+
+{%block javascript%}
+<script>
+		function confirmation () {
+			$('.modal-content').html('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">Confirmation</h4></div><div class="modal-body">The active NFV will keep using the same crendentials, therefore delete all the activate NS before to change the credentials.<br><br>Do you want to continue?<br><br><div class="modal-footer"><button type="button" style="margin-right:10px"class="btn btn-default" data-dismiss="modal">Cancel</button><input type="submit" class="btn btn-danger" value="Update"/></div></div>');
+		}
+
+</script>
+{%endblock javascript%}
+

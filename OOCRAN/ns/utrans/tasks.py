@@ -33,7 +33,7 @@ def launch(id):
 
 
 @task()
-def shut_down(id):
+def shut_down(id, action=None):
     utran = Utran.objects.get(pk=id)
     utran.status = 'Working-shutdown'
     utran.save()
@@ -50,6 +50,8 @@ def shut_down(id):
     utran.status = 'Shut Down'
     utran.save()
     print "NS shut down"
+    if action != None:
+        utran.delete()
 
 
 @task()
