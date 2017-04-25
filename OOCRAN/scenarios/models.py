@@ -61,6 +61,7 @@ class Scenario(models.Model):
     description = models.TextField(default='Sample one mobile network deployed on the EETAC')
     total_infras = models.IntegerField(default=0)
     active_infras = models.IntegerField(default=0)
+    ips = models.IntegerField(default=2)
     file = models.FileField(upload_to='scenarios/')
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
     price = models.FloatField(default=0)

@@ -27,8 +27,8 @@ def change_password(request):
              operator.name = form.cleaned_data['username']
              operator.password = form.cleaned_data['password']
              operator.save()
-            messages.success(request, "Password Updated!", extra_tags="alert alert-success")
-            return redirect("operators:home")
+             messages.success(request, "Password Updated!", extra_tags="alert alert-success")
+             return redirect("operators:home")
          else:
             messages.success(request, "Passwords are different!", extra_tags="alert alert-danger")
             return redirect("operators:home")
