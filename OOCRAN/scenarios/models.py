@@ -124,7 +124,7 @@ class Scenario(models.Model):
 
     @task()
     def add_operator(id):
-        admin = Scenario.objects.get(pk=id)
+        admin = Scenario.objects.get(id=id)
         operators = Operator.objects.filter()
         for operator in operators:
             if not operator.user.is_staff:

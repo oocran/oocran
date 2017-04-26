@@ -151,7 +151,6 @@ class BBU(Nvf):
         if len(self.ues.all()) != 0:
             return self.ues
         else:
-            print 2
             return None
 
     def rb_assigment(self):

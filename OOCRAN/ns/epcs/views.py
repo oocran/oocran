@@ -50,7 +50,7 @@ def gui(request):
 
 @login_required(login_url='/login/')
 def delete(request, id=None):
-    epc = get_object_or_404(Epc, pk=id)
+    epc = get_object_or_404(Epc, id=id)
     epc.delete()
 
     messages.success(request, "NVFI successfully deleted!", extra_tags="alert alert-success")

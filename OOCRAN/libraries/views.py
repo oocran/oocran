@@ -48,7 +48,7 @@ def create(request):
 
 @login_required(login_url='/login/')
 def delete(request, id=None):
-    library = get_object_or_404(Library, pk=id)
+    library = get_object_or_404(Library, id=id)
     library.delete()
 
     messages.success(request, "Library successfully deleted!", extra_tags="alert alert-success")
@@ -57,7 +57,7 @@ def delete(request, id=None):
 
 @login_required(login_url='/login/')
 def details(request, id=None):
-    library = get_object_or_404(Library, pk=id)
+    library = get_object_or_404(Library, id=id)
 
     context = {
         "user": request.user,

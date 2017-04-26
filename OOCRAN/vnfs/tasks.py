@@ -10,8 +10,8 @@ from drivers.OpenStack.APIs.glance.glance import delete_image
 
 @task()
 def create_vnf(vnf, vim):
-    vnf = Vnf.objects.get(pk=vnf)
-    vim = Vim.objects.get(pk=vim)
+    vnf = Vnf.objects.get(id=vnf)
+    vim = Vim.objects.get(id=vim)
     create(vnf, vim)
     # create_snapshot(vnf)
     # Image.objects.create(name=vnf.name, format="qcow2", operator=vnf.operator)
@@ -21,7 +21,7 @@ def create_vnf(vnf, vim):
 
 @task()
 def delete_vnf(vnf):
-    vnf = Vnf.objects.get(pk=vnf)
+    vnf = Vnf.objects.get(id=vnf)
     delete_image(vnf)
     print "Vnf deleted"
 

@@ -44,7 +44,7 @@ def create(request):
 
 @login_required(login_url='/login/')
 def delete(request, id=None):
-    image = get_object_or_404(Image, pk=id)
+    image = get_object_or_404(Image, id=id)
     image.delete()
 
     messages.success(request, "Image successfully deleted!", extra_tags="alert alert-success")

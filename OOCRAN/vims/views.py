@@ -25,7 +25,7 @@ def list(request):
 
 @staff_member_required
 def delete(request, id=None):
-    vim = get_object_or_404(Vim, pk=id)
+    vim = get_object_or_404(Vim, id=id)
     vim.delete()
 
     messages.success(request, "VIM successfully deleted!", extra_tags="alert alert-success")
