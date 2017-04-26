@@ -11,7 +11,7 @@ import time
 
 @task()
 def launch(id):
-    utran = Utran.objects.get(pk=id)
+    utran = Utran.objects.get(id=id)
     utran.status = 'Working-launch'
     utran.save()
 
@@ -34,7 +34,7 @@ def launch(id):
 
 @task()
 def shut_down(id, action=None):
-    utran = Utran.objects.get(pk=id)
+    utran = Utran.objects.get(id=id)
     utran.status = 'Working-shutdown'
     utran.save()
 
