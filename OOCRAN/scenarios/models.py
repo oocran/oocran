@@ -136,7 +136,7 @@ class Scenario(models.Model):
                     file=admin.file,
                     operator=operator,
                     price=admin.price,
-                    vim=admin.vim, )
+                )
                 scenario.save()
                 rrhs = admin.rrh.all()
                 [scenario.rrh.add(rrh) for rrh in rrhs]
