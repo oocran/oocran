@@ -15,7 +15,7 @@ from django.http import HttpResponse
 @login_required(login_url='/login/')
 def create(request, id=None):
     operator = get_object_or_404(Operator, name=request.user.username)
-    scenario = get_object_or_404(Scenario, pk=id)
+    scenario = get_object_or_404(Scenario, id=id)
 
     form = DeploymentForm(request.POST or None, request.FILES or None)
 

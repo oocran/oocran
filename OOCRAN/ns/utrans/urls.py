@@ -6,7 +6,6 @@ from .views import (
     shut_down,
     bbu,
     delete,
-
     detail_utran,
     list,
     info,
