@@ -16,9 +16,7 @@ from django.http import HttpResponse
 def create(request, id=None):
     operator = get_object_or_404(Operator, name=request.user.username)
     scenario = get_object_or_404(Scenario, id=id)
-
     form = DeploymentForm(request.POST or None, request.FILES or None)
-
     if form.is_valid():
         try:
             Ns.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
@@ -120,17 +118,6 @@ def list(request):
         "object_list": scenarios,
     }
     return render(request, "utrans/list.html", context)
-
-
-@login_required(login_url='/login/')
-def state(request, id=None):
-    nvfi = get_object_or_404(Ns, id=id)
-    if nvfi.status == "Running" or nvfi.status == "Shut Down":
-        value = 1
-    else:
-        value = 0
-
-    return HttpResponse(value)
 
 
 @login_required(login_url='/login/')

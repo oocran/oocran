@@ -6,7 +6,7 @@ bbu1:
   bw_ul: 1400000
   cpu: 1
   ram: 1024
-  disk: 10
+  disk: 3
   pt: 3
 
 bbu2:
@@ -17,5 +17,5 @@ bbu2:
   bw_ul: 1400000
   cpu: 1
   ram: 1024
-  disk: 10
+  disk: 3
   pt: 3

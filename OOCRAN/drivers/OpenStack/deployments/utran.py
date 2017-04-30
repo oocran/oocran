@@ -1,5 +1,6 @@
 from jinja2 import Template
 from drivers.OpenStack.APIs.heat.heat import create_stack, delete_stack
+from drivers.OpenStack.APIs.nova.nova import get_flavors
 
 
 def add_nfs(nvf):
@@ -65,12 +66,12 @@ def add_launch(user, nvf):
     return elements
 
 
-def add_nvf(user, nvfs):
+def add_nvf(ns, nvfs):
     elements = ""
 
     for nvf in nvfs:
         [nfs_num, nfs] = add_nfs(nvf)
-        launch = add_launch(user, nvf)
+        launch = add_launch(ns.operator.user.username, nvf)
 
         t = Template(u'''\
 {{name}}_init:
@@ -117,7 +118,7 @@ def add_nvf(user, nvfs):
         t = t.render(
             name=nvf.name,
             image=nvf.vnf.image,
-            flavor="small",
+            flavor=get_flavors(nvf, ns.vim),
             nfs=list_nfs,
         )
         elements += nfs + launch + t
@@ -183,11 +184,11 @@ resources:
         password=ns.operator.password,
     )
 
-    list_bbus = add_nvf(ns.operator.user.username, bbus)
+    list_bbus = add_nvf(ns, bbus)
     if channels is not None:
-        list_channels = add_nvf(ns.operator.user.username, channels)
+        list_channels = add_nvf(ns, channels)
     if ues is not None:
-        list_ues = add_nvf(ns.operator.user.username, ues)
+        list_ues = add_nvf(ns, ues)
 
     output = Template(u'''\
 

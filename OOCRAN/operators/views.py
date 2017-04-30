@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import OperatorForm, ChangeCredenForm
 from .models import Operator
-from django.contrib.auth.models import User
+from vims.models import Vim
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -46,6 +46,9 @@ def change_password(request):
 @staff_member_required
 def add(request):
     form = OperatorForm(request.POST or None)
+    if len(Vim.objects.all()) == 0:
+        messages.success(request, "There are not Vims register yet!!", extra_tags="alert alert-success")
+        return redirect("operators:list")
     if form.is_valid():
         if form.cleaned_data['password'] == form.cleaned_data['password_confirmation']:
             operator = form.save(commit=False)

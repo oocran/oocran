@@ -72,7 +72,6 @@ class Utran(Ns):
             self.vim = get_object_or_404(Vim, name="UPC")
 
         doc = yaml.load(self.file)
-
         bbus = read_bbus(doc, self.operator)
         channels = read_channels(doc, self.operator)
         ues = read_ues(doc, self.operator)

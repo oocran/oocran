@@ -1,26 +1,23 @@
 from novaclient import client
 from drivers.OpenStack.APIs.keystone.keystone import get_session
 from vims.models import Vim
+import uuid
 
 
-def get_flavors(vnf):
-    vims = Vim.objects.all()
-    for vim in vims:
-        nova = client.Client(2, session=get_session(
-            domain=vim.domain,
-            username=vim.username,
-            project_domain_name=vim.project_domain,
-            project_name=vim.project,
-            password=vim.password,
-            ip=vim.ip))
-        try:
-            flavor = nova.flavors.find(vcpus=vnf.cpu, ram=vnf.ram, disk=vnf.disk)
-        except:
-            flavor = nova.flavors.create(name=vnf.name, ram=vnf.ram, vcpus=vnf.cpu, disk=vnf.disk, flavorid='auto', ephemeral=0, swap=0, rxtx_factor=1.0, is_public=True)
+def get_flavors(nvf, vim):
+    nova = client.Client(2, session=get_session(
+        domain=vim.domain,
+        username=vim.username,
+        project_domain_name=vim.project_domain,
+        project_name=vim.project,
+        password=vim.password,
+        ip=vim.ip))
+    try:
+        flavor = nova.flavors.find(vcpus=nvf.cpu, ram=nvf.ram, disk=nvf.disk)
+    except:
+        flavor = nova.flavors.create(name=str(uuid.uuid4()), ram=nvf.ram, vcpus=nvf.cpu, disk=nvf.disk, flavorid='auto', ephemeral=0, swap=0, rxtx_factor=1.0, is_public=True)
 
-        flavor = flavor.name
-
-    return flavor
+    return flavor.name
 
 
 def create_snapshot(vnf):
