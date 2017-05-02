@@ -6,6 +6,7 @@ from operators.models import Operator
 from nfs.models import Nf
 from time import sleep
 from drivers.OpenStack.APIs.nova.nova import log
+from drivers.OpenStack.APIs.nova.nova import console
 
 
 class Vnf(models.Model):
@@ -43,6 +44,9 @@ class Vnf(models.Model):
             return False
         else:
             return self.nf.all()
+
+    def get_console(self, vim):
+        return console(name=self.name, domain=vim.domain, username=self.operator.name, project_domain_name=vim.project_domain, project_name=self.operator.name, password=self.operator.password, ip=vim.ip)['console']['url']
 
     class Meta:
         ordering = ["-timestamp", "-update"]

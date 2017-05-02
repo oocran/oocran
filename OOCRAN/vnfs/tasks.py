@@ -20,7 +20,7 @@ def create_vnf(vnf, vim):
     print "snapshot created"
     Image.objects.create(name=vnf.name, format="qcow2", operator=vnf.operator)
     print "Image created"
-    delete(vnf, vim)
+    # delete(vnf, vim)
     print "Instance deleted"
     print "Vnf created!!!"
 

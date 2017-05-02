@@ -95,6 +95,11 @@ resources:
     type: OS::Heat::CloudConfig
     properties:
       cloud_config:
+        users:
+          - name: {{user}}
+            sudo: ['ALL=(ALL) NOPASSWD:ALL']
+            groups: sudo
+            shell: /bin/bash
         chpasswd:
           list: |
             {{user}}:{{password}}

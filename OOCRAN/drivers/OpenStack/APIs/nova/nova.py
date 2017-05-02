@@ -46,7 +46,7 @@ def log(name, domain, username, project_domain_name, project_name, password, ip)
     return nova.servers.get_console_output(server)
 
 
-def console(nvf):
+def console(name, domain, username, project_domain_name, project_name, password, ip):
     nova = client.Client(2, session=get_session(
         domain=nvf.ns.vim.domain,
         username=nvf.vnf.operator.name,

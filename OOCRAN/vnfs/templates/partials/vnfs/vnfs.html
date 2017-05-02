@@ -1,11 +1,11 @@
 <table class="table table-striped">
     <thead>
     <tr>
-      <th>Name</th>
+        <th>Name</th>
         <th>Description</th>
         <th>Visibility</th>
-      <th>Image</th>
-      <th>Actions</th>
+        <th>Image</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -16,6 +16,7 @@
                 <td>{{vnf.visibility}}</td>
               <td>{{vnf.image}}</td>
               <td>
+                  <a onClick="window.open('{{vnf.get_console}}');" class="btn btn-danger" role="button">Log</a>
                   {% if vnf.visibility == "Public" and user.is_staff %}
                   <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal" data-target="#myModal">Delete</a>
                   {% elif vnf.visibility == "Private"%}
