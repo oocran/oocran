@@ -75,6 +75,10 @@
     </table>
 </div>
 
+<h2 class="sub-header">Options</h2>
+<a class="btn btn-default" role="button" onClick="window.open('{{bbu.get_console}}');">Console</a>
+<a class="btn btn-default" role="button" onclick="window.open('{% url 'utrans:log' id=bbu.id %}')">Log</a>
+
 {%if bbu.canal != None %}
 <h2 class="sub-header">Associated Virtual Channel</h2>
 {% include "partials/utrans/vchannels.html" %}
@@ -86,8 +90,7 @@
 {% include "partials/utrans/vue.html" %}
 <br>
 {%endif%}
+
 {% endblock content %}
 
-{% block javascript %}
-{% include "partials/bbus/graph.html"%}
-{% endblock javascript %}
+{% block javascript %}{% endblock javascript %}

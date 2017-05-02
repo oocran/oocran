@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from ns.ns.models import Ns, Nvf
-from drivers.OpenStack.APIs.nova.nova import get_flavors
 import yaml
 from scenarios.models import RRH, Scenario
 from vims.models import Vim
@@ -10,6 +9,8 @@ from .orchestrator import distance
 from django.db import models
 from .orchestrator import read_bbus, price, read_channels, read_ues
 from .orchestrator import planification_DL, planification_UL
+from time import sleep
+from drivers.OpenStack.APIs.nova.nova import log
 
 
 class Utran(Ns):
@@ -111,6 +112,16 @@ class Channel(Nvf):
     sinr = models.FloatField(default=0.0)
     delay = models.FloatField(default=0.0)
 
+    def check_provision(self):
+        res = False
+        while res is False:
+            nvf = self
+            logging = log(name=nvf.name, domain=nvf.ns.vim.domain, username=nvf.vnf.operator.name, project_domain_name=nvf.ns.vim.project_domain, project_name=nvf.vnf.operator.name, password=nvf.vnf.operator.password, ip=nvf.ns.vim.ip)
+            for line in logging.split("\n"):
+                if "Cloud-init v." in line and "finished" in line:
+                    return True
+            sleep(20)
+
 
 class UE(Nvf):
     sensibility = models.FloatField(default=0.0)
@@ -118,6 +129,16 @@ class UE(Nvf):
     delay = models.FloatField(default=0.0)
     longitude = models.FloatField(default=12.3)
     latitude = models.FloatField(default=1.3)
+
+    def check_provision(self):
+        res = False
+        while res is False:
+            nvf = self
+            logging = log(name=nvf.name, domain=nvf.ns.vim.domain, username=nvf.vnf.operator.name, project_domain_name=nvf.ns.vim.project_domain, project_name=nvf.vnf.operator.name, password=nvf.vnf.operator.password, ip=nvf.ns.vim.ip)
+            for line in logging.split("\n"):
+                if "Cloud-init v." in line and "finished" in line:
+                    return True
+            sleep(20)
 
 
 class BBU(Nvf):
@@ -139,6 +160,16 @@ class BBU(Nvf):
 
     def __unicode__(self):
         return self.name
+
+    def check_provision(self):
+        res = False
+        while res is False:
+            nvf = self
+            logging = log(name=nvf.name, domain=nvf.ns.vim.domain, username=nvf.vnf.operator.name, project_domain_name=nvf.ns.vim.project_domain, project_name=nvf.vnf.operator.name, password=nvf.vnf.operator.password, ip=nvf.ns.vim.ip)
+            for line in logging.split("\n"):
+                if "Cloud-init v." in line and "finished" in line:
+                    return True
+            sleep(20)
 
     def get_absolut_url(self):
         return reverse("utrans:bbu", kwargs={"id": self.id})

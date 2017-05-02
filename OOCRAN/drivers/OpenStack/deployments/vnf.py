@@ -118,6 +118,7 @@ resources:
     nfv = nvf(vnf)
 
     template = header + nfv
+    print template
     create_stack(name=vnf.name,
                  template=template,
                  domain=vim.domain,

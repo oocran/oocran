@@ -15,15 +15,19 @@ def launch(id):
     utran.save()
 
     bbus = BBU.objects.filter(ns__name=utran.name)
+    [bbu.assign_frequency() for bbu in bbus]
     channels = Channel.objects.filter(ns__name=utran.name)
     ues = UE.objects.filter(ns__name=utran.name)
-
-    [bbu.assign_frequency() for bbu in bbus]
 
     if utran.vim_option == "Near":
         OpenStack_create_deploy(utran, bbus, channels, ues)
     elif utran.vim_option == "Vagrant":
         Vagrant_create_deploy(utran, bbus)
+
+    [nvf.check_provision() for nvf in bbus]
+    [nvf.check_provision() for nvf in channels]
+    [nvf.check_provision() for nvf in ues]
+    print "Provision finished"
 
     utran.status = 'Running'
     utran.launch_time = timezone.now()
@@ -50,8 +54,9 @@ def shut_down(id, action=None):
     utran.save()
     print "NS shut down"
     if action != None:
+        utran.scenario.active_infras -= 1
+        utran.scenario.save()
         utran.delete()
-
 
 @task()
 def emc():

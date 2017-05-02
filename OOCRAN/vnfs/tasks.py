@@ -13,9 +13,15 @@ def create_vnf(vnf, vim):
     vnf = Vnf.objects.get(id=vnf)
     vim = Vim.objects.get(id=vim)
     create(vnf, vim)
-    # create_snapshot(vnf)
-    # Image.objects.create(name=vnf.name, format="qcow2", operator=vnf.operator)
+    print "template launched"
+    vnf.check_provision(vnf, vim)
+    print "finish provision"
+    create_snapshot(vnf, vim)
+    print "snapshot created"
+    Image.objects.create(name=vnf.name, format="qcow2", operator=vnf.operator)
+    print "Image created"
     delete(vnf, vim)
+    print "Instance deleted"
     print "Vnf created!!!"
 
 

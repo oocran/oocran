@@ -5,11 +5,12 @@ from operators.models import Operator, Provider
 from .forms import VnfForm
 from nfs.models import Nf
 from django.contrib import messages
-from drivers.OpenStack.APIs.nova.nova import get_flavors
+from vims.models import Vim
 from drivers.Vagrant.APIs.api import list_boxes
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator
 import tasks
+from django.db.models import Q
 
 
 @login_required(login_url='/login/')
@@ -26,7 +27,7 @@ def list(request):
 
 @login_required(login_url='/login/')
 def create(request):
-    nfs = Nf.objects.filter(operator__name=request.user.username)
+    nfs = Nf.objects.filter(Q(operator__name=request.user.username) | Q(operator__name="admin"))
     operator = get_object_or_404(Operator, name=request.user.username)
 
     if operator.vnfm == "Vagrant":
@@ -48,6 +49,9 @@ def create(request):
                 vnf.visibility = "Private"
             vnf.save()
             vnf.add_nf(form.cleaned_data['nf'])
+            vim = get_object_or_404(Vim, name="UPC")
+            if form.cleaned_data['create'] is True:
+                tasks.create_vnf.delay(vnf.id, vim.id)
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
         return redirect("vnfs:list")
     if form.errors:

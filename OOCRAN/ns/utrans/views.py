@@ -10,6 +10,7 @@ from OOCRAN.global_functions import paginator
 import tasks
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
+from drivers.OpenStack.APIs.nova.nova import log
 
 
 @login_required(login_url='/login/')
@@ -146,3 +147,15 @@ def detail_utran(request, id=None):
         "url": get_current_site(request).domain.split(':')[0],
     }
     return render(request, "utrans/detail.html", context)
+
+
+@login_required(login_url='/login/')
+def get_log(request, id=None):
+    bbu = get_object_or_404(BBU, id=id)
+    return HttpResponse(log(bbu).replace('\n', '<br>'))
+
+
+@login_required(login_url='/login/')
+def get_console(request, id=None):
+    bbu = get_object_or_404(BBU, id=id)
+    return bbu.get_console

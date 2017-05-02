@@ -4,6 +4,8 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from operators.models import Operator
 from nfs.models import Nf
+from time import sleep
+from drivers.OpenStack.APIs.nova.nova import log
 
 
 class Vnf(models.Model):
@@ -14,10 +16,20 @@ class Vnf(models.Model):
     nf = models.ManyToManyField(Nf, blank=True)
     visibility = models.CharField(max_length=50)
     image = models.CharField(max_length=120)
+    create = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __unicode__(self):
         return self.name
+
+    def check_provision(self, vnf, vim):
+        res = False
+        while res is False:
+            logging = log(name=vnf.name, domain=vim.domain, username=vnf.operator.name, project_domain_name=vim.project_domain, project_name=vnf.operator.name, password=vnf.operator.password, ip=vim.ip)
+            for line in logging.split("\n"):
+                if "Cloud-init v." in line and "finished" in line:
+                    return True
+            sleep(20)
 
     def get_absolut_url(self):
         return reverse("vnfs:details", kwargs={"id": self.id})

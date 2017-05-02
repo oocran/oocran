@@ -46,10 +46,10 @@ def change_password(request):
 @staff_member_required
 def add(request):
     form = OperatorForm(request.POST or None)
-    if len(Vim.objects.all()) == 0:
-        messages.success(request, "There are not Vims register yet!!", extra_tags="alert alert-success")
-        return redirect("operators:list")
     if form.is_valid():
+        if len(Vim.objects.all()) == 0:
+            messages.success(request, "There are not Vims register yet!!", extra_tags="alert alert-danger")
+            return redirect("operators:list")
         if form.cleaned_data['password'] == form.cleaned_data['password_confirmation']:
             operator = form.save(commit=False)
             if operator.check_used_name():
@@ -62,7 +62,6 @@ def add(request):
                 messages.success(request, "Username is already in use!", extra_tags="alert alert-danger")
         else:
             messages.success(request, "Password and confirmation are differents!", extra_tags="alert alert-danger")
-
         return redirect("operators:list")
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")

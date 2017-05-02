@@ -6,6 +6,7 @@ from vims.models import Vim
 from django.utils import timezone
 from influxdb import InfluxDBClient
 from OOCRAN.settings import INFLUXDB
+from drivers.OpenStack.APIs.nova.nova import console
 import paramiko
 
 
@@ -90,3 +91,6 @@ class Nvf(models.Model):
         for line in stdout:
             print line.strip('\n')
         client.close()
+
+    def get_console(self):
+        return console(self)['console']['url']

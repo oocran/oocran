@@ -9,6 +9,8 @@ from .views import (
     detail_utran,
     list,
     info,
+    get_log,
+    get_console,
 )
 
 urlpatterns = [
@@ -17,6 +19,8 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/launch/$', launch, name='launch'),
     url(r'^(?P<id>\d+)/shut_down/$', shut_down, name='shut_down'),
     url(r'^(?P<id>\d+)/delete/$', delete, name='delete'),
+    url(r'^(?P<id>\d+)/log/$', get_log, name='log'),
+    url(r'^(?P<id>\d+)/console/$', get_console, name='console'),
 
     url(r'^(?P<id>\d+)/$', detail_utran, name='detail_utran'),
     url(r'^(?P<id>\d+)/info/$', info, name='info'),

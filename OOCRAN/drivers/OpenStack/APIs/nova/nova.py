@@ -20,9 +20,7 @@ def get_flavors(nvf, vim):
     return flavor.name
 
 
-def create_snapshot(vnf):
-    vims = Vim.objects.all()
-    vim = vims[0]
+def create_snapshot(vnf, vim):
     nova = client.Client(2, session=get_session(
         domain=vim.domain,
         username=vnf.operator.name,
@@ -30,7 +28,32 @@ def create_snapshot(vnf):
         project_name=vnf.operator.name,
         password=vnf.operator.password,
         ip=vim.ip))
-    server = nova.servers.list()
-    nova.servers.create_image(server[0].id, vnf.name)
-
+    server = nova.servers.find(name=vnf.name)
+    nova.servers.create_image(server, vnf.name)
     print "Snapshot created!!"
+
+
+def log(name, domain, username, project_domain_name, project_name, password, ip):
+    nova = client.Client(2, session=get_session(
+        domain=domain,
+        username=username,
+        project_domain_name=project_domain_name,
+        project_name=project_name,
+        password=password,
+        ip=ip))
+
+    server = nova.servers.find(name=name)
+    return nova.servers.get_console_output(server)
+
+
+def console(nvf):
+    nova = client.Client(2, session=get_session(
+        domain=nvf.ns.vim.domain,
+        username=nvf.vnf.operator.name,
+        project_domain_name=nvf.ns.vim.project_domain,
+        project_name=nvf.vnf.operator.name,
+        password=nvf.vnf.operator.password,
+        ip=nvf.ns.vim.ip))
+
+    server = nova.servers.find(name=nvf.name)
+    return nova.servers.get_vnc_console(server, "novnc")

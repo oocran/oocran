@@ -17,9 +17,9 @@
               <td>{{vnf.image}}</td>
               <td>
                   {% if vnf.visibility == "Public" and user.is_staff %}
-                  <a href="{{vnf.id}}/delete/" class="btn btn-danger" role="button">Delete</a>
+                  <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal" data-target="#myModal">Delete</a>
                   {% elif vnf.visibility == "Private"%}
-                  <a href="{{vnf.id}}/delete/" class="btn btn-danger" role="button">Delete</a>
+                  <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal" data-target="#myModal">Delete</a>
                   {% endif %}
               </td>
             </tr>

@@ -5,6 +5,7 @@ from .models import Image
 from OOCRAN.global_functions import paginator
 from django.contrib.auth.decorators import login_required
 from .forms import ImageForm
+from operators.models import Operator
 
 
 @login_required(login_url='/login/')
@@ -28,6 +29,7 @@ def create(request):
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             image = form.save(commit=False)
+            image.operator = get_object_or_404(Operator, name=request.user.username)
             image.save()
             messages.success(request, "Image successfully added!", extra_tags="alert alert-success")
         return redirect("images:list")
