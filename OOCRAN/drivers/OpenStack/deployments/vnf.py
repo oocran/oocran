@@ -24,7 +24,7 @@ nf_{{num}}:
                 group=library.type,
                 num=num,
                 user=vnf.operator.name,
-                library=library.script,
+                library=library.script.replace('\n', '\n        '),
             )
             elements = elements + nf_template
             num += 1

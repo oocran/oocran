@@ -7,7 +7,7 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-sudo apt-get update
+#sudo apt-get update
 sudo apt-get install python-pip -y
 sudo apt install influxdb-client -y
 sudo apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev -y
@@ -19,7 +19,7 @@ sudo rabbitmqctl add_vhost oocran
 sudo rabbitmqctl set_permissions -p oocran oocran ".*" ".*" ".*"
 
 #InfluxDB
-sudo apt-get install influxdb
+sudo apt-get install influxdb -y
 influx  -execute "CREATE USER admin WITH PASSWORD 'oocran' WITH ALL PRIVILEGES"
 #sudo echo deb https://packagecloud.io/grafana/stable/debian/ jessie main >> /etc/apt/sources.list
 #curl https://packagecloud.io/gpg.key | sudo apt-key add -
