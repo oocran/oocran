@@ -42,9 +42,11 @@
 			document.getElementById("package").style.display = "block";
 			document.getElementById("installation").style.display = "block";
 		}else if (object.value == "script") {
+		    document.getElementById("package").val("");
 		    document.getElementById("package").style.display = "none";
 			document.getElementById("installation").style.display = "block";
 		}else if (object.value == "puppet" || object.value == "ansible") {
+		    document.getElementById("package").val("");
 			document.getElementById("package").style.display = "block";
 			document.getElementById("installation").style.display = "none";
 		}else {

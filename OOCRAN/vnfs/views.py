@@ -10,6 +10,7 @@ from drivers.Vagrant.APIs.api import list_boxes
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator
 import tasks
+from django.http import HttpResponse
 from django.db.models import Q
 
 
@@ -86,3 +87,14 @@ def details(request, id=None):
         "vnf": vnf,
     }
     return render(request, "vnfs/details.html", context)
+
+
+@login_required(login_url='/login/')
+def state(request, id=None):
+    vnf = get_object_or_404(Vnf, id=id)
+    if vnf.status == "creating":
+        value = False
+    else:
+        value = True
+
+    return HttpResponse(value)

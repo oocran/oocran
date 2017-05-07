@@ -44,11 +44,11 @@ def create(request):
         except:
             scenario = form.save(commit=False)
             scenario.operator = get_object_or_404(Operator, name=request.user.username)
-            scenario.save()
             reply = scenario.create_scenarios()
             if reply is False:
                 messages.success(request, "The content format is not valid!", extra_tags="alert alert-danger")
             if reply is True:
+                scenario.save()
                 messages.success(request, "Scenario Successfully created!", extra_tags="alert alert-success")
 
         return redirect("scenarios:list")

@@ -2,7 +2,7 @@ from jinja2 import Template
 from drivers.OpenStack.APIs.heat.heat import create_stack, delete_stack
 
 
-def create_infrastructure(operator, vim):
+def create_operator(operator, vim):
     file = Template(u'''\
 heat_template_version: 2013-05-23
 

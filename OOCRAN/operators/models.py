@@ -4,7 +4,7 @@ from OOCRAN.settings import INFLUXDB
 from django.db import models
 from vims.models import Vim
 from drivers.OpenStack.APIs.keystone.keystone import create_user, delete_user
-from drivers.OpenStack.deployments.infrastructure import create_infrastructure
+from drivers.OpenStack.deployments.operator import create_operator
 from influxdb import InfluxDBClient
 
 
@@ -35,7 +35,7 @@ class Operator(models.Model):
             vims = Vim.objects.all()
             for vim in vims:
                 create_user(self, vim)
-                create_infrastructure(self, vim)
+                create_operator(self, vim)
         self.save()
 
     def remove(self):

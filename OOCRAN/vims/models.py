@@ -6,6 +6,7 @@ from drivers.OpenStack.APIs.neutron.neutron import get_public_network
 class Vim(models.Model):
     name = models.CharField(max_length=120)
     type = models.CharField(max_length=120)
+    hypervisor = models.CharField(max_length=120, null=True, blank=True)
     ip = models.CharField(max_length=120)
     latitude = models.FloatField(max_length=120)
     longitude = models.FloatField(max_length=120)

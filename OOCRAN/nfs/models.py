@@ -11,7 +11,7 @@ class Nf(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField(null=True, blank=True)
     file = models.FileField(upload_to='nfs', null=True, blank=True)
-    script = models.TextField()
+    script = models.TextField(null=True, blank=True)
     libraries_order = models.TextField(blank=True, null=True)
     libraries = models.ManyToManyField(Library, blank=True)
     visibility = models.CharField(max_length=50)

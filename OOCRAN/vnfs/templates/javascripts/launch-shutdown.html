@@ -1,0 +1,65 @@
+{% load staticfiles %}
+
+<script>
+    $( document ).ready(function() {
+        if("{{vnf.status}}"=='creating'){
+            var check = setInterval(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/vnfs/"+{{vnf.id}}+"/state/",
+                        success: function(response) {
+                            if (response == "True"){
+                                $('#status-{{vnf.id}}').html('Created');
+                                clearInterval(check);
+                            }
+                        },
+                    });
+            }, 5000);
+        }
+
+        else{
+            console.log("nothing");
+        }
+
+    });
+
+</script>
+
+<script>
+    $(function() {
+
+        var state = 0;
+        var interval = null;
+
+        $("#nvfi-{{vnf.id}}").click(function(){
+            if($("#nvfi-{{vnf.id}}").text()=='Creating'){
+                $("#nvfi-{{vnf.id}}").text('Shut Down');
+                $('#status-{{vnf.id}}').html('<p style="margin-bottom:0px">Created</p><img style="clear:left;margin-top:-3px" width="75px" height="25px" src="{% static 'base/images/charging.gif' %}">');
+
+                $.ajax({
+                    type: "GET",
+                    url: "/vnfs/"+{{vnf.id}}+"/launch/",
+                    success: function(response) {
+                    },
+                });
+
+                var check = setInterval(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/vnfs/"+{{vnf.id}}+"/state/",
+                        success: function(response) {
+                            if (response == "True"){
+                                $('#status-{{vnf.id}}').html('Created');
+                                clearInterval(check);
+                            }
+                        },
+                    });
+                }, 5000);
+            }
+            else{
+                alert($('#status-{{vnf.id}}').text());
+            }
+        });
+    });
+
+</script>

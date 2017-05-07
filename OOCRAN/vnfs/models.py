@@ -11,6 +11,7 @@ from drivers.OpenStack.APIs.nova.nova import console
 
 class Vnf(models.Model):
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
+    status = models.CharField(max_length=120, null=True, blank=True)
     name = models.CharField(max_length=120)
     description = models.TextField(null=True, blank=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -18,17 +19,20 @@ class Vnf(models.Model):
     visibility = models.CharField(max_length=50)
     image = models.CharField(max_length=120)
     create = models.BooleanField(default=False)
+    log = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __unicode__(self):
         return self.name
 
-    def check_provision(self, vnf, vim):
+    def check_provision(self, vim):
         res = False
         while res is False:
-            logging = log(name=vnf.name, domain=vim.domain, username=vnf.operator.name, project_domain_name=vim.project_domain, project_name=vnf.operator.name, password=vnf.operator.password, ip=vim.ip)
+            logging = log(name=self.name, domain=vim.domain, username=self.operator.name, project_domain_name=vim.project_domain, project_name=self.operator.name, password=self.operator.password, ip=vim.ip)
             for line in logging.split("\n"):
                 if "Cloud-init v." in line and "finished" in line:
+                    self.log = logging
+                    self.save()
                     return True
             sleep(20)
 

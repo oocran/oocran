@@ -115,9 +115,14 @@ def add_nvf(ns, nvfs):
 
         list_nfs += "      - config: {get_resource: " + nvf.name + "_launch}"
 
+        if nvf.vnf.create is True:
+            image = nvf.vnf.name
+        else:
+            image = nvf.vnf.image
+
         t = t.render(
             name=nvf.name,
-            image=nvf.vnf.image,
+            image=image,
             flavor=get_flavors(nvf, ns.vim),
             nfs=list_nfs,
         )
