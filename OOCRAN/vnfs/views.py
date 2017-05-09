@@ -50,9 +50,9 @@ def create(request):
                 vnf.visibility = "Private"
             vnf.save()
             vnf.add_nf(form.cleaned_data['nf'])
-            vim = get_object_or_404(Vim, name="UPC")
-            if form.cleaned_data['create'] is True:
-                tasks.create_vnf.delay(vnf.id, vim.id)
+            # vim = get_object_or_404(Vim, name="UPC")
+            # if form.cleaned_data['create'] is True:
+            # tasks.create_vnf.delay(vnf.id, vim.id)
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
         return redirect("vnfs:list")
     if form.errors:

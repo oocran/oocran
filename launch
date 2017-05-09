@@ -3,21 +3,20 @@
 
 cd OOCRAN/
 
-if [[ $1 = "dev" ]];
-then
-    #celery -A OOCRAN worker -l info &
-    gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
-    #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
-    #sudo service grafana-server start
-    python manage.py runserver
-elif [[ $1 = "prod" ]];
-then
-    celery -A OOCRAN worker -l info &
-    #sudo service grafana-server start
-    python manage.py runserver 0.0.0.0:4000
+if [ -z "$1" ]
+  then
+    echo "No argument supplied"
+    echo "Please introduce IP:Port"
 else
-    gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
-    #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
-    #sudo service grafana-server start
-    python manage.py runserver
+    if [ $2 == "test" ]
+      then
+         python manage.py runserver $1
+         celery -A OOCRAN worker -l info
+    else
+        gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
+        #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
+        #sudo service grafana-server start
+        python manage.py runserver $1
+    fi
 fi
+

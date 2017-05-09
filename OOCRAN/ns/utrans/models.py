@@ -70,7 +70,8 @@ class Utran(Ns):
             self.vim_option = "Vagrant"
         else:
             self.vim_option = "Near"
-            self.vim = get_object_or_404(Vim, name="UPC")
+            if self.choose_vim() is False:
+                return "There are not VIMS registered!", "alert alert-danger"
 
         doc = yaml.load(self.file)
         bbus = read_bbus(doc, self.operator)
@@ -83,29 +84,35 @@ class Utran(Ns):
             self.create_Channel(channels)
             self.create_UE(ues)
             self.save()
+            self.create_influxdb_database()
             return "NS successfully created!", "alert alert-success"
         elif type(bbus) is list and type(ues) is list and channels is None:
             self.save()
             self.create_BBU(bbus)
             self.create_UE(ues)
             self.save()
+            self.create_influxdb_database()
             return "NS successfully created!", "alert alert-success"
         elif type(bbus) is list and channels is None and ues is None:
             self.save()
             self.create_BBU(bbus)
             self.save()
+            self.create_influxdb_database()
             return "NS successfully created!", "alert alert-success"
         else:
             return "The content format is not valid!", "alert alert-danger"
 
     def choose_vim(self):
         vims = Vim.objects.all()
-        res = {}
-        for vim in vims:
-            res[distance(self.longitude, self.latitude, vim.longitude, vim.latitude)] = vim
-        res = sorted(res.items(), key=lambda x: x[0])
-        self.vim = res[0][1]
-        self.save()
+        if len(vims) is 0:
+            return False
+        else:
+            res = {}
+            for vim in vims:
+                res[distance(self.scenario.longitude, self.scenario.latitude, vim.longitude, vim.latitude)] = vim
+            res = sorted(res.items(), key=lambda x: x[0])
+            self.vim = res[0][1]
+            self.save()
 
 
 class Channel(Nvf):

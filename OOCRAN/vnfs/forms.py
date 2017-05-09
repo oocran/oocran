@@ -10,7 +10,7 @@ class VnfForm(forms.ModelForm):
         super(VnfForm, self).__init__(*args, **kwargs)
         self.fields['image'] = forms.ChoiceField(required=False, choices=[(x.name, x.name) for x in self.images])
         self.fields['nf'] = forms.MultipleChoiceField(choices=[(x.id, x) for x in self.nfs])
-        self.fields['create'].label = "Convert into image."
+        # self.fields['create'].label = "Convert into image."
 
     class Meta:
         model = Vnf
@@ -19,5 +19,4 @@ class VnfForm(forms.ModelForm):
             "description",
             "image",
             "nf",
-            "create",
         ]

@@ -5,38 +5,32 @@
         <th>Description</th>
         <th>Visibility</th>
         <th>Image</th>
-        <th>Status</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
         {% for vnf in object_list %}
             <tr>
-              <td><a href='{{vnf.get_absolut_url}}'>{{vnf.name}}</a></td>
+                <td><a href='{{vnf.get_absolut_url}}'>{{vnf.name}}</a></td>
                 <td>{{vnf.description}}</td>
                 <td>{{vnf.visibility}}</td>
-              <td>{{vnf.image}}</td>
-                <td id="status-{{vnf.id}}" style="text-align: center;vertical-align: middle">{% if vnf.status == "created" %}<p style="margin-bottom:0px">Created</p>{% elif NVFI.status == "creating"%}<p style="margin-bottom:0px">Creating</p><img style="clear:left;margin-top:-3px" width="75px" height="25px" src="{% static 'base/images/charging.gif' %}">{% endif %}
+                <td>{{vnf.image}}</td>
+                <td>
+                    {% if vnf.visibility == "Public" and user.is_staff %}
+                    <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal"
+                       data-target="#myModal">Delete</a>
+                    {% elif vnf.visibility == "Private"%}
+                    <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal"
+                       data-target="#myModal">Delete</a>
+                    {% endif %}
+                    <div class="dropdown" style="display:inline-block;">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+
+                    </div>
                 </td>
-              <td>
-                  <a onClick="window.open('{{vnf.get_console}}');" class="btn btn-danger" role="button">Log</a>
-                  {% if vnf.visibility == "Public" and user.is_staff %}
-                  <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal" data-target="#myModal">Delete</a>
-                  {% elif vnf.visibility == "Private"%}
-                  <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal" data-target="#myModal">Delete</a>
-                  {% endif %}
-                  <div class="dropdown" style="display:inline-block;">
-                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                          <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu">
-                          <li><a href="{{vnf.get_absolut_url}}">Details</a></li>
-                          <li><a style="color:red" href="{% url 'vnfs:log' vnf.id %}">Log</a></li>
-                      </ul>
-                  </div>
-              </td>
             </tr>
-        {% include "javascripts/launch-shutdown.html" %}
         {%endfor%}
     </tbody>
 </table>
