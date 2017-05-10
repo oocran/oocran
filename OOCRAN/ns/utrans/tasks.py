@@ -21,12 +21,12 @@ def launch(id):
 
     if utran.vim_option == "Near":
         OpenStack_create_deploy(utran, bbus, channels, ues)
+        [nvf.check_provision() for nvf in bbus]
+        [nvf.check_provision() for nvf in channels]
+        [nvf.check_provision() for nvf in ues]
     elif utran.vim_option == "Vagrant":
         Vagrant_create_deploy(utran, bbus)
 
-    [nvf.check_provision() for nvf in bbus]
-    [nvf.check_provision() for nvf in channels]
-    [nvf.check_provision() for nvf in ues]
     print "Provision finished"
 
     utran.status = 'Running'

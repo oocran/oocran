@@ -6,7 +6,10 @@ import os, shutil
 def vagrant_launch(ns, bbus):
     create_vagrantfile(ns, bbus)
     v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + '/' + ns.name)
-    v.up(provider=ns.operator.vagrant_hypervisor)
+    try:
+        v.up(provider=ns.operator.vagrant_hypervisor)
+    except:
+        print "creating"
 
 
 def vagrant_destroy(ns):
@@ -19,6 +22,7 @@ def list_boxes(operator):
     v = vagrant.Vagrant()
     list = []
     for box in v.box_list():
+        print box
         if box.provider == operator.vagrant_hypervisor:
             list.append(box)
     return list
@@ -85,6 +89,8 @@ Vagrant.configure("2") do |config|
 
 end''')
     end = end.render()
+
+    print header + nvfs + end
 
     os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name)
     outfile = open(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name + '/Vagrantfile', 'w')

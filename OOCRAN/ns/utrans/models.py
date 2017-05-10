@@ -63,9 +63,6 @@ class Utran(Ns):
             bbu.save()
 
     def create(self):
-        self.scenario.total_infras += 1
-        self.scenario.save()
-
         if self.operator.vnfm == "Vagrant":
             self.vim_option = "Vagrant"
         else:
@@ -83,6 +80,8 @@ class Utran(Ns):
             self.create_BBU(bbus)
             self.create_Channel(channels)
             self.create_UE(ues)
+            self.scenario.total_infras += 1
+            self.scenario.save()
             self.save()
             self.create_influxdb_database()
             return "NS successfully created!", "alert alert-success"
@@ -90,12 +89,16 @@ class Utran(Ns):
             self.save()
             self.create_BBU(bbus)
             self.create_UE(ues)
+            self.scenario.total_infras += 1
+            self.scenario.save()
             self.save()
             self.create_influxdb_database()
             return "NS successfully created!", "alert alert-success"
         elif type(bbus) is list and channels is None and ues is None:
             self.save()
             self.create_BBU(bbus)
+            self.scenario.total_infras += 1
+            self.scenario.save()
             self.save()
             self.create_influxdb_database()
             return "NS successfully created!", "alert alert-success"

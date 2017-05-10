@@ -35,7 +35,7 @@ def add_nfs(nvf):
     return [num_nf, elements]
 
 
-def add_launch(user, nvf):
+def add_launch(user, nvf, type):
     elements = ""
     num = 0
 
@@ -51,9 +51,17 @@ def add_launch(user, nvf):
 {{script}}
 
   ''')
-        cmds = nf.script.split("\n")
+        script = "        "
+        code = nf.script
+        if type == "bbu":
+            code = code.replace("{{user}}", nvf.operator.name) \
+                .replace("{{password}}", nvf.operator.password) \
+                .replace("{{rrh}}", nvf.rrh.ip) \
+                .replace("{{freq}}", str(nvf.freC_DL)) \
+                .replace("{{pw}}", str(nvf.pt))
+        cmds = code.split("\n")
         for cmd in cmds:
-            script = "        " + cmd + "\n        "
+            script += cmd + "\n        "
 
         nf_template = nf_template.render(
             name=nvf.name,
@@ -66,12 +74,12 @@ def add_launch(user, nvf):
     return elements
 
 
-def add_nvf(ns, nvfs):
+def add_nvf(ns, nvfs, type):
     elements = ""
 
     for nvf in nvfs:
         [nfs_num, nfs] = add_nfs(nvf)
-        launch = add_launch(ns.operator.user.username, nvf)
+        launch = add_launch(ns.operator.user.username, nvf, type)
 
         t = Template(u'''\
 {{name}}_init:
@@ -189,11 +197,11 @@ resources:
         password=ns.operator.password,
     )
 
-    list_bbus = add_nvf(ns, bbus)
+    list_bbus = add_nvf(ns, bbus, "bbu")
     if channels is not None:
-        list_channels = add_nvf(ns, channels)
+        list_channels = add_nvf(ns, channels, "channel")
     if ues is not None:
-        list_ues = add_nvf(ns, ues)
+        list_ues = add_nvf(ns, ues, "ue")
 
     output = Template(u'''\
 

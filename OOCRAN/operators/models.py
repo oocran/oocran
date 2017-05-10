@@ -6,6 +6,7 @@ from vims.models import Vim
 from drivers.OpenStack.APIs.keystone.keystone import create_user, delete_user
 from drivers.OpenStack.deployments.operator import create_operator
 from influxdb import InfluxDBClient
+import os, shutil
 
 
 class Operator(models.Model):
@@ -36,6 +37,8 @@ class Operator(models.Model):
             for vim in vims:
                 create_user(self, vim)
                 create_operator(self, vim)
+        else:
+            os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + self.name)
         self.save()
 
     def remove(self):
@@ -43,6 +46,8 @@ class Operator(models.Model):
             vims = Vim.objects.all()
             for vim in vims:
                 delete_user(self, vim)
+        elif self.vnfm == "Vagrant":
+            shutil.rmtree(os.getcwd() + '/drivers/Vagrant/repository/' + self.name)
 
     def create_influxdb_user(self):
         dbuser = self.name

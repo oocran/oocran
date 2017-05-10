@@ -85,6 +85,7 @@ def delete(request, id=None):
 
     if utran.status == "Running":
         tasks.shut_down.delay(id, action="delete")
+        utran.scenario.active_infras -= 1
     else:
         utran.delete()
 

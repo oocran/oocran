@@ -24,11 +24,11 @@ class OperatorForm(forms.ModelForm):
                                                 widget=forms.Select(attrs={"onChange": 'select(this);'}),
                                                 choices=[("Heat", "Heat"), ("Vagrant", "Vagrant")])
         self.fields['vagrant_hypervisor'] = forms.ChoiceField(required=False, choices=[("libvirt", "libvirt"),
-                                                                                       ("VirtualBox", "VirtualBox"),
-                                                                                       ("Docker", "Docker"), (
-                                                                                       "Vmware fusion",
+                                                                                       ("virtualbox", "VirtualBox"),
+                                                                                       ("docker", "Docker"), (
+                                                                                           "vmware_fusion",
                                                                                        "Vmware fusion"), (
-                                                                                       "Vmware workstation",
+                                                                                           "vmware_workstation",
                                                                                        "Vmware workstation")])
 
     password = forms.CharField(max_length=32, widget=forms.PasswordInput)

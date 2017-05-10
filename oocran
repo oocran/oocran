@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+
+function install {
+    echo "install oocran aaaaa"
+}
+
+function start {
+    cd OOCRAN/
+    echo $2
+    if [ -z "$2" ];
+      then
+        echo "No argument supplied"
+        echo "Please introduce IP:Port"
+    else
+        if [ "$3" == "test" ]
+          then
+             python manage.py runserver $2
+             celery -A OOCRAN worker -l info
+        else
+            gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
+            #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
+            #sudo service grafana-server start
+            python manage.py runserver $2
+        fi
+    fi
+}
+
+
+if [ -z "$1" ];
+    then
+        echo "Command not found!"
+        echo "./oocran [command] [parameters]"
+        exit
+else
+    case "$1" in
+       install) install
+          ;;
+       start) start
+          ;;
+       *) echo "Order Not Found"
+          ;;
+    esac
+fi
+

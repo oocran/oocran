@@ -8,7 +8,7 @@ if [ -z "$1" ]
     echo "No argument supplied"
     echo "Please introduce IP:Port"
 else
-    if [ $2 == "test" ]
+    if [ "$2" == "test" ]
       then
          python manage.py runserver $1
          celery -A OOCRAN worker -l info
