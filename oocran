@@ -2,6 +2,8 @@
 
 
 function dependencies {
+    echo "Install OOCRAN dependencies!"
+    echo ""
     #sudo apt-get update
     sudo apt-get install python-pip -y
     sudo apt install influxdb-client -y
@@ -21,7 +23,7 @@ function dependencies {
 
 function install {
     echo "Install OOCRAN server!"
-
+    echo ""
     pip install -r requirements.txt
     #Change secret key
     cd OOCRAN
@@ -41,8 +43,7 @@ function install {
 }
 
 function start {
-    echo "starting OOCRAN server ;)"
-
+    echo "Starting OOCRAN server ;)"
     cd OOCRAN/
     if [ -z $PARAM ];
       then
@@ -50,10 +51,11 @@ function start {
         echo "Please introduce IP:Port"
         exit
     else
-        if [ $OPTION == "test" ]
+        if [ "$OPTION" == "test" ]
           then
              echo "username: admin"
              echo "password: oocran"
+             echo ""
              celery -A OOCRAN worker -l info
              python manage.py runserver $PARAM
         else

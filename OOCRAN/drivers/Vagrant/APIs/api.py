@@ -28,8 +28,8 @@ def list_boxes(operator):
     return list
 
 
-def create_nvf(element, count, ns):
-    nvf = Template(u'''\
+def create_nvf(nvf, count, ns, type):
+    element = Template(u'''\
 
   config.vm.define "{{name}}" do |{{name}}|
     {{name}}.vm.box = "{{box}}"
@@ -45,7 +45,7 @@ def create_nvf(element, count, ns):
   end
 ''')
     script = ""
-    for nf in element.vnf.nf.all():
+    for nf in nvf.vnf.nf.all():
         if nf.check_libraries() is not False:
             for library in nf.get_libraries_order():
                 script += library.script.replace('\n', '\n      ') + '\n      '
@@ -61,17 +61,15 @@ def create_nvf(element, count, ns):
         for cmd in cmds:
             script += cmd + "\n      "
 
-
-
-    nvf = nvf.render(
+    element = element.render(
         box='debian/jessie64',
         name="vnf" + str(count),
-        ram=element.ram,
-        cpu=element.cpu,
+        ram=nvf.ram,
+        cpu=nvf.cpu,
         hypervisor=ns.operator.vagrant_hypervisor,
         script=script
     )
-    return nvf
+    return element
 
 
 def create_vagrantfile(ns, bbus, channels=None, ues=None):
@@ -84,17 +82,17 @@ Vagrant.configure("2") do |config|
     nvfs = ""
     count = 0
     for element in bbus:
-        nvf = create_nvf(element, count, ns)
+        nvf = create_nvf(element, count, ns, "bbu")
         nvfs += nvf
         count += 1
     if channels is not None:
         for element in channels:
-            nvf = create_nvf(element, count, ns)
+            nvf = create_nvf(element, count, ns, "channel")
             nvfs += nvf
             count += 1
     if ues is not None:
         for element in ues:
-            nvf = create_nvf(element, count, ns)
+            nvf = create_nvf(element, count, ns, "ue")
             nvfs += nvf
             count += 1
     end = Template(u'''\
