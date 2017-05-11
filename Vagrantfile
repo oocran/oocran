@@ -25,9 +25,10 @@ Vagrant.configure("2") do |config|
     sudo apt-get install python-pip -y
     sudo apt-get install git -y
     git clone https://github.com/oocran/oocran.git
-    cd oocran;chmod +x setup;chmod +x launch;chmod +x dependencies.sh
+    cd oocran;chmod +x oocran
     ./dependencies.sh
-    ./setup
-    ./launch localhost:8000 test
+    ./oocran dependencies
+    ./oocran install
+    ./oocran start localhost:8000 test
   SHELL
 end

@@ -9,8 +9,8 @@ RUN apt-get install python-pip -y
 RUN apt-get install git -y
 
 #Install OOCRAN
-RUN git clone https://github.com/oocran/oocran.git && cd oocran && chmod +x setup && chmod +x setup && chmod +x launch && ./dependencies.sh && ./setup
+RUN git clone https://github.com/oocran/oocran.git && cd oocran && chmod +x oocran && .oocran dependencies && ./oocrann install
 
 EXPOSE 8000
 
-CMD cd /oocran && ./launch localhost:8000 test
+CMD cd /oocran && ./oocran start localhost:8000 test

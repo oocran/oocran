@@ -1,27 +1,68 @@
 #!/usr/bin/env bash
 
 
+function dependencies {
+    #sudo apt-get update
+    sudo apt-get install python-pip -y
+    sudo apt install influxdb-client -y
+    sudo apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev -y
+    sudo apt-get install rabbitmq-server -y
+
+    #Configure RabbitMQ
+    sudo rabbitmqctl add_user oocran oocran
+    sudo rabbitmqctl add_vhost oocran
+    sudo rabbitmqctl set_permissions -p oocran oocran ".*" ".*" ".*"
+
+    #InfluxDB
+    sudo apt-get install influxdb -y
+    influx  -execute "CREATE USER admin WITH PASSWORD 'oocran' WITH ALL PRIVILEGES"
+    exit
+}
+
 function install {
-    echo "install oocran aaaaa"
+    echo "Install OOCRAN server!"
+
+    pip install -r requirements.txt
+    #Change secret key
+    cd OOCRAN
+    KEY=$(python -c "import string,random; uni=string.ascii_letters+string.digits+string.punctuation; print 'SECRET_KEY =' + repr(''.join([random.SystemRandom().choice(uni) for i in range(random.randint(45,50))]))" > OOCRAN/secret_key.py)
+    #Create database
+    python manage.py makemigrations
+    python manage.py migrate
+    #Create admin User
+    echo "Create admin User"
+    USER="admin"
+    PASS="oocran"
+    ADMIN=$(echo "from operators.models import Provider;from django.contrib.auth.models import User;user = User(username='"$USER"');user.set_password('"$PASS"');user.is_staff=True;user.is_superuser = True;user.save();admin = Provider(user=user,name='"$USER"', password='"$PASS"');admin.save()" | python manage.py shell)
+    echo ""
+    echo "Installation Finished!!"
+    echo "Write oocran start IP:PORT for start server."
+    exit
 }
 
 function start {
+    echo "starting OOCRAN server ;)"
+
     cd OOCRAN/
-    echo $2
-    if [ -z "$2" ];
+    if [ -z $PARAM ];
       then
         echo "No argument supplied"
         echo "Please introduce IP:Port"
+        exit
     else
-        if [ "$3" == "test" ]
+        if [ $OPTION == "test" ]
           then
-             python manage.py runserver $2
+             echo "username: admin"
+             echo "password: oocran"
              celery -A OOCRAN worker -l info
+             python manage.py runserver $PARAM
         else
             gnome-terminal -e "bash -c 'celery -A OOCRAN worker -l info;exec $SHELL'"
             #gnome-terminal -e "bash -c 'celery -A OOCRAN beat -l info -S django;exec $SHELL'"
             #sudo service grafana-server start
-            python manage.py runserver $2
+            echo "username: admin"
+            echo "password: oocran"
+            python manage.py runserver $PARAM
         fi
     fi
 }
@@ -33,10 +74,17 @@ if [ -z "$1" ];
         echo "./oocran [command] [parameters]"
         exit
 else
+
+    OPTION=$1
+    PARAM=$2
+    OPTION=$3
+
     case "$1" in
        install) install
           ;;
        start) start
+          ;;
+       dependencies) dependencies
           ;;
        *) echo "Order Not Found"
           ;;

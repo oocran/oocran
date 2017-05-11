@@ -49,7 +49,19 @@ def create_nvf(element, count, ns):
         if nf.check_libraries() is not False:
             for library in nf.get_libraries_order():
                 script += library.script.replace('\n', '\n      ') + '\n      '
-        script += nf.script + "\n"
+
+        code = nf.script
+        if type == "bbu":
+            code = code.replace("{{user}}", nvf.operator.name) \
+                .replace("{{password}}", nvf.operator.password) \
+                .replace("{{rrh}}", nvf.rrh.ip) \
+                .replace("{{freq}}", str(nvf.freC_DL)) \
+                .replace("{{pw}}", str(nvf.pt))
+        cmds = code.split("\n")
+        for cmd in cmds:
+            script += cmd + "\n      "
+
+
 
     nvf = nvf.render(
         box='debian/jessie64',
