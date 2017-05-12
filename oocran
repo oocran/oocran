@@ -44,7 +44,7 @@ function install {
 
 function start {
     echo "Starting OOCRAN server ;)"
-    cd OOCRAN/
+    cd srs/
     if [ -z $PARAM ];
       then
         echo "No argument supplied"

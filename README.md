@@ -41,6 +41,10 @@ Issue tracker
 =============
 Issues and bug reports should be posted to the GitHub Issue Tracker of this project.
 
+Project state
+=============
+Follow the state of the project on [Trello](https://trello.com/b/LRjh0hs3/oocran)
+
 License
 =======
 
