@@ -21,12 +21,12 @@ function dependencies {
     exit
 }
 
-function install {
+function server {
     echo "Install OOCRAN server!"
     echo ""
     pip install -r requirements.txt
     #Change secret key
-    cd OOCRAN
+    cd srs
     KEY=$(python -c "import string,random; uni=string.ascii_letters+string.digits+string.punctuation; print 'SECRET_KEY =' + repr(''.join([random.SystemRandom().choice(uni) for i in range(random.randint(45,50))]))" > OOCRAN/secret_key.py)
     #Create database
     python manage.py makemigrations
@@ -40,6 +40,25 @@ function install {
     echo "Installation Finished!!"
     echo "Write oocran start IP:PORT for start server."
     exit
+}
+
+function install {
+    if [ -z $PARAM ];
+      then
+        echo "No argument supplied"
+        echo "Please introduce service"
+        echo "ex: ./oocran install server"
+        echo "ex: ./oocran install dependencies"
+        exit
+    else
+        if [ "$PARAM" == "server" ]
+          then
+            server
+        elif [ "$PARAM" == "dependencies" ]
+          then
+            dependencies
+        fi
+    fi
 }
 
 function start {
@@ -85,8 +104,6 @@ else
        install) install
           ;;
        start) start
-          ;;
-       dependencies) dependencies
           ;;
        *) echo "Order Not Found"
           ;;

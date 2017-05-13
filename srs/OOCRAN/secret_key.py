@@ -1,1 +1,1 @@
-SECRET_KEY = 'qpxD8d.VQrDdU;g^2O)~"5BcXKG9;"*zY`*(?a/E@4kA:cI['
+SECRET_KEY = "i.\\G%kPQw$I2N_>BbL+1*Y2|g!<&RK40wSr/^W;5$4]*'$[H"

@@ -39,7 +39,7 @@ Information about OOCRAN can be found in the [website](http://oocran.dynu.com/)
 
 Issue tracker
 =============
-Issues and bug reports should be posted to the GitHub Issue Tracker of this project.
+Issues and bug reports should be posted to the GitHub [Issue Tracker](https://github.com/oocran/oocran/issues).
 
 Project state
 =============
