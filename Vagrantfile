@@ -27,8 +27,8 @@ Vagrant.configure("2") do |config|
     git clone https://github.com/oocran/oocran.git
     cd oocran;chmod +x oocran
     ./dependencies.sh
-    ./oocran dependencies
-    ./oocran install
+    ./oocran install dependencies
+    ./oocran install server
     ./oocran start localhost:8000 test
   SHELL
 end
