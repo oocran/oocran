@@ -18,8 +18,17 @@ class Vnf(models.Model):
     nf = models.ManyToManyField(Nf, blank=True)
     visibility = models.CharField(max_length=50)
     image = models.CharField(max_length=120)
+    max_cpu = models.IntegerField(null=True, blank=True, default=2)
+    min_cpu = models.IntegerField(null=True, blank=True, default=1)
+    max_ram = models.IntegerField(null=True, blank=True, default=2048)
+    min_ram = models.IntegerField(null=True, blank=True, default=1024)
+    disc = models.IntegerField(null=True, blank=True, default=3)
+    nics = models.IntegerField(null=True, blank=True, default=1)
     create = models.BooleanField(default=False)
     log = models.TextField(null=True, blank=True)
+    real_time = models.BooleanField(default=False)
+    # numa = models.IntegerField(null=True, blank=True)
+    # hpc = models.CharField(null=True, blank=True, max_length=120)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __unicode__(self):
@@ -48,6 +57,14 @@ class Vnf(models.Model):
             return False
         else:
             return self.nf.all()
+
+    def extra_spec(self):
+        properties = {}
+        if self.real_time is True:
+            properties["hw_cpu_policy"] = "dedicated"
+            properties["hcpu_cpu_thread_policy"] = "isolate"
+
+        return properties
 
     def get_console(self, vim):
         return console(name=self.name, domain=vim.domain, username=self.operator.name, project_domain_name=vim.project_domain, project_name=self.operator.name, password=self.operator.password, ip=vim.ip)['console']['url']

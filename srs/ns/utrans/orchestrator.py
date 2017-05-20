@@ -26,7 +26,7 @@ def check_vnf(data, operator):
 
 
 def read_bbus(doc, operator):
-    keys = ["name", "ip", "vnf", "bw_dl", "bw_ul", "pt", "cpu", "ram", "disk"]
+    keys = ["name", "ip", "vnf", "bw_dl", "bw_ul", "pt"]
     list = []
     try:
         for rrh, parameters in doc.items():
@@ -52,7 +52,7 @@ def read_bbus(doc, operator):
 
 
 def read_channels(doc, operator):
-    keys = ["vnf", "cpu", "ram", "disk", "sinr", "delay", "name"]
+    keys = ["vnf", "sinr", "delay", "name"]
     list = []
     try:
         for bbu, conf in doc.items():
@@ -149,7 +149,7 @@ def price(nvf, spectre):
     if spectre == 10000000:
         price_spec = 400.0
 
-    price_comp = (price_spec + nvf.ram * 0.005 + nvf.cpu * 0.005)
+    price_comp = (price_spec + nvf.vnf.min_ram * 0.005 + nvf.vnf.min_cpu * 0.005)
     price = price_spec + price_comp
 
     return float(price)

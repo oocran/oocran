@@ -31,8 +31,10 @@ touch vims/migrations/__init__.py
 #vnfs
 rm vnfs/migrations/*
 touch vnfs/migrations/__init__.py
-
+#delete db
 rm db.sqlite3
-
+#delete vagrant files
+rm -r drivers/Vagrant/repository/*
+#final message
 echo "reset finish!"
 echo "exe: ./oocran install server"

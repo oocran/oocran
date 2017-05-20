@@ -64,8 +64,8 @@ def create_nvf(nvf, count, ns, type):
     element = element.render(
         box='debian/jessie64',
         name="vnf" + str(count),
-        ram=nvf.ram,
-        cpu=nvf.cpu,
+        ram=nvf.vnf.ram,
+        cpu=nvf.vnf.cpu,
         hypervisor=ns.operator.vagrant_hypervisor,
         script=script
     )

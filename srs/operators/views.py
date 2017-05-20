@@ -47,7 +47,7 @@ def change_password(request):
 def add(request):
     form = OperatorForm(request.POST or None)
     if form.is_valid():
-        if len(Vim.objects.all()) == 0:
+        if form.cleaned_data['vnfm'] == "Heat" and len(Vim.objects.all()) == 0:
             messages.success(request, "There are not Vims register yet!!", extra_tags="alert alert-danger")
             return redirect("operators:list")
         if form.cleaned_data['password'] == form.cleaned_data['password_confirmation']:

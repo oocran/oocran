@@ -53,6 +53,7 @@ server{{num}}_init:
       name: {{name}}
       image: {{image}}
       flavor: {{flavor}}
+      availability_zones: nova:SMICRO_B
       networks:
       - network: network
       user_data_format: RAW

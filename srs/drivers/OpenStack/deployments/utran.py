@@ -110,6 +110,7 @@ def add_nvf(ns, nvfs, type):
       name: {{name}}
       image: {{image}}
       flavor: {{flavor}}
+      availability_zone: nova:SMICRO_B
       networks:
         - port: { get_resource: {{name}}_port }
       user_data_format: RAW
