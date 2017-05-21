@@ -38,6 +38,11 @@ class Vim(models.Model):
     def change_node_state(self, node):
         node_state(self, node, state)
 
+    def select_node(self):
+        hypervisors = get_hypervisors(self)
+
+        return hypervisors[0].hypervisor_hostname
+
 
 class Device(models.Model):
     vim = models.ForeignKey(Vim, on_delete=models.CASCADE)

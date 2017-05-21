@@ -18,6 +18,13 @@ function dependencies {
     #InfluxDB
     sudo apt-get install influxdb -y
     influx  -execute "CREATE USER admin WITH PASSWORD 'oocran' WITH ALL PRIVILEGES"
+
+    #Tacker client
+    sudo apt-get install git -y
+    cd /tmp
+    git clone https://github.com/openstack/python-tackerclient.git
+    cd python-tacker
+    python setup.py install
     exit
 }
 

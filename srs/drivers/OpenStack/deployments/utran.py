@@ -110,7 +110,7 @@ def add_nvf(ns, nvfs, type):
       name: {{name}}
       image: {{image}}
       flavor: {{flavor}}
-      availability_zone: nova:SMICRO_B
+      availability_zone: nova:{{node}}
       networks:
         - port: { get_resource: {{name}}_port }
       user_data_format: RAW
@@ -134,6 +134,7 @@ def add_nvf(ns, nvfs, type):
             image=image,
             flavor=get_flavors(nvf, ns.vim),
             nfs=list_nfs,
+            node=ns.vim.select_node(),
         )
         elements += nfs + launch + t
 
