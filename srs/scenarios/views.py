@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from OOCRAN.global_functions import paginator
 from ns.ns.models import Ns
+from ns.utrans.models import UE
 
 
 @staff_member_required
@@ -25,11 +26,12 @@ def list(request):
 @login_required(login_url='/login/')
 def details(request, id=None):
     scenario = get_object_or_404(Scenario, id=id)
-    rrhs = scenario.rrh.all()
-
+    ues = UE.objects.filter(scenario=scenario)
+    for ue in ues:
+        print ue.latitude
     context = {
         "scenario": scenario,
-        "rrhs": rrhs,
+        "ues": ues,
     }
     return render(request, "scenarios/details.html", context)
 
@@ -44,13 +46,8 @@ def create(request):
         except:
             scenario = form.save(commit=False)
             scenario.operator = get_object_or_404(Operator, name=request.user.username)
-            reply = scenario.create_scenarios()
-            if reply is False:
-                messages.success(request, "The content format is not valid!", extra_tags="alert alert-danger")
-            if reply is True:
-                scenario.save()
-                messages.success(request, "Scenario Successfully created!", extra_tags="alert alert-success")
-
+            [msn, tag] = scenario.create_scenarios()
+            messages.success(request, msn, extra_tags=tag)
         return redirect("scenarios:list")
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")

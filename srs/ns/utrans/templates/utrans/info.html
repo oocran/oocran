@@ -3,38 +3,34 @@
 {% block head %}{% endblock head%}
 
 {%block content%}
-<h1 class="page-header">{{scenario.name}}</h1>
-<ol class="breadcrumb">
-    <li><a href="{% url 'utrans:list' %}">BBU</a></li>
-    <li class="active">{{scenario.name}}</li>
-</ol>
+    <h1 class="page-header">{{scenario.name}}</h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'utrans:list' %}">BBU</a></li>
+        <li class="active">{{scenario.name}}</li>
+    </ol>
 
-<h3 style="float:right;margin-left:20px;margin-top:3px">Total price: {{scenario.price}} $</h3>
-<a href="{% url 'scenarios:details' scenario.id %}" class="btn btn-default" role="button" style="float:right">Scenario details</a>
-<br>
+    <h3 style="float:right;margin-left:20px;margin-top:3px">Total price: {{scenario.price}} $</h3>
+    <a href="{% url 'scenarios:details' scenario.id %}" class="btn btn-default" role="button" style="float:right">Scenario details</a>
+    <br>
 
-<h2 class="sub-header">BaseBand Unit Pool</h2>
-{% include "partials/utrans/utran.html" %}
-{% include "base/partials/paginator.html" with object_list=utrans %}
-<br>
-<a id="submit" onclick="bbus()" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Add
-    Pool</a>
+    <h2 class="sub-header">BaseBand Unit Pool</h2>
+    {% include "partials/utrans/utran.html" %}
+    {% include "base/partials/paginator.html" with object_list=utrans %}
+    <br>
+    <a id="submit" href="{% url 'utrans:create' id=scenario.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Add</a>
 
-<br>
-<h2 class="sub-header">Users</h2>
-{% include "partials/utrans/utran.html" %}
-{% include "base/partials/paginator.html" with object_list=utrans %}
-<br>
-<a id="users" onclick="bbus()" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Add
-    Pool</a>
+    <br>
+    <h2 class="sub-header">Users</h2>
+    {% include "partials/utrans/vue.html" %}
+    {% include "base/partials/paginator.html" with object_list=ues %}
+    <br>
+    <a id="users" href="{% url 'utrans:add_ue' id=scenario.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Add</a>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content"></div>
-    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+        </div>
     </div>
 {%endblock content%}
 
-{%block javascript%}
-{% include "partials/utrans/javascript/loader-ajax.html" %}
-{%endblock javascript%}
+{%block javascript%}{%endblock javascript%}

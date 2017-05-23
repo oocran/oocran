@@ -14,35 +14,6 @@ def update_scenarios(operator):
     for scenario in scenarios:
         scenario.update_operators(operator)
 
-
-@login_required(login_url='/login/')
-def change_password(request):
-    operator = get_object_or_404(Operator, user__username=request.user.username)
-    form = ChangeCredenForm(request.POST or None, instance=operator.user)
-    if form.is_valid():
-         if form.cleaned_data['password'] == form.cleaned_data['password_confirmation']:
-             operator.user.username = form.cleaned_data['username']
-             operator.user.set_password(form.cleaned_data['password'])
-             operator.user.save()
-             operator.name = form.cleaned_data['username']
-             operator.password = form.cleaned_data['password']
-             operator.save()
-             messages.success(request, "Password Updated!", extra_tags="alert alert-success")
-             return redirect("operators:home")
-         else:
-            messages.success(request, "Passwords are different!", extra_tags="alert alert-danger")
-            return redirect("operators:home")
-    if form.errors:
-        messages.success(request, form.errors, extra_tags="alert alert-danger")
-        return redirect("operators:home")
-
-    context = {
-        "user": request.user,
-        "form": form,
-    }
-    return render(request, "operators/change_pass.html", context)
-
-
 @staff_member_required
 def add(request):
     form = OperatorForm(request.POST or None)

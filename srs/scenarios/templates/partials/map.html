@@ -16,7 +16,7 @@ function initialize() {
   };
   var map=new google.maps.Map(document.getElementById("map-canvas"),options);
 
-  {% for rrh in rrhs %}
+  {% for rrh in scenario.rrh.all %}
     var {{rrh.name}} = new google.maps.Marker({
       position: {
         lat: {{rrh.latitude}},
@@ -34,11 +34,35 @@ function initialize() {
     });
       var {{rrh.name}}_circle = new google.maps.Circle({
         map: map,
-        radius: {{rrh.pt}},    // 10 miles in metres
+        radius: 0,    // 10 miles in metres
 
       });
 
     {{rrh.name}}_circle.bindTo('center', {{rrh.name}}, 'position');
+  {%endfor%}
+
+  {% for ue in ues %}
+    var {{ue.name}} = new google.maps.Marker({
+      position: {
+        lat: {{ue.latitude}},
+        lng: {{ue.longitude}}
+      },
+      draggable: true,
+      map:map
+    });
+    {{ue.name}}.addListener('click', function() {
+      var infoWindow = new google.maps.InfoWindow({
+          content: '<h6>{{ue.name}}</h6>'
+      });
+      infoWindow.open(map,{{ue.name}});
+    });
+      var {{ue.name}}_circle = new google.maps.Circle({
+        map: map,
+        radius: 0,    // 10 miles in metres
+
+      });
+
+    {{ue.name}}_circle.bindTo('center', {{ue.name}}, 'position');
   {%endfor%}
 
 }

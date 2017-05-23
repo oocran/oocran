@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from operators.models import Operator
-from ns.utrans.forms import DeploymentForm
-from .models import Ns, Utran, BBU
+from ns.utrans.forms import DeploymentForm, UEForm
+from .models import Ns, Utran, BBU, UE
 from scenarios.models import Scenario
 from django.contrib.auth.decorators import login_required
 from OOCRAN.global_functions import paginator
@@ -15,7 +15,6 @@ from drivers.OpenStack.APIs.nova.nova import log
 
 @login_required(login_url='/login/')
 def create(request, id=None):
-    operator = get_object_or_404(Operator, name=request.user.username)
     scenario = get_object_or_404(Scenario, id=id)
     form = DeploymentForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -24,7 +23,7 @@ def create(request, id=None):
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             ns = form.save(commit=False)
-            ns.operator = operator
+            ns.operator = get_object_or_404(Operator, name=request.user.username)
             ns.scenario = scenario
             [reply, tag] = ns.create()
             messages.success(request, reply, extra_tags=tag)
@@ -126,10 +125,13 @@ def info(request, id=None):
     scenario = get_object_or_404(Scenario, id=id)
     utrans = Utran.objects.filter(scenario=scenario)
     utrans = paginator(request, utrans)
+    ues = UE.objects.filter(scenario=scenario)
+    ues = paginator(request, ues)
 
     context = {
         "scenario": scenario,
         "utrans": utrans,
+        "ues": ues,
     }
     return render(request, "utrans/info.html", context)
 
@@ -159,3 +161,32 @@ def get_log(request, id=None):
 def get_console(request, id=None):
     bbu = get_object_or_404(BBU, id=id)
     return bbu.get_console
+
+#############################################
+
+@login_required(login_url='/login/')
+def add_ue(request, id=None):
+    scenario = get_object_or_404(Scenario, id=id)
+    form = UEForm(request.POST or None)
+    if form.is_valid():
+        try:
+            UE.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
+            messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
+        except:
+            ue = form.save(commit=False)
+            ue.scenario = scenario
+            ue.operator = get_object_or_404(Operator, name=request.user.username)
+            ue.save()
+            #messages.success(request, reply, extra_tags=tag)
+
+        return redirect("utrans:info", id=id)
+    if form.errors:
+        messages.success(request, form.errors, extra_tags="alert alert-danger")
+        return redirect("utrans:info", id=id)
+
+    context = {
+        "user": request.user,
+        "form": form,
+        "scenario": scenario,
+    }
+    return render(request, "partials/ues/form.html", context)

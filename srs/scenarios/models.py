@@ -81,8 +81,8 @@ class Scenario(models.Model):
     def get_active_infrastructures(self):
         return self.active_infras
 
-    def get_bts(self):
-        bts = self.bts.all()
+    def get_rrhs(self):
+        bts = self.rrh.all()
         return bts
 
     def get_price(self):
@@ -107,9 +107,13 @@ class Scenario(models.Model):
         if list:
             self.create_frontend(list)
             self.add_operator.delay(self.id)
+            msn = "Scenario Successfully created!"
+            tag = "alert alert-success"
+            return msn, tag
         else:
-            return False
-        return True
+            msn = "The content format is not valid!"
+            tag = "alert alert-danger"
+            return msn, tag
 
     def load_hour(self):
         deploy = self.forecast[1:].rstrip(']').split(',')[:-1]

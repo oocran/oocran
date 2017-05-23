@@ -69,7 +69,7 @@ class Ns(models.Model):
 class Nvf(models.Model):
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
-    ns = models.ForeignKey(Ns, on_delete=models.CASCADE)
+    ns = models.ForeignKey(Ns, on_delete=models.CASCADE, null=True, blank=True)
     vnf = models.ForeignKey(Vnf, null=True, blank=True)
     mgmt_ip = models.CharField(max_length=120, blank=True, null=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)

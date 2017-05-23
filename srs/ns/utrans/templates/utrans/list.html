@@ -3,14 +3,14 @@
 {% block head %}{% endblock head%}
 
 {% block content%}
-<h2 class="sub-header">List of Scenarios</h2>
+    <h2 class="sub-header">List of Scenarios</h2>
 
-<ol class="breadcrumb">
-    <li class="active">BBU</li>
-</ol>
+    <ol class="breadcrumb">
+        <li class="active">BBU</li>
+    </ol>
 
-{% include "partials/utrans/scenarios.html" %}
-{% include "base/partials/paginator.html" %}
+    {% include "partials/utrans/scenarios.html" %}
+    {% include "base/partials/paginator.html" %}
 {% endblock content %}
 
 {%block javascript%}{%endblock javascript%}

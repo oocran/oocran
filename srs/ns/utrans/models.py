@@ -33,7 +33,6 @@ class Utran(Ns):
     def create_BBU(self, list):
         for element in list:
             bbu = BBU(**element)
-            # bbu.flavor = get_flavors(bbu)
             bbu.ns = self
             self.rb_offer += bbu.bw_dl
             bbu.radio = 20
@@ -134,6 +133,7 @@ class Channel(Nvf):
 
 
 class UE(Nvf):
+    scenario = models.ForeignKey(Scenario)
     sensibility = models.FloatField(default=0.0)
     service = models.FloatField(default=3600)
     delay = models.FloatField(default=0.0)

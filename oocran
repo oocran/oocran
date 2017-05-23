@@ -14,11 +14,9 @@ function dependencies {
     sudo rabbitmqctl add_user oocran oocran
     sudo rabbitmqctl add_vhost oocran
     sudo rabbitmqctl set_permissions -p oocran oocran ".*" ".*" ".*"
-
     #InfluxDB
     sudo apt-get install influxdb -y
     influx  -execute "CREATE USER admin WITH PASSWORD 'oocran' WITH ALL PRIVILEGES"
-
     #Tacker client
     sudo apt-get install git -y
     cd /tmp
