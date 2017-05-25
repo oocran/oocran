@@ -82,8 +82,7 @@ class Scenario(models.Model):
         return self.active_infras
 
     def get_rrhs(self):
-        bts = self.rrh.all()
-        return bts
+        return self.rrh.all()
 
     def get_price(self):
         return round(self.scenario.price, 3)

@@ -1,29 +1,29 @@
 {%extends "base/base.html"%}
 
 {%block content%}
-<h2 class="sub-header">Details of {{vnf.name}}</h2>
-<br/>
-<h3>Description</h3>
-<div class="panel panel-default">
-    <div class="panel-body">
-        {{vnf.description | linebreaksbr}}<br/>
+    <h2 class="sub-header">Details of {{vnf.name}}</h2>
+    <br/>
+    <h3>Description</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{vnf.description | linebreaksbr}}<br/>
+        </div>
+        </div>
+    <h3>Image name</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{vnf.image}}<br/>
+        </div>
     </div>
-    </div>
-<h3>Image name</h3>
-<div class="panel panel-default">
-    <div class="panel-body">
-        {{vnf.image}}<br/>
-    </div>
-    </div>
-{% if vnf.check_nf != False %}
-<h3>Network Functions</h3>
-<div class="panel panel-default">
-    <div class="panel-body">
-        {% for nf in vnf.check_nf %}
-        <a href="{{nf.get_absolut_url}}">{{nf.name}}</a> - {{nf.description}}
-        <br/>
-        {% endfor%}
-    </div>
-</div>
-{% endif %}
+    {% if vnf.check_nf != False %}
+        <h3>Network Functions</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% for nf in vnf.check_nf %}
+                <a href="{{nf.get_absolut_url}}">{{nf.name}}</a> - {{nf.description}}
+                <br/>
+                {% endfor%}
+            </div>
+        </div>
+    {% endif %}
 {%endblock content%}

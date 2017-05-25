@@ -29,8 +29,7 @@ class Operator(models.Model):
             return True
 
     def create(self, email):
-        user = User.objects.create_user(username=self.name, password=self.password, email=email)
-        self.user = user
+        self.user = User.objects.create_user(username=self.name, password=self.password, email=email)
         self.save()
         if self.vnfm == "Heat":
             vims = Vim.objects.all()
@@ -50,17 +49,21 @@ class Operator(models.Model):
             shutil.rmtree(os.getcwd() + '/drivers/Vagrant/repository/' + self.name)
 
     def create_influxdb_user(self):
-        dbuser = self.name
-        dbuser_password = self.password
         client = InfluxDBClient(**INFLUXDB['default'])
-        print("Create user: " + dbuser)
-        client.create_user(dbuser, dbuser_password, admin=False)
+        try:
+            client.create_user(self.name, self.password, admin=False)
+        except:
+            client.drop_user(self.name)
+            client.create_user(self.name, self.password, admin=False)
+        print("Create user: " + self.name)
 
     def delete_influxdb_user(self):
-        dbuser = self.name
         client = InfluxDBClient(**INFLUXDB['default'])
-        print("Delete user: " + dbuser)
-        client.drop_user(dbuser)
+        try:
+            client.drop_user(self.name)
+            print("Delete user: " + self.name)
+        except:
+            print("Delete user: " + self.name)
 
 
 class Provider(Operator):

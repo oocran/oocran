@@ -67,6 +67,7 @@ def shut_down(request, id=None):
 @login_required(login_url='/login/')
 def bbu(request, id=None):
     bbu = get_object_or_404(BBU, id=id)
+    print bbu.rrh.scenario
 
     context = {
         "user": request.user,
@@ -80,13 +81,15 @@ def delete(request, id=None):
     utran = get_object_or_404(Utran, id=id)
     utran.delete_influxdb_database()
     utran.scenario.total_infras -= 1
+    utran.scenario.active_infras -= 1
     utran.scenario.save()
 
     if utran.status == "Running":
         tasks.shut_down.delay(id, action="delete")
-        utran.scenario.active_infras -= 1
     else:
-        utran.delete()
+        print "delete"
+
+    utran.delete()
 
     messages.success(request, "NS successfully deleted!", extra_tags="alert alert-success")
     return redirect("utrans:info", id=utran.scenario.id)
@@ -95,18 +98,21 @@ def delete(request, id=None):
 @login_required(login_url='/login/')
 def detail(request, id=None):
     utran = get_object_or_404(Utran, id=id)
-    nvfs = BBU.objects.filter(nvfi__name=utran.name)
+    nvfs = BBU.objects.filter(ns=utran)
     nvfs = paginator(request, nvfs)
+
+    print utran
 
     context = {
         "user": utran.operator,
-        "nvfi": utran,
-        "object_list": nvfs,
+        "utran": utran,
+        "nvfs": nvfs,
     }
     return render(request, "utrans/detail.html", context)
 
 
 ##############################################################################
+
 
 @login_required(login_url='/login/')
 def list(request):
@@ -139,12 +145,12 @@ def info(request, id=None):
 @login_required(login_url='/login/')
 def detail_utran(request, id=None):
     utran = get_object_or_404(Utran, id=id)
-    bbus = BBU.objects.filter(ns__name=utran.name)
+    bbus = BBU.objects.filter(ns=utran)
     bbus = paginator(request, bbus)
 
     context = {
         "user": utran.operator,
-        "nvfi": utran,
+        "utran": utran,
         "object_list": bbus,
         "url": get_current_site(request).domain.split(':')[0],
     }

@@ -27,9 +27,6 @@ class Ns(models.Model):
     def __unicode__(self):
         return self.name
 
-    def get_scenario(self):
-        return self.area.name
-
     def create_influxdb_database(self):
         db = "ns_" + str(self.id)
         client = InfluxDBClient(**INFLUXDB['default'])
@@ -89,4 +86,10 @@ class Nvf(models.Model):
         client.close()
 
     def get_console(self):
-        return console(self)['console']['url']
+        return console(name=self.name,
+                       domain=self.ns.vim.domain,
+                       username=self.operator.name,
+                       project_domain_name=self.ns.vim.project_domain,
+                       project_name=self.ns.vim.project,
+                       password=self.operator.password,
+                       ip=self.ns.vim.ip)['console']['url']

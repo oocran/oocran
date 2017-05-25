@@ -53,10 +53,11 @@ class Vnf(models.Model):
             self.nf.add(get_object_or_404(Nf, id=id))
 
     def check_nf(self):
-        if len(self.nf) == 0:
+        nfs = self.nf.all()
+        if len(nfs) == 0:
             return False
         else:
-            return self.nf.all()
+            return nfs
 
     def extra_spec(self):
         properties = {}

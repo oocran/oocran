@@ -14,10 +14,10 @@ def launch(id):
     utran.status = 'Working-launch'
     utran.save()
 
-    bbus = BBU.objects.filter(ns__name=utran.name)
+    bbus = BBU.objects.filter(ns=utran)
     [bbu.assign_frequency() for bbu in bbus]
-    channels = Channel.objects.filter(ns__name=utran.name)
-    ues = UE.objects.filter(ns__name=utran.name)
+    channels = Channel.objects.filter(ns=utran)
+    ues = UE.objects.filter(ns=utran)
 
     if utran.vim_option == "Near":
         OpenStack_create_deploy(utran, bbus, channels, ues)

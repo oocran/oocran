@@ -1,17 +1,17 @@
 {%extends "base/base.html"%}
 
 {% block head %}
-<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB05V_zAdTZtLZkFTGC17QHXMXs3w6rcSI " async="" defer="defer" type="text/javascript"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+   <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB05V_zAdTZtLZkFTGC17QHXMXs3w6rcSI" async="" defer="defer" type="text/javascript"></script>
+   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 {% endblock head%}
 
 {%block content%}
-<h1>Details of {{nvfi.name}}</h1>
+<h1>Details of {{utran.name}}</h1>
 
 <ol class="breadcrumb">
     <li><a href="{% url 'utrans:list' %}">BBU</a></li>
-    <li><a href="{% url 'utrans:info' id=nvfi.scenario.id %}">{{nvfi.scenario}}</a></li>
-    <li class="active">{{nvfi.name}}</li>
+    <li><a href="{% url 'utrans:info' id=utran.scenario.id %}">{{utran.scenario}}</a></li>
+    <li class="active">{{utran.name}}</li>
 </ol>
 
 <h2 class="sub-header">List of NVF</h2>
@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <th>Data Base</th>
-            <td>ns_{{nvfi.id}}</td>
+            <td>ns_{{utran.id}}</td>
         </tr>
         <tr>
             <th>Credentials</th>
@@ -47,5 +47,5 @@
 {%endblock content%}
 
 {%block javascript%}
-{% include "partials/utrans/javascript/map.html" %}
+    {% include "partials/utrans/javascript/map.html" %}
 {%endblock javascript%}

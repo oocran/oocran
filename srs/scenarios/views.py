@@ -27,8 +27,7 @@ def list(request):
 def details(request, id=None):
     scenario = get_object_or_404(Scenario, id=id)
     ues = UE.objects.filter(scenario=scenario)
-    for ue in ues:
-        print ue.latitude
+
     context = {
         "scenario": scenario,
         "ues": ues,

@@ -16,7 +16,7 @@ function initialize() {
   };
   var map=new google.maps.Map(document.getElementById("map-canvas"),options);
 
-  {% for rrh in scenario.get_rrhs %}
+  {% for rrh in utran.scenario.rrh.all %}
     var {{rrh.name}} = new google.maps.Marker({
       position: {
         lat: {{rrh.latitude}},
@@ -34,7 +34,7 @@ function initialize() {
     });
       var {{rrh.name}}_circle = new google.maps.Circle({
         map: map,
-        radius: {{rrh.pt}},    // 10 miles in metres
+        radius: 0,    // 10 miles in metres
 
       });
 

@@ -1,1 +1,1 @@
-SECRET_KEY ="d]V!v4l)=U#O$)t3kyu{OWm</%JowgJEar\\C-3'F;.!7o&P1"
+SECRET_KEY ='C:}XX_7LBK^,:2mdk;o<cXb?2669ic&qL/mM,sl)_55{<[wW9P'

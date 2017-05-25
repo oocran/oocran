@@ -2,14 +2,15 @@
 {% load staticfiles %}
 
 {% block head %}
-<script src="{% static 'base/js/jquery.flotgraph.js' %}" xmlns="http://www.w3.org/1999/html"></script>
-<link href="{% static 'base/css/flot.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'base/js/jquery.flotgraph.js' %}" xmlns="http://www.w3.org/1999/html"></script>
+    <link href="{% static 'base/css/flot.css' %}" rel="stylesheet" type="text/css">
 {% endblock head %}
 
 {% block content %}
 <h1>Details of {{bbu.get_name}}</h1>
 <ol class="breadcrumb">
     <li><a href="{% url 'utrans:list' %}">BBU</a></li>
+    <li><a href="{% url 'utrans:info' id=bbu.ns.scenario.id %}">{{bbu.ns.scenario}}</a></li>
     <li class="active">{{bbu.get_name}}</li>
 </ol>
 
@@ -76,9 +77,9 @@
 </div>
 
 {%if bbu.operator.vnfm != "Vagrant" %}
-<h2 class="sub-header">Options</h2>
-<a class="btn btn-default" role="button" onClick="window.open('{{bbu.get_console}}');">Console</a>
-<a class="btn btn-default" role="button" onclick="window.open('{% url 'utrans:log' id=bbu.id %}')">Log</a>
+<!--<h2 class="sub-header">Options</h2>
+<a class="btn btn-default" role="button" onClick="window.open('');">Console</a>
+<a class="btn btn-default" role="button" onclick="window.open('{% url 'utrans:log' id=bbu.id %}')">Log</a>-->
 {%endif%}
 
 {%if bbu.canal != None %}
