@@ -9,7 +9,6 @@
     <form method="POST" action="{% url 'epcs:create' %}" enctype="multipart/form-data">
         {%csrf_token%}
         {{ form.name|bootstrap }}
-        {{ form.vim|bootstrap }}
         {{ form.file|bootstrap }}
         <input type="submit" class="btn btn-default" value="Create Pool"/>
     </form>

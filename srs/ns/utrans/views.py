@@ -67,7 +67,6 @@ def shut_down(request, id=None):
 @login_required(login_url='/login/')
 def bbu(request, id=None):
     bbu = get_object_or_404(BBU, id=id)
-    print bbu.rrh.scenario
 
     context = {
         "user": request.user,
@@ -100,8 +99,6 @@ def detail(request, id=None):
     utran = get_object_or_404(Utran, id=id)
     nvfs = BBU.objects.filter(ns=utran)
     nvfs = paginator(request, nvfs)
-
-    print utran
 
     context = {
         "user": utran.operator,
@@ -151,7 +148,7 @@ def detail_utran(request, id=None):
     context = {
         "user": utran.operator,
         "utran": utran,
-        "object_list": bbus,
+        "bbus": bbus,
         "url": get_current_site(request).domain.split(':')[0],
     }
     return render(request, "utrans/detail.html", context)

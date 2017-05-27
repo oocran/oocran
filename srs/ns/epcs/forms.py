@@ -20,13 +20,10 @@ class EpcForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EpcForm, self).__init__(*args, **kwargs)
-        self.fields['vim'] = forms.ChoiceField(required=True,
-                                               choices=[('Near', 'Near'), ('Select', 'Select'), ('Local', 'Local')])
 
     class Meta:
         model = Epc
         fields = [
             "name",
-            "vim",
             "file",
         ]
