@@ -5,9 +5,17 @@
             <li class="collapsed active" style="background-color: #333">
               <a href="{% url 'operators:home' %}" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i class="glyphicon glyphicon-home"></i> Home <span class="arrow"></span></a>
             </li>
+            <li class="collapsed active" style="background-color: #333">
+              <a href="{% url 'operators:home' %}" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i class="glyphicon glyphicon-wrench"></i> Configuration <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu" id="configuration">
+                <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'libraries:list' %}">Keys</a></li>
+                <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'nfs:list' %}">Schedulers</a></li>
+                </li>
+            </ul>
             <li  data-toggle="collapse" data-target="#resources" class="collapsed active" style="background-color: #f5f5f5">
                 <a href="#" style="background-color:#f5f5f5;font-size:18px;outline:none;color:black"><i
-                        class="glyphicon glyphicon-th"></i> Catalog <span class="arrow"></span></a>
+                        class="glyphicon glyphicon-th"></i> Catalogs <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu" id="resources">
                 <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'libraries:list' %}">Libraries</a></li>

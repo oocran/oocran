@@ -4,8 +4,8 @@
         center:new google.maps.LatLng({{scenario.latitude}},{{scenario.longitude}}),
         zoom:18,
         disableDefaultUI: true,
-        scrollwheel: false,
-        draggable: false,
+        scrollwheel: true,
+        draggable: true,
         mapTypeId: google.maps.MapTypeId.MAP,
       };
 
@@ -18,7 +18,7 @@
             lng: {{rrh.longitude}}
           },
           icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-pushpin.png',
-          draggable: true,
+          draggable: false,
           map:map
         });
         {{rrh.name}}.addListener('click', function() {
@@ -42,12 +42,12 @@
             lat: {{ue.latitude}},
             lng: {{ue.longitude}}
           },
-          draggable: true,
+          draggable: false,
           map:map
         });
         {{ue.name}}.addListener('click', function() {
           var infoWindow = new google.maps.InfoWindow({
-              content: '<h6>{{ue.name}}</h6>'
+              content: '<h6>name: {{ue.name}}</h6><h6>service: {{ue.service}}</h6><h6>sensibility: {{ue.sensibility}}</h6><a href="{% url 'utrans:delete_ue' ue.id %}" class="btn btn-danger" role="button">Delete</a>'
           });
           infoWindow.open(map,{{ue.name}});
         });

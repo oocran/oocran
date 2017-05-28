@@ -1,0 +1,30 @@
+ue1:
+  name: ue1
+  latitude: 41.2759564
+  longitude: 1.9862142
+  sensibility: -107.5
+  service: 1400000
+ue2:
+  name: ue2
+  latitude: 41.275259
+  longitude: 1.9853187
+  sensibility: -107.5
+  service: 1400000
+ue3:
+  name: ue3
+  latitude: 41.275698
+  longitude: 1.9860857
+  sensibility: -107.5
+  service: 1400000
+ue4:
+  name: ue4
+  latitude: 41.275581
+  longitude: 1.9853397
+  sensibility: -107.5
+  service: 1400000
+ue5:
+  name: ue5
+  latitude: 41.275581
+  longitude: 1.9853397
+  sensibility: -107.5
+  service: 1400000

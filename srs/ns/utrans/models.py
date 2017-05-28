@@ -134,11 +134,10 @@ class Channel(Nvf):
 
 class UE(Nvf):
     scenario = models.ForeignKey(Scenario)
-    sensibility = models.FloatField(default=0.0)
-    service = models.FloatField(default=3600)
-    delay = models.FloatField(default=0.0)
-    longitude = models.FloatField(default=12.3)
-    latitude = models.FloatField(default=1.3)
+    sensibility = models.FloatField()
+    service = models.IntegerField()
+    longitude = models.FloatField()
+    latitude = models.FloatField()
 
     def check_provision(self):
         res = False

@@ -1,83 +1,37 @@
 {%extends "base/base.html"%}
 
 {%block content%}
-<h2 class="sub-header">{{vim.name}}</h2>
+    <h2 class="sub-header">{{vim.name}}</h2>
 
-<ol class="breadcrumb">
-    <li><a href="{% url 'vims:list' %}">VIM</a></li>
-    <li class="active">{{vim.name}}</li>
-</ol>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'vims:list' %}">VIM</a></li>
+        <li class="active">{{vim.name}}</li>
+    </ol>
 
-<h3>Details</h3>
-<div class="panel panel-default" style="float:left;width:47%;margin-right:15px;margin-bottom:50px">
-    <div class="panel-heading">Parameters</div>
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Name</th>
-            <td>{{vim.name}}</td>
-        </tr>
-        <tr>
-            <th>IP Address</th>
-            <td>{{vim.ip}}</td>
-        </tr>
-        <tr>
-            <th>Longitude</th>
-            <td>{{vim.longitude}}</td>
-        </tr>
-        <tr>
-            <th>Latitude</th>
-            <td>{{vim.latitude}}</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <h3>Details</h3>
+    {% include "partials/vims/details.html" %}
 
-<div class="panel panel-default" style="float:left;width:47%;margin-right:15px;margin-bottom:50px">
-    <div class="panel-heading">Configuration</div>
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Username</th>
-            <td>{{vim.username}}</td>
-        </tr>
-        <tr>
-            <th>Project Domain</th>
-            <td>{{vim.project_domain}}</td>
-        </tr>
-        <tr>
-            <th>Project Name</th>
-            <td>{{vim.project}}</td>
-        </tr>
-        <tr>
-            <th>Public Network</th>
-            <td>{{vim.public_network}}</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <h3>Compute Nodes</h3>
+    {% include "partials/vims/nodes.html" %}
+    {% include "base/partials/paginator.html" with object_list=devices %}
+    <br>
+    <a class="btn btn-default" role="button">Update</a>
 
-<h3>Compute Nodes</h3>
-{% include "partials/vims/nodes.html" %}
-{% include "base/partials/paginator.html" with object_list=devices %}
-<br>
-<a class="btn btn-default" role="button">Update</a>
+    <h3>PCI Passthough Devices</h3>
+    {% include "partials/vims/devices.html" %}
+    {% include "base/partials/paginator.html" with object_list=devices %}
+    <br>
+    <a id="submit" onclick="loader_device({{vim.id}})" class="btn btn-default" role="button" data-toggle="modal"
+       data-target="#myModal">Register</a>
 
-<h3>PCI Passthough Devices</h3>
-{% include "partials/vims/devices.html" %}
-{% include "base/partials/paginator.html" with object_list=devices %}
-<br>
-<a id="submit" onclick="loader_device({{vim.id}})" class="btn btn-default" role="button" data-toggle="modal"
-   data-target="#myModal">Register</a>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+        </div>
     </div>
-</div>
 {%endblock content%}
 
 {%block javascript%}
-{% include "partials/vims/javascript/loader-ajax.html"%}
+    {% include "partials/vims/javascript/loader-ajax.html"%}
 {%endblock javascript%}

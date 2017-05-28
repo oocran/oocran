@@ -1,1 +1,1 @@
-SECRET_KEY ='C:}XX_7LBK^,:2mdk;o<cXb?2669ic&qL/mM,sl)_55{<[wW9P'
+SECRET_KEY ='|Mv>(RU1NrH3eR-Xx[q-LX+`+"2zPx5\'~~>p"{/n@~McbyH%sa'

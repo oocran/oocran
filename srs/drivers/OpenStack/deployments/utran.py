@@ -134,7 +134,7 @@ def add_nvf(ns, nvfs, type):
             image=image,
             flavor=get_flavors(nvf, ns.vim),
             nfs=list_nfs,
-            node=ns.vim.select_node(),
+            node=ns.vim.select_node(cpu=nvf.vnf.min_cpu,ram=nvf.vnf.min_ram,disc=nvf.vnf.disc),
         )
         elements += nfs + launch + t
 

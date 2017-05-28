@@ -11,6 +11,8 @@ import tasks
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
 from drivers.OpenStack.APIs.nova.nova import log
+from .orchestrator import read_users
+import yaml
 
 
 @login_required(login_url='/login/')
@@ -170,17 +172,17 @@ def get_console(request, id=None):
 @login_required(login_url='/login/')
 def add_ue(request, id=None):
     scenario = get_object_or_404(Scenario, id=id)
-    form = UEForm(request.POST or None)
+    form = UEForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        try:
-            UE.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
-            messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
-        except:
-            ue = form.save(commit=False)
-            ue.scenario = scenario
-            ue.operator = get_object_or_404(Operator, name=request.user.username)
-            ue.save()
-            #messages.success(request, reply, extra_tags=tag)
+        doc = yaml.load(form.cleaned_data['file'])
+        [ues, tag] = read_users(doc, scenario)
+        print tag
+        if tag == "alert alert-success":
+            for ue in ues:
+                UE.objects.create(**ue)
+            messages.success(request, "UE attached!", extra_tags=tag)
+        else:
+            messages.success(request, ues, extra_tags=tag)
 
         return redirect("utrans:info", id=id)
     if form.errors:
@@ -193,3 +195,12 @@ def add_ue(request, id=None):
         "scenario": scenario,
     }
     return render(request, "partials/ues/form.html", context)
+
+
+@login_required(login_url='/login/')
+def delete_ue(request, id=None):
+    ue = get_object_or_404(UE, id=id)
+    id = ue.scenario.id
+    ue.delete()
+
+    return redirect("utrans:info", id=id)

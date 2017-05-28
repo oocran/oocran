@@ -30,18 +30,30 @@ class Vim(models.Model):
         self.public_network = get_public_network(self)
 
     def get_devices(self):
-        return Device.objects.filter(vim__name=self.name)
+        return Device.objects.filter(vim=self)
 
     def get_hypervisors(self):
         return get_hypervisors(self)
 
-    def change_node_state(self, node):
-        node_state(self, node, state)
+    def select_node(self, cpu, ram, disc):
+        for node in get_hypervisors(self):
+            if node.state == "up":
+                if node.vcpus_used < node.vcpus and node.memory_mb_used < node.memory_mb and node.local_gb_used < node.local_gb:
+                    if cpu <= node.vcpus - node.vcpus_used and ram <= node.memory_mb - node.memory_mb_used and disc <= node.local_gb - node.local_gb_used:
+                        return node.hypervisor_hostname
 
-    def select_node(self):
-        hypervisors = get_hypervisors(self)
 
-        return hypervisors[0].hypervisor_hostname
+class Node(models.Model):
+    ip = models.CharField(max_length=120)
+    name = models.CharField(max_length=120)
+    cpu = models.CharField(max_length=120)
+    ram = models.CharField(max_length=120)
+    disc = models.CharField(max_length=120)
+    state = models.CharField(max_length=120)
+    vim = models.ForeignKey(Vim, on_delete=models.CASCADE)
+    priority = models.IntegerField()
+    update = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
 
 class Device(models.Model):

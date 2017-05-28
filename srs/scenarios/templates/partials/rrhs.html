@@ -10,7 +10,7 @@
         </tr>
         </thead>
         <tbody>
-            {% for rrh in rrhs %}
+            {% for rrh in scenario.get_rrhs %}
                 <tr>
                   <td>{{rrh.ip}}</td>
                   <td>{{rrh.first_band}}</td>

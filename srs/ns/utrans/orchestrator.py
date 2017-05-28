@@ -108,6 +108,26 @@ def read_ues(doc, operator):
         return "The content format is not valid!", "alert alert-danger"
 
 
+def read_users(doc, scenario):
+    keys = ["latitude", "longitude", "sensibility", "service", "name"]
+    list = []
+    try:
+        for ue, parameters in doc.items():
+            data = check_parameters(parameters, keys)
+            if check_content(parameters, keys) is not False:
+                if data is not False:
+                    data['scenario'] = scenario
+                    data['operator'] = scenario.operator
+                    list.append(data)
+                else:
+                    return "The content format is not valid!", "alert alert-danger"
+            else:
+                return "The content format is not valid!", "alert alert-danger"
+        return list,  "alert alert-success"
+    except:
+        return "The content format is not valid!", "alert alert-danger"
+
+
 def jsontoheat(code):
     elements = {}
     connection = {}

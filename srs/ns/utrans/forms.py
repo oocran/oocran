@@ -11,13 +11,5 @@ class DeploymentForm(forms.ModelForm):
         ]
 
 
-class UEForm(forms.ModelForm):
-    class Meta:
-        model = UE
-        fields = [
-            "name",
-            "latitude",
-            "longitude",
-            "sensibility",
-            "service",
-        ]
+class UEForm(forms.Form):
+    file = forms.FileField()

@@ -12,11 +12,13 @@ from .views import (
     get_log,
     get_console,
     add_ue,
+    delete_ue,
 )
 
 urlpatterns = [
     url(r'^(?P<id>\d+)/create/$', create, name='create'),
     url(r'^(?P<id>\d+)/add_ue/$', add_ue, name='add_ue'),
+    url(r'^(?P<id>\d+)/delete_ue/$', delete_ue, name='delete_ue'),
     url(r'^(?P<id>\d+)/bbu/$', bbu, name='bbu'),
     url(r'^(?P<id>\d+)/launch/$', launch, name='launch'),
     url(r'^(?P<id>\d+)/shut_down/$', shut_down, name='shut_down'),
