@@ -3,27 +3,84 @@
 {%block content%}
     <h2 class="sub-header">Details of {{vnf.name}}</h2>
     <br/>
-    <h3>Description</h3>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            {{vnf.description | linebreaksbr}}<br/>
+
+    {% if vnf.description != "" %}
+        <h3>Description</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">{{vnf.description | linebreaksbr}}<br/></div>
         </div>
-        </div>
-    <h3>Image name</h3>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            {{vnf.image}}<br/>
-        </div>
+    {% endif %}
+
+    <div class="panel panel-default" style="float:left;width:48%">
+        <div class="panel-heading">Information</div>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{vnf.name}}</td>
+            </tr>
+            <tr>
+                <th>Visibility</th>
+                <td>{{vnf.visibility}}</td>
+                <td></td>
+            </tr>
+                <th>Provider</th>
+                <td>{{vnf.provider}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{vnf.image}}</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    {% if vnf.check_nf != False %}
-        <h3>Network Functions</h3>
+
+    <div class="panel panel-default" style="float:right;width:48%">
+        <div class="panel-heading">Resources</div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Number of CPUs</th>
+                    <td>{{vnf.cpu}}</td>
+                    <td>cores</td>
+                </tr>
+                <tr>
+                    <th>RAM</th>
+                    <td>{{vnf.ram}}</td>
+                    <td>GB</td>
+                </tr>
+                <tr>
+                    <th>Disc Assigned</th>
+                    <td>{{vnf.disc}}</td>
+                    <td>GB</td>
+                </tr>
+                <tr>
+                    <th>Key Pair</th>
+                    <td>{{vnf.key}}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% if vnf.check_scripts != False %}
+        <h3>Scripts</h3>
         <div class="panel panel-default">
             <div class="panel-body">
-                {% for nf in vnf.check_nf %}
-                <a href="{{nf.get_absolut_url}}">{{nf.name}}</a> - {{nf.description}}
-                <br/>
+                {% for script in vnf.get_scripts_order %}
+                    <a href="{{script.get_absolut_url}}">{{script.name}}</a> - {{script.description}}
+                    <br/>
                 {% endfor%}
             </div>
         </div>
     {% endif %}
+
+    {% if vnf.launch != "" %}
+        <h3>Launch Commands</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">{{vnf.launch_script}}</div>
+        </div>
+    {%endif%}
 {%endblock content%}

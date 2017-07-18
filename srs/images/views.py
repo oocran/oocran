@@ -2,19 +2,22 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from .models import Image
-from OOCRAN.global_functions import paginator
+from oocran.global_functions import paginator
 from django.contrib.auth.decorators import login_required
 from .forms import ImageForm
 from operators.models import Operator
+from drivers.Vagrant.APIs.main import list_boxes
+from drivers.Docker.main import docker_images
 
 
 @login_required(login_url='/login/')
 def list(request):
+    operator = Operator.objects.get(user=request.user)
     queryset_list = Image.objects.all()
     queryset = paginator(request, queryset_list)
 
     context = {
-        "user": request.user,
+        "operator": operator,
         "images": queryset,
     }
     return render(request, "images/list.html", context)
@@ -25,7 +28,7 @@ def create(request):
     form = ImageForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         try:
-            Image.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
+            Image.objects.get(operator__user=request.user, name=form.cleaned_data['name'])
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             image = form.save(commit=False)
@@ -42,6 +45,27 @@ def create(request):
         "form": form,
     }
     return render(request, "images/form.html", context)
+
+
+@login_required(login_url='/login/')
+def sincronize(request):
+    operator = Operator.objects.get(user=request.user)
+    images = docker_images()
+    for image in images:
+        try:
+            Image.objects.get(operator__user=request.user, name=image.name)
+        except:
+            img = Image.objects.create(name=image.name, format="Docker", operator=operator)
+            img.save()
+
+    images = list_boxes(operator)
+    for image in images:
+        try:
+            Image.objects.get(operator__user=request.user, name=image.name)
+        except:
+            img = Image.objects.create(name=image.name,format=image.provider, operator=operator, version=image.version)
+            img.save()
+    return redirect("images:list")
 
 
 @login_required(login_url='/login/')

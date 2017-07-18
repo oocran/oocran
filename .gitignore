@@ -1,12 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
+
 srs/images/migrations/*
 !srs/images/migrations/__init__.py
 
-srs/libraries/migrations/*
-!srs/libraries/migrations/__init__.py
-
-srs/nfs/migrations/*
-!srs/nfs/migrations/__init__.py
+srs/oocran/repositories
 
 srs/operators/migrations/*
 !srs/operators/migrations/__init__.py
@@ -20,17 +17,29 @@ srs/vims/migrations/*
 srs/vnfs/migrations/*
 !srs/vnfs/migrations/__init__.py
 
-srs/ns/ns/migrations/*
-!srs/ns/ns/migrations/__init__.py
+srs/schedulers/migrations/*
+!srs/schedulers/migrations/__init__.py
 
-srs/ns/utrans/migrations/*
-!srs/ns/utrans/migrations/__init__.py
+srs/ns/migrations/*
+!srs/ns/migrations/__init__.py
 
-srs/ns/epcs/migrations/*
-!srs/ns/epcs/migrations/__init__.py
+srs/pools/migrations/*
+!srs/pools/migrations/__init__.py
 
-srs/OOCRAN/secret_key.py
+srs/alerts/migrations/*
+!srs/alerts/migrations/__init__.py
+
+srs/keys/migrations/*
+!srs/keys/migrations/__init__.py
+
+srs/ues/migrations/*
+!srs/ues/migrations/__init__.py
+
+srs/bbus/migrations/*
+!srs/bbus/migrations/__init__.py
+
+srs/oocran/secret_key.py
 
 srs/db.sqlite3
-
 srs/drivers/Vagrant/repository/*
+srs/celerybeat.pid

@@ -8,7 +8,23 @@
 <div class="modal-body">
 	<form method="POST" action="{% url 'scenarios:create' %}" enctype="multipart/form-data">
         {%csrf_token%}
-        {{ form|bootstrap }}
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#info">Information</a></li>
+            <li><a data-toggle="tab" href="#details">Details</a></li>
+		</ul>
+		<div class="tab-content">
+			<div id="info" class="tab-pane fade in active">
+				<br>
+				{{form.name|bootstrap}}
+				{{form.description|bootstrap}}
+			</div>
+			<div id="details" class="tab-pane fade">
+				<br>
+				{{form.latitude|bootstrap}}
+				{{form.longitude|bootstrap}}
+				{{form.file|bootstrap}}
+			</div>
+		</div>
 		<input type="submit" class="btn btn-default" value="Add"/>
 	</form>
 </div>

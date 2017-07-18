@@ -8,24 +8,19 @@
 <div class="modal-body">
 	<form method="POST" action="{% url 'operators:add' %}" enctype="multipart/form-data">
         {%csrf_token%}
-		{{ form.name |bootstrap }}
-		{{ form.password |bootstrap }}
-		{{ form.password_confirmation |bootstrap }}
-		{{ form.vnfm |bootstrap }}
-		<div id="vagrant_hypervisor" style="display: none;">
-			{{ form.vagrant_hypervisor |bootstrap }}
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#info">Information</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="info" class="tab-pane fade in active">
+			  	<br>
+				{{ form.name |bootstrap }}
+				{{ form.password |bootstrap }}
+				{{ form.password_confirmation |bootstrap }}
+				{{ form.email |bootstrap }}
+			</div>
 		</div>
-		{{ form.email |bootstrap }}
 		<input type="submit" class="btn btn-default" value="Add"/>
 	</form>
 </div>
-
-<script>
-	function select(object) {
-		if (object.value == "Vagrant") {
-			document.getElementById("vagrant_hypervisor").style.display = "block";
-		} else {
-			document.getElementById("vagrant_hypervisor").style.display = "none";
-		}
-	}
-</script>

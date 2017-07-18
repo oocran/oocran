@@ -3,36 +3,39 @@ from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.db import models
 from operators.models import Operator
-from nfs.models import Nf
+from images.models import Image
+from keys.models import Key
 from time import sleep
-from drivers.OpenStack.APIs.nova.nova import log
-from drivers.OpenStack.APIs.nova.nova import console
+from scripts.models import Script
+from drivers.OpenStack.APIs.nova.nova import log, console
 
 
 class Vnf(models.Model):
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
+    key = models.CharField(max_length=120, null=True, blank=True)
     status = models.CharField(max_length=120, null=True, blank=True)
     name = models.CharField(max_length=120)
     description = models.TextField(null=True, blank=True)
-    update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    nf = models.ManyToManyField(Nf, blank=True)
     visibility = models.CharField(max_length=50)
+    launch_script = models.TextField(null=True, blank=True)
+    scripts_order = models.TextField(blank=True, null=True)
+    scripts = models.ManyToManyField(Script, blank=True)
     image = models.CharField(max_length=120)
-    max_cpu = models.IntegerField(null=True, blank=True, default=2)
-    min_cpu = models.IntegerField(null=True, blank=True, default=1)
-    max_ram = models.IntegerField(null=True, blank=True, default=2048)
-    min_ram = models.IntegerField(null=True, blank=True, default=1024)
-    disc = models.IntegerField(null=True, blank=True, default=3)
-    nics = models.IntegerField(null=True, blank=True, default=1)
+    cpu = models.IntegerField(default=1)
+    ram = models.IntegerField(default=1024)
+    disc = models.IntegerField(default=3)
+    provider = models.CharField(max_length=120, null=True, blank=True)
     create = models.BooleanField(default=False)
     log = models.TextField(null=True, blank=True)
     real_time = models.BooleanField(default=False)
-    # numa = models.IntegerField(null=True, blank=True)
-    # hpc = models.CharField(null=True, blank=True, max_length=120)
+    update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __unicode__(self):
         return self.name
+
+    def get_key(self):
+        return Key.objects.filter(name=self.key)
 
     def check_provision(self, vim):
         res = False
@@ -48,16 +51,23 @@ class Vnf(models.Model):
     def get_absolut_url(self):
         return reverse("vnfs:details", kwargs={"id": self.id})
 
-    def add_nf(self, nfs):
-        for id in nfs:
-            self.nf.add(get_object_or_404(Nf, id=id))
+    def add_scripts(self, scripts):
+        for id in scripts:
+            self.scripts.add(get_object_or_404(Script, id=id))
 
-    def check_nf(self):
-        nfs = self.nf.all()
-        if len(nfs) == 0:
+    def get_scripts_order(self):
+        lista = []
+
+        order = self.scripts_order.split(',')
+        for id in order:
+            lista.append(get_object_or_404(Script, id=id))
+        return lista
+
+    def check_scripts(self):
+        if len(self.scripts.all()) == 0:
             return False
         else:
-            return nfs
+            return self.scripts.all()
 
     def extra_spec(self):
         properties = {}
@@ -68,7 +78,13 @@ class Vnf(models.Model):
         return properties
 
     def get_console(self, vim):
-        return console(name=self.name, domain=vim.domain, username=self.operator.name, project_domain_name=vim.project_domain, project_name=self.operator.name, password=self.operator.password, ip=vim.ip)['console']['url']
+        return console(name=self.name,
+                       domain=vim.domain,
+                       username=self.operator.name,
+                       project_domain_name=vim.project_domain,
+                       project_name=self.operator.name,
+                       password=self.operator.decrypt(),
+                       ip=vim.ip)['console']['url']
 
     class Meta:
         ordering = ["-timestamp", "-update"]

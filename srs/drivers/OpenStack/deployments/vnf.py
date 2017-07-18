@@ -118,7 +118,7 @@ resources:
     header = header.render(
         description=vnf.description,
         user=vnf.operator.name,
-        password=vnf.operator.password,
+        password=vnf.operator.decrypt(),
     )
 
     nfv = nvf(vnf)
@@ -134,7 +134,7 @@ resources:
                  password=vim.password,
                  ip=vim.ip,
                  operator_name=vnf.operator.name,
-                 operator_password=vnf.operator.password)
+                 operator_password=vnf.operator.decrypt())
 
 
 def delete(vnf, vim):
@@ -143,7 +143,7 @@ def delete(vnf, vim):
                  username=vim.username,
                  project_domain_name=vim.project_domain,
                  project_name=vim.project,
-                 password=vim.password,
+                 password=vim.decrypt(),
                  ip=vim.ip,
                  operator_name=vnf.operator.name,
-                 operator_password=vnf.operator.password)
+                 operator_password=vnf.operator.decrypt())

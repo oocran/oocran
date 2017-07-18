@@ -8,7 +8,7 @@ def get_public_network(vim):
         username=vim.username,
         project_domain_name=vim.project_domain,
         project_name=vim.project,
-        password=vim.password,
+        password=vim.decrypt(),
         ip=vim.ip)
 
     neutron = client.Client(session=session)

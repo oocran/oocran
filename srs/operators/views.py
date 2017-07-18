@@ -5,27 +5,27 @@ from vims.models import Vim
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from OOCRAN.global_functions import paginator
+from oocran.global_functions import paginator
 from scenarios.models import Scenario
+from django.http import HttpResponse
 
 
-def update_scenarios(operator):
+def update_scenarios(id):
+    operator = Operator.objects.get(id=id)
     scenarios = Scenario.objects.filter(operator__user__is_staff=True)
     for scenario in scenarios:
         scenario.update_operators(operator)
+
 
 @staff_member_required
 def add(request):
     form = OperatorForm(request.POST or None)
     if form.is_valid():
-        if form.cleaned_data['vnfm'] == "Heat" and len(Vim.objects.all()) == 0:
-            messages.success(request, "There are not Vims register yet!!", extra_tags="alert alert-danger")
-            return redirect("operators:list")
         if form.cleaned_data['password'] == form.cleaned_data['password_confirmation']:
             operator = form.save(commit=False)
             if operator.check_used_name():
                 operator.create(form.cleaned_data['email'])
-                update_scenarios(operator)
+                update_scenarios(id=operator.id)
                 operator.create_influxdb_user()
                 messages.success(request, "Operator successfully created!", extra_tags="alert alert-success")
                 return redirect("operators:list")
@@ -77,3 +77,10 @@ def home(request):
         "operator": operator,
     }
     return render(request, "operators/home.html", context)
+
+
+@login_required(login_url='/login/')
+def state(request, id=None):
+    operator = get_object_or_404(Operator, id=id)
+    
+    return HttpResponse(operator.state)

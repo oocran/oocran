@@ -57,14 +57,14 @@ def create_user(operator, vim):
         username=vim.username,
         project_domain_name=vim.project_domain,
         project_name=vim.project,
-        password=vim.password,
+        password=vim.decrypt(),
         ip=vim.ip)
     keystone = client.Client(session=sess)
     project = keystone.projects.find(name=vim.username)
     rol = keystone.roles.find(name="user")
     heat = keystone.roles.find(name="heat_stack_owner")
     project = keystone.projects.create(name=operator.user.username, domain=project.domain_id, enabled=True)
-    user = keystone.users.create(name=operator.user.username, password=operator.password, project=project, domain=project.domain_id, enabled=True)
+    user = keystone.users.create(name=operator.user.username, password=operator.decrypt(), project=project, domain=project.domain_id, enabled=True)
     keystone.roles.grant(rol, user=user, project=project)
     keystone.roles.grant(heat, user=user, project=project)
 
@@ -75,7 +75,7 @@ def delete_user(operator, vim):
         username=vim.username,
         project_domain_name=vim.project_domain,
         project_name=vim.project,
-        password=vim.password,
+        password=vim.decrypt(),
         ip=vim.ip)
     keystone = client.Client(session=sess)
     user = keystone.users.find(name=operator.user.username)

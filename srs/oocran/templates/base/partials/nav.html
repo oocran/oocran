@@ -1,0 +1,20 @@
+<nav class="navbar navbar-fixed-top" style="box-shadow: 0px 0px 10px grey;border-color:#ddd;background-color:white">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="#" class="navbar-brand" style="outline:none;color:black"> Open-OCRAN dashboard</a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" style="color:black" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i> {{user}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'logout' %}?next={% url 'login' %}">Sign out</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" style="color:black"><i class="material-icons" style="font-size:16px">help_outline</i>  Help</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

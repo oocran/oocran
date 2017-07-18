@@ -1,5 +1,38 @@
 {% load bootstrap %}
 
+<style>
+    #availiable, #selected {
+    float: left;
+    width: 45%;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    }
+</style>
+<script>
+    options = []
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+
+        if($('#selected').find(document.getElementById(data)).length){
+            options.push(document.getElementById(data).id);
+            $('#id_scripts option[value=' + document.getElementById(data).id + ']').attr('selected', true);
+            $('#id_scripts_order').val(options);
+        }
+    }
+
+</script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -12,43 +45,343 @@
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#info">Information</a></li>
             <li><a data-toggle="tab" href="#hardware">Hardware</a></li>
-            <li><a data-toggle="tab" href="#hpc">HPC</a></li>
-			<li><a data-toggle="tab" href="#function">Function</a></li>
+			<li><a data-toggle="tab" href="#software">Image</a></li>
+			<li><a data-toggle="tab" href="#scripts">Scripts</a></li>
+			<li><a data-toggle="tab" href="#launch">Launch</a></li>
 		</ul>
+
 		<div class="tab-content">
 			<div id="info" class="tab-pane fade in active">
 			  	<br>
-			  	{{ form.name|bootstrap }}
-			  	{{ form.description|bootstrap }}
+			  	{{form.name|bootstrap}}
+			  	{{form.description|bootstrap}}
             </div>
-            <div id="hardware" class="tab-pane fade">
+			<div id="hardware" class="tab-pane fade">
                 <br>
-                <div>
-                    <div style="float:left;width:15%;margin-top:30px"><strong>CPU cores</strong></div>
-                    <div style="float:left;margin-right:10px">{{ form.min_cpu|bootstrap }}</div>
-                    <div style="float:left;margin-right:10px">{{ form.max_cpu|bootstrap }}</div>
-                </div>
-                <div>
-                    <div style="float:left;width:15%;margin-top:30px"><strong>RAM</strong></div>
-                    <div style="float:left;margin-right:10px">{{ form.min_ram|bootstrap }}</div>
-                    <div style="float:left;margin-right:10px">{{ form.max_ram|bootstrap }}</div>
-                    <div style="float:left;margin-left:10px;margin-top:30px"><strong>MB</strong></div>
-                </div>
+                {{form.cpu|bootstrap}}
+                {{form.ram|bootstrap}}
                 {{form.disc|bootstrap}}
-                {{form.nics|bootstrap}}
-                <br>
-                {{ form.real_time|bootstrap }}
             </div>
-            <div id="hpc" class="tab-pane fade">
-                <br>
-
-            </div>
-			<div id="function" class="tab-pane fade">
+			<div id="software" class="tab-pane fade">
 				<br>
-				{{form.image|bootstrap}}
-				{{form.nf|bootstrap}}
+				{{form.key|bootstrap}}
+                <div id="provider">
+				    {{form.provider|bootstrap}}
+                </div>
+                <div id="images">
+                    {{form.image|bootstrap}}
+                </div>
+			</div>
+			<div id="scripts" class="tab-pane fade">
+			  	<br>
+			  	<h5 style="float:left;margin-right:170px;margin-left:10px;font-weight: bold;">List of Scripts</h5>
+                <h5 style="font-weight: bold;">Selected Scripts</h5>
+                <div id="availiable" ondrop="drop(event)" ondragover="allowDrop(event)" style="overflow:scroll;">
+                    {% for script in scripts %}
+						<div draggable="true" ondragstart="drag(event)" id="{{script.id}}" width="88" height="31" id=""
+							 style="with:100%;background-color:#ddd;text-align:center;padding-top:8px;padding-bottom:8px;margin-top:3px">
+							{{script}}
+						</div>
+                    {% endfor %}
+                </div>
+                <div id="selected" ondrop="drop(event)" ondragover="allowDrop(event)" style="overflow:scroll;"></div>
+
+                <div style="display:none">
+                    {{form.scripts|bootstrap}}
+                    {{form.scripts_order|bootstrap}}
+                </div>
+            </div>
+			<div id="launch" class="tab-pane fade">
+				<br>
+				{{form.launch_script|bootstrap}}
 			</div>
 		</div>
         <input type="submit" class="btn btn-default" value="Create"/>
 	</form>
 </div>
+
+
+<script>
+    $( document ).ready(function() {
+        var myOpts = document.getElementById('id_image').options;
+        document.getElementById('images').style.display="block";
+        var select = 1;
+        var count = 0;
+        for(var i in myOpts){
+            if (myOpts[i].text.split(' - ')[1] == "OpenStack"){
+                if (select == 1){
+                    $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                    select = 0;
+                }
+                myOpts[i].style.display = "block";
+            }
+            else{
+                 myOpts[i].style.display = "none";
+            }
+        };
+    });
+
+    function select(object) {
+        if (object.value == "OpenStack") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "OpenStack"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "Azure") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "Azure"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "VirtualBox") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "virtualbox"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "AWS") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "AWS"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "GCE") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "GCE"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "Libvirt") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "Libvirt"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "Docker") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "Docker"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "VMware Fusion") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "VMware Fusion"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "VMware Workstation") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "VMware Workstation"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "Paralells") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "Paralells"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+                }
+            };
+        }else if (object.value == "Hype-V") {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var count = 0;
+            var select = 1;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "Hype-V"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                    count = count + 1;
+                    if (count == myOpts.length){
+                        document.getElementById('images').style.display="none";
+                        $("#id_image").val('');
+                    }
+
+                }
+            };
+        }else {
+            var myOpts = document.getElementById('id_image').options;
+            document.getElementById('images').style.display="block";
+            var select = 1;
+            var count = 0;
+            for(var i in myOpts){
+                if (myOpts[i].text.split(' - ')[1] == "OpenStack"){
+                    if (select == 1){
+                        $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
+                        select = 0;
+                    }
+                    myOpts[i].style.display = "block";
+                }
+                else{
+                    myOpts[i].style.display = "none";
+                }
+            };
+        }
+    }
+</script>

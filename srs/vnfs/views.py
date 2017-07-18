@@ -1,22 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Vnf
+from keys.models import Key
 from images.models import Image
 from operators.models import Operator, Provider
 from .forms import VnfForm
-from nfs.models import Nf
+from scripts.models import Script
 from django.contrib import messages
-from vims.models import Vim
-from drivers.Vagrant.APIs.api import list_boxes
+from drivers.Vagrant.APIs.main import list_boxes
 from django.contrib.auth.decorators import login_required
-from OOCRAN.global_functions import paginator
-import tasks
+from oocran.global_functions import paginator
 from django.http import HttpResponse
 from django.db.models import Q
 
 
 @login_required(login_url='/login/')
 def list(request):
-    queryset_list = Vnf.objects.filter(operator__name=request.user.username)
+    queryset_list = Vnf.objects.filter(operator__user=request.user)
     queryset = paginator(request, queryset_list)
 
     context = {
@@ -28,31 +27,29 @@ def list(request):
 
 @login_required(login_url='/login/')
 def create(request):
-    nfs = Nf.objects.filter(Q(operator__name=request.user.username) | Q(operator__name="admin"))
-    operator = get_object_or_404(Operator, name=request.user.username)
+    scripts = Script.objects.filter(Q(operator__user=request.user) | Q(operator__name="admin"))
+    key = Key.objects.filter(operator__user=request.user)
+    operator = get_object_or_404(Operator, user=request.user)
+    images = Image.objects.all()
 
-    if operator.vnfm == "Vagrant":
-        images = list_boxes(operator)
-    else:
-        images = Image.objects.all()
-
-    form = VnfForm(request.POST or None, request.FILES or None, nfs=nfs, images=images)
+    form = VnfForm(request.POST or None, request.FILES or None, scripts=scripts, images=images, key=key)
     if form.is_valid():
         try:
-            Vnf.objects.get(operator__name=request.user.username, name=form.cleaned_data['name'])
+            Vnf.objects.get(operator__user=request.user, name=form.cleaned_data['name'])
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
             vnf = form.save(commit=False)
-            vnf.operator = get_object_or_404(Operator, name=request.user.username)
+            vnf.operator = get_object_or_404(Operator, user=request.user)
+            if form.cleaned_data['image'] == '':
+                messages.success(request, 'Image not selected!', extra_tags="alert alert-danger")
+                return redirect("vnfs:list")
             if request.user.is_staff:
                 vnf.visibility = "Public"
             else:
                 vnf.visibility = "Private"
             vnf.save()
-            vnf.add_nf(form.cleaned_data['nf'])
-            # vim = get_object_or_404(Vim, name="UPC")
-            # if form.cleaned_data['create'] is True:
-            # tasks.create_vnf.delay(vnf.id, vim.id)
+            for id in form.cleaned_data['scripts']:
+                vnf.scripts.add(get_object_or_404(Script, id=id))
             messages.success(request, "Successfully created!", extra_tags="alert alert-success")
         return redirect("vnfs:list")
     if form.errors:
@@ -62,6 +59,7 @@ def create(request):
     context = {
         "user": request.user,
         "form": form,
+        "scripts": scripts,
     }
     return render(request, "vnfs/form.html", context)
 

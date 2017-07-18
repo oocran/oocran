@@ -1,0 +1,22 @@
+<div class="menu-list">
+    <div id="menu-content" style="background-color:white" class="menu-content">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a style="color:black;font-size:16px;text-decoration:none;"href="{% url 'operators:home' %}" style="font-size:18px;outline:none;color:black"><i class="glyphicon glyphicon-home"></i> Home <span class="arrow"></span></a></li>
+            <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'keys:list' %}"><i class="fa fa-key" aria-hidden="true"></i> Keys</a></li>
+            <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'scripts:list' %}"><i class="fa fa-file" aria-hidden="true"></i> Scripts</a></li>
+            <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'images:list' %}"><i class="glyphicon glyphicon-cd" aria-hidden="true"></i> Images</a></li>
+            <!--<li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'vnfs:list' %}"><i class="fa fa-archive" aria-hidden="true"></i> Stacks</a></li>-->
+            <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'vnfs:list' %}"><i class="fa fa-cloud-upload" aria-hidden="true"></i> VNF</a></li>
+            <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'vims:list' %}"><i class="fa fa-tasks" aria-hidden="true"></i> VIMs</a></li>
+            <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'scenarios:scenarios' %}"><i class="fa fa-cloud" aria-hidden="true"></i> Pools</a></li>
+            <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'alerts:list' %}"><i class="fa fa-bell" aria-hidden="true"></i> Alerts</a></li>
+            <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'schedulers:list' %}"><i class="fa fa-calendar" aria-hidden="true"></i> Schedulers</a></li>
+            {% if user.is_staff %}
+                <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'operators:list' %}"><i class="fa fa-users" aria-hidden="true"></i> Operators</a></li>
+                <li><a style="color:black;font-size:16px;text-decoration:none;" href="{% url 'scenarios:list' %}"><i class="fa fa-globe" aria-hidden="true"></i> Scenarios</a></li>
+            {% endif %}
+          </ul>
+        </div>
+    </div>
+</div>

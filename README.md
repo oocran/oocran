@@ -19,7 +19,9 @@ Features
 
 Requeriments
 ============
+* Python 2.6
 * Influxdb
+* Vagrant >=1.9.5
 
 Installation
 ============

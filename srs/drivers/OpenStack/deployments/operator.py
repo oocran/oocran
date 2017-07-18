@@ -46,16 +46,18 @@ resources:
         external=vim.public_network,
     )
 
+    print template
+
     create_stack(name="infrastructure",
                  template=template,
                  domain=vim.domain,
                  username=vim.username,
                  project_domain_name=vim.project_domain,
                  project_name=vim.project,
-                 password=vim.password,
+                 password=vim.decrypt(),
                  ip=vim.ip,
                  operator_name=operator.name,
-                 operator_password=operator.password)
+                 operator_password=operator.decrypt())
 
 
 def delete_area(scenario):

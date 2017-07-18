@@ -1,0 +1,39 @@
+{%extends "base/base.html"%}
+
+{% block head %}
+   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+{% endblock head%}
+
+{%block content%}
+	<h1>Details of {{scheduler.name}}</h1>
+    <h3>Time: {{scheduler.time|time:"H:i"}}</h3>
+    <br/>
+    <h3>Description</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{scheduler.description | linebreaksbr}}<br/>
+        </div>
+    </div>
+    <h3>Nvfs</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {% for nvf in scheduler.nvfs.all %}
+                <a href="{{nvf.get_absolut_url}}">{{nvf.name}}</a><br>
+            {% endfor %}
+        </div>
+    </div>
+    <h3>Script</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{scheduler.script | linebreaksbr}}<br/>
+        </div>
+    </div>
+    <h3>File</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+        </div>
+    </div>
+{%endblock content%}
+
+{%block javascript %}{%endblock javascript %}

@@ -1,0 +1,69 @@
+<script>
+    var map;
+    function initialize() {
+      var options = {
+        center: new google.maps.LatLng({{scenario.latitude}},{{scenario.longitude}}),
+        zoom:17,
+        disableDefaultUI: true,
+        scrollwheel: true,
+        draggable: true,
+        mapTypeId: google.maps.MapTypeId.MAP,
+      };
+      map = new google.maps.Map(document.getElementById("map-canvas"),options);
+
+      {% for rrh in scenario.rrh.all %}
+        var {{rrh.name}} = new google.maps.Marker({
+          position: {
+            lat: {{rrh.latitude}},
+            lng: {{rrh.longitude}}
+          },
+          icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-pushpin.png',
+          draggable: false,
+          map:map
+        });
+        {{rrh.name}}.addListener('click', function() {
+          var infoWindow = new google.maps.InfoWindow({
+              content: '<h6>IP: {{rrh.ip}}</h6><h6>First Band: {{rrh.first_band}}</h6><h6>Second Band: {{rrh.second_band}}</h6><h6>Third Band: {{rrh.third_band}}</h6>'
+          });
+          infoWindow.open(map,{{rrh.name}});
+        });
+          var {{rrh.name}}_circle = new google.maps.Circle({
+            map: map,
+            radius: 0,    // 10 miles in metres
+          });
+
+        {{rrh.name}}_circle.bindTo('center', {{rrh.name}}, 'position');
+      {%endfor%}
+
+      {% for ue in ues %}
+        var {{ue.name}} = new google.maps.Marker({
+          position: {
+            lat: {{ue.latitude}},
+            lng: {{ue.longitude}}
+          },
+          draggable: false,
+          map:map
+        });
+        {{ue.name}}.addListener('click', function() {
+          var infoWindow = new google.maps.InfoWindow({
+              content: '<h5>{{ue.name}}</h5><h6>service: {{ue.service}} bits</h6><h6>sensibility: {{ue.sensibility}} dBm</h6><a href="{% url 'ues:delete' ue.id %}" class="btn btn-danger" style="width:160px" role="button">Delete</a>'
+          });
+          infoWindow.open(map,{{ue.name}});
+        });
+          var {{ue.name}}_circle = new google.maps.Circle({
+            map: map,
+            radius: 0,    // 10 miles in metres
+          });
+
+        {{ue.name}}_circle.bindTo('center', {{ue.name}}, 'position');
+      {%endfor%}
+
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    $(document).ready(function(){
+        $("#map-canvas").click(function(){
+        google.maps.event.trigger(map, "resize");
+        });
+    });
+</script>

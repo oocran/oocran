@@ -34,8 +34,3 @@ def delete_vnf(vnf):
     vnf = Vnf.objects.get(id=vnf)
     delete_image(vnf)
     print "Vnf deleted"
-
-
-@task()
-def emc():
-    print "check"

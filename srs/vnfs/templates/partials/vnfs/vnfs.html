@@ -2,9 +2,9 @@
     <thead>
     <tr>
         <th>Name</th>
-        <th>Description</th>
         <th>Visibility</th>
         <th>Image</th>
+        <th>Provider</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -12,9 +12,9 @@
         {% for vnf in object_list %}
             <tr>
                 <td><a href='{{vnf.get_absolut_url}}'>{{vnf.name}}</a></td>
-                <td>{{vnf.description}}</td>
                 <td>{{vnf.visibility}}</td>
                 <td>{{vnf.image}}</td>
+                <td>{{vnf.provider}}</td>
                 <td>
                     {% if vnf.visibility == "Public" and user.is_staff %}
                     <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal"
@@ -23,12 +23,6 @@
                     <a onclick="confirmation({{vnf.id}})" class="btn btn-danger" role="button" data-toggle="modal"
                        data-target="#myModal">Delete</a>
                     {% endif %}
-                    <div class="dropdown" style="display:inline-block;">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-
-                    </div>
                 </td>
             </tr>
         {%endfor%}

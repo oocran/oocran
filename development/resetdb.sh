@@ -5,20 +5,23 @@ cd ../srs
 rm images/migrations/*
 touch images/migrations/__init__.py
 #libraries
-rm libraries/migrations/*
-touch libraries/migrations/__init__.py
-#nfs
-rm nfs/migrations/*
-touch nfs/migrations/__init__.py
-#ns/utrans
-rm ns/utrans/migrations/*
-touch ns/utrans/migrations/__init__.py
+rm scripts/migrations/*
+touch scripts/migrations/__init__.py
+#ns pools
+rm pools/migrations/*
+touch pools/migrations/__init__.py
+#ns ues
+rm ues/migrations/*
+touch ues/migrations/__init__.py
+#ns bbus
+rm bbus/migrations/*
+touch bbus/migrations/__init__.py
 #ns/epcs
-rm ns/epcs/migrations/*
-touch ns/epcs/migrations/__init__.py
+rm epcs/migrations/*
+touch epcs/migrations/__init__.py
 #ns/ns
-rm ns/ns/migrations/*
-touch ns/ns/migrations/__init__.py
+rm ns/migrations/*
+touch ns/migrations/__init__.py
 #operators
 rm operators/migrations/*
 touch operators/migrations/__init__.py
@@ -31,10 +34,18 @@ touch vims/migrations/__init__.py
 #vnfs
 rm vnfs/migrations/*
 touch vnfs/migrations/__init__.py
+#schedulers
+rm schedulers/migrations/*
+touch schedulers/migrations/__init__.py
+#alerts
+rm alerts/migrations/*
+touch alerts/migrations/__init__.py
+#keys
+rm keys/migrations/*
+touch keys/migrations/__init__.py
 #delete db
-rm db.sqlite3
+rm db.sqlite3 &> /dev/null
 #delete vagrant files
-rm -r drivers/Vagrant/repository/*
-#final message
-echo "reset finish!"
-echo "exe: ./oocran install server"
+rm -r drivers/Vagrant/repository/* &> /dev/null
+cd ..
+./oocran install server

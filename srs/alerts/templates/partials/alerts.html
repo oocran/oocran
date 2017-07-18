@@ -1,0 +1,24 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Action</th>
+              <th>UUID</th>
+              <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+                <tr>
+                  <td><a href='{{alert.get_absolut_url}}'>{{alert.name}}</a></td>
+                  <td>{{alert.description}}</td>
+                  <td>{{alert.action}}</td>
+                  <td>{{alert.uuid}}</td>
+                  <td><a href="{{alert.id}}/delete/" class="btn btn-danger" role="button">Delete</a></td>
+                </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>

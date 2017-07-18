@@ -3,14 +3,12 @@ from drivers.OpenStack.APIs.heat.heat import create_stack, delete_stack
 from drivers.OpenStack.APIs.nova.nova import get_flavors
 
 
-def add_nfs(nvf):
+def scripts(nvf):
     elements = ""
-    num_nf = 0
+    count = 0
 
-    for nf in nvf.vnf.nf.all():
-        if nf.check_libraries() is not False:
-            for library in nf.get_libraries_order():
-                nf_template = Template(u'''\
+    for script in nvf.vnf.get_scripts_order():
+        element = Template(u'''\
 {{name}}_nf{{nf}}:
     type: OS::Heat::SoftwareConfig
     properties:
@@ -18,29 +16,30 @@ def add_nfs(nvf):
       config: |
         #!/bin/sh
         cd /home/{{user}}
-        {{library}}
+        {{code}}
 
   ''')
+        group = script.type
+        if group == "file" or group == "script":
+            group = "ungrouped"
+        element = element.render(
+            group=group,
+            name=nvf.name,
+            nf=count,
+            user=nvf.operator.name,
+            code=script.script.replace('\n', '\n        '),
+        )
+        elements += element
+        count += 1
 
-                nf_template = nf_template.render(
-                    group=library.type,
-                    name=nvf.name,
-                    nf=num_nf,
-                    user=nvf.operator.name,
-                    library=library.script.replace('\n', '\n        '),
-                )
-                elements += nf_template
-                num_nf += 1
-
-    return [num_nf, elements]
+    return [count, elements]
 
 
 def add_launch(user, nvf, type):
     elements = ""
     num = 0
 
-    for nf in nvf.vnf.nf.all():
-        nf_template = Template(u'''\
+    element = Template(u'''\
 {{name}}_launch:
     type: OS::Heat::SoftwareConfig
     properties:
@@ -51,25 +50,24 @@ def add_launch(user, nvf, type):
 {{script}}
 
   ''')
-        script = "        "
-        code = nf.script
-        if type == "bbu":
-            code = code.replace("{{user}}", nvf.operator.name) \
-                .replace("{{password}}", nvf.operator.password) \
-                .replace("{{rrh}}", nvf.rrh.ip) \
-                .replace("{{freq}}", str(nvf.freC_DL)) \
-                .replace("{{pw}}", str(nvf.pt))
-        cmds = code.split("\n")
-        for cmd in cmds:
-            script += cmd + "\n        "
+    script = "        "
+    if type == "bbu":
+        code = nvf.vnf.launch_script.replace("{{user}}", nvf.operator.name) \
+            .replace("{{password}}", nvf.operator.password) \
+            .replace("{{rrh}}", nvf.rrh.ip) \
+            .replace("{{freq}}", str(nvf.freC_DL)) \
+            .replace("{{pw}}", str(nvf.pt)) \
+            .split("\n")
+    for cmd in code:
+        script += cmd + "\n        "
 
-        nf_template = nf_template.render(
-            name=nvf.name,
-            user=user,
-            script=script,
-        )
-        elements += nf_template
-        num += 1
+    element = element.render(
+        name=nvf.name,
+        user=user,
+        script=script,
+    )
+    elements += element
+    num += 1
 
     return elements
 
@@ -78,7 +76,7 @@ def add_nvf(ns, nvfs, type):
     elements = ""
 
     for nvf in nvfs:
-        [nfs_num, nfs] = add_nfs(nvf)
+        [nfs_num, nfs] = scripts(nvf)
         launch = add_launch(ns.operator.user.username, nvf, type)
 
         t = Template(u'''\
@@ -134,7 +132,7 @@ def add_nvf(ns, nvfs, type):
             image=image,
             flavor=get_flavors(nvf, ns.vim),
             nfs=list_nfs,
-            node=ns.vim.select_node(cpu=nvf.vnf.min_cpu,ram=nvf.vnf.min_ram,disc=nvf.vnf.disc),
+            node=ns.vim.select_node(cpu=nvf.vnf.cpu, ram=nvf.vnf.ram, disc=nvf.vnf.disc),
         )
         elements += nfs + launch + t
 
@@ -145,8 +143,10 @@ def outputs(nvfs):
     outputs = ""
     for nvf in nvfs:
         output = Template(u'''\
-{{name}}:
+{{name}}_mgmt_ip:
     value: { get_attr: [ {{name}}_floating_ip, floating_ip_address ] }
+  {{name}}_id:
+    value: { get_resource: {{name}} }
   ''')
 
         output = output.render(
@@ -196,7 +196,7 @@ resources:
     header = header.render(
         description=ns.description,
         user=ns.operator.user.username,
-        password=ns.operator.password,
+        password=ns.operator.decrypt(),
     )
 
     list_bbus = add_nvf(ns, bbus, "bbu")
@@ -210,39 +210,46 @@ resources:
 outputs:
   ''')
     output = output.render()
-
     output += outputs(bbus)
     output += outputs(channels)
     output += outputs(ues)
 
     template = header + list_bbus + list_channels + list_ues + output
     print template
-    ips = create_stack(name=ns.name,
+    '''outs = create_stack(name=ns.name,
                        template=template,
                        domain=ns.vim.domain,
                        username=ns.vim.username,
                        project_domain_name=ns.vim.project_domain,
                        project_name=ns.vim.project,
-                       password=ns.vim.password,
+                       password=ns.vim.decrypt(),
                        ip=ns.vim.ip,
                        operator_name=ns.operator.name,
-                       operator_password=ns.operator.password)
+                       operator_password=ns.operator.decrypt())
 
-    for ip in ips:
+    print outs
+
+    for out in outs:
         for nvf in bbus:
-            if nvf.name == ip['output_key']:
-                nvf.mgmt_ip = ip['output_value']
+            if out['output_key'] == nvf.name+"_mgmt_ip":
+                nvf.mgmt_ip = out['output_value']
+            if out['output_key'] == nvf.name+"_id":
+                nvf.uuid = out['output_value']
                 nvf.save()
         if channels is not None:
             for nvf in channels:
-                if nvf.name == ip['output_key']:
-                    nvf.mgmt_ip = ip['output_value']
+                if out['output_key'] == nvf.name + "_mgmt_ip":
+                    nvf.mgmt_ip = out['output_value']
+                if out['output_key'] == nvf.name + "_id":
+                    nvf.uuid = out['output_value']
                     nvf.save()
         if ues is not None:
             for nvf in ues:
-                if nvf.name == ip['output_key']:
-                    nvf.mgmt_ip = ip['output_value']
-                    nvf.save()
+                if out['output_key'] == nvf.name + "_mgmt_ip":
+                    nvf.mgmt_ip = out['output_value']
+                if out['output_key'] == nvf.name + "_id":
+                    nvf.uuid = out['output_value']
+                    nvf.save()'''
 
 
 def delete_deploy(ns):
@@ -251,7 +258,7 @@ def delete_deploy(ns):
                  username=ns.vim.username,
                  project_domain_name=ns.vim.project_domain,
                  project_name=ns.vim.project,
-                 password=ns.vim.password,
+                 password=ns.vim.decrypt(),
                  ip=ns.vim.ip,
                  operator_name=ns.operator.name,
-                 operator_password=ns.operator.password)
+                 operator_password=ns.operator.decrypt())

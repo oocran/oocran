@@ -6,22 +6,19 @@
 
 {% block content%}
 <div style="position: relative;" id="content"></div>
-<h2 class="sub-header">Overview</h2>
+<h2 class="sub-header"><i class="glyphicon glyphicon-home"></i> Overview</h2>
 
 <ol class="breadcrumb">
     <li>Overview</li>
 </ol>
 
+{% if user.is_staff != True %}
 <h3 style="float:right;margin-top:-5px">Total price: 0$</h3>
 <br><br>
 <div class="panel panel-default">
     <div class="panel-heading">Configuration</div>
     <table class="table">
         <tbody>
-        <tr>
-            <th>VNF Manager</th>
-            <td>{{operator.vnfm}}</td>
-        </tr>
         <tr>
             <th>Email</th>
             <td>{{operator.email}}</td>
@@ -30,7 +27,7 @@
     </table>
 </div>
 <br>
-
+{% endif %}
 <div>
     <div style="float:left;margin-left:20px;width:30%" class="panel panel-default">
         <div style="height:130px" class="panel-body">

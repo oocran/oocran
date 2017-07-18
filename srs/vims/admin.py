@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vim, Device, Node
+from .models import Vim, Device, Node, OpenStack
 
 
 class VimModelAdmin(admin.ModelAdmin):
@@ -13,6 +13,19 @@ class VimModelAdmin(admin.ModelAdmin):
         model = Vim
 
 admin.site.register(Vim, VimModelAdmin)
+
+
+class OpenStackModelAdmin(admin.ModelAdmin):
+    list_display = ["name", "update", "timestamp"]
+    list_display_links = ["update"]
+    list_filter = ["update", "timestamp"]
+    list_editable = ["name"]
+    search_fields = ["name"]
+
+    class Meta:
+        model = OpenStack
+
+admin.site.register(OpenStack, OpenStackModelAdmin)
 
 
 class DeviceModelAdmin(admin.ModelAdmin):

@@ -4,22 +4,22 @@
 {% block head %}{% endblock head%}
 
 {% block content%}
-<h2 class="sub-header">List of Images</h2>
-{% include "partials/images/images.html" %}
-{% include "base/partials/paginator.html" with object_list=images %}
-<br>
-<a id="submit" onclick="loader_images()" class="btn btn-default" role="button" data-toggle="modal"
-   data-target="#myModal">Add</a>
+    <h2 class="sub-header"><i class="glyphicon glyphicon-cd" aria-hidden="true"></i> Images</h2>
+    {% include "partials/images/images.html" %}
+    {% include "base/partials/paginator.html" with object_list=images %}
+    <br>
 
-<br><br>
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content"></div>
-    </div>
-</div>
+    {% if user.is_staff %}
+        <a id="submit" href="{% url 'images:create' %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Add</a>
+        <a href="{% url 'images:sincronize' %}" class="btn btn-default" role="button">Sincronize</a>
+        <br><br>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock content %}
 
-{%block javascript%}
-{% include "partials/images/javascript/loader-ajax.html"%}
-{%endblock javascript%}
+{% block javascript %}{% endblock javascript %}

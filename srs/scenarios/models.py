@@ -153,7 +153,7 @@ class Scenario(models.Model):
             description=self.description,
             file=self.file,
             operator=operator,
-            price=self.price, )
+            price=self.price)
         scenario.save()
         rrhs = self.rrh.all()
         [scenario.rrh.add(rrh) for rrh in rrhs]

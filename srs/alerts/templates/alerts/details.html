@@ -1,0 +1,40 @@
+{%extends "base/base.html"%}
+
+{% block head %}{% endblock head%}
+
+{%block content%}
+	<h1>Details of {{alert.name}}</h1>
+    <br/>
+    {% if alert.description == None %}
+        <h3>Description</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{action.description | linebreaksbr}}<br/>
+            </div>
+        </div>
+    {%endif%}
+
+    <h3>Code</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {uuid:{{alert.uuid}},user:username,password:password}
+        </div>
+    </div>
+
+    <h3>Task</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{alert.action}}
+        </div>
+    </div>
+    {% if alert.action == "Reconfigure" %}
+        <h3>Script</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{alert.script | linebreaksbr}}
+            </div>
+        </div>
+    {% endif %}
+{%endblock content%}
+
+{%block javascript %}{%endblock javascript %}

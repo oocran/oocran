@@ -1,0 +1,19 @@
+bbu1:
+  name: bbu1
+  rrh: 192.168.10.6
+  ip: 192.168.12.6
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 3
+
+bbu2:
+  name: bbu2
+  rrh: 192.168.10.2
+  ip: 192.168.12.4
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 3
