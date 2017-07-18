@@ -1,0 +1,99 @@
+{%extends "base/base.html"%}
+
+{% block head %}
+   <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB05V_zAdTZtLZkFTGC17QHXMXs3w6rcSI" async="" defer="defer" type="text/javascript"></script>
+   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+{% endblock head%}
+
+{%block content%}
+    <h1>Details of {{utran.name}}</h1>
+
+    <ol class="breadcrumb">
+        <li><a href="{% url 'scenarios:scenarios' %}">Scenarios</a></li>
+        <li><a href="{% url 'scenarios:scenario' id=utran.scenario.id %}">{{utran.scenario}}</a></li>
+        <li class="active">{{utran.name}}</li>
+    </ol>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#info">Information</a></li>
+        <li><a data-toggle="tab" href="#bbus">BBUs</a></li>
+        <li><a data-toggle="tab" id="show-map" href="#map">Map</a></li>
+        <li><a data-toggle="tab" href="#schedulers">Schedulers</a></li>
+        <li><a data-toggle="tab" href="#alerts">Alerts</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="bbus" class="tab-pane fade">
+            <br>
+            <h2 class="sub-header">List of Base Band Units</h2>
+            {% include "pools/partials/bbus.html" %}
+        </div>
+
+        <div id="info" class="tab-pane fade in active">
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">Monitoring</div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Data source</th>
+                        <td>InfluxDB</td>
+                    </tr>
+                    <tr>
+                        <th>URL</th>
+                        <td>{{url}}:8086</td>
+                    </tr>
+                    <tr>
+                        <th>Data Base</th>
+                        <td>ns_{{utran.id}}</td>
+                    </tr>
+                    <tr>
+                        <th>Credentials</th>
+                        <td>OOCRAN credentials</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <a href="{{grafana}}" class="btn btn-default" role="button">Show Graph</a>
+        </div>
+
+        <div id="map" class="tab-pane fade">
+            <br>
+            <div id="map-canvas" style="width:auto;height:400px;"></div>
+        </div>
+
+        <div id="schedulers" class="tab-pane fade">
+            <br>
+            <h2 class="sub-header">Schedulers</h2>
+            {% include "pools/partials/schedulers.html" %}
+            {% include "base/partials/paginator.html" with object_list=schedulers %}
+            <br>
+            <a href="{% url 'pools:scheduler' utran.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#scheduler">Add</a>
+
+            <div class="modal fade" id="scheduler" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="alerts" class="tab-pane fade">
+            <br>
+            <h2 class="sub-header">Alerts</h2>
+            {% include "pools/partials/alerts.html" %}
+            {% include "base/partials/paginator.html" with object_list=alerts %}
+            <br>
+            <a href="{% url 'pools:alert' utran.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#alert">Add</a>
+
+            <div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock content%}
+
+{%block javascript%}
+    {% include "pools/partials/map.html" %}
+{%endblock javascript%}

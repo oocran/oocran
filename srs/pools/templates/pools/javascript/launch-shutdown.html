@@ -6,7 +6,7 @@
             var check = setInterval(function() {
                     $.ajax({
                         type: "GET",
-                        url: "/ns/"+{{NVFI.id}}+"/state/",
+                        url: "{% url 'ns:state' id=NVFI.id %}",
                         success: function(response) {
                             if (response == "True"){
                                 $('#status-{{NVFI.id}}').html('Running');
@@ -21,7 +21,7 @@
              var check = setInterval(function() {
                     $.ajax({
                         type: "GET",
-                        url: "/ns/"+{{NVFI.id}}+"/state/",
+                        url: "{% url 'ns:state' id=NVFI.id %}",
                         success: function(response) {
                             if (response == "True"){
                                 $('#status-{{NVFI.id}}').html('Shut Down');
@@ -52,7 +52,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "/utrans/"+{{NVFI.id}}+"/launch/",
+                    url: "{% url 'pools:launch' id=NVFI.id %}",
                     success: function(response) {
                     },
                 });
@@ -60,10 +60,10 @@
                 var check = setInterval(function() {
                     $.ajax({
                         type: "GET",
-                        url: "/ns/"+{{NVFI.id}}+"/state/",
+                        url: "{% url 'ns:state' id=NVFI.id %}",
                         success: function(response) {
                             if (response == "True"){
-                                $('#status-{{NVFI.id}}').html('Running');
+                                $('#status-{{NVFI.id}}').html('<div style="display:inline-block;""><div style="background-color: green;height: 20px;width: 20px;border-radius: 50% 50% 50% 50%;float: left;margin-left: 20px"></div><div style="float:left;margin-left: 5px">Running</div></div>');
                                 clearInterval(check);
                             }
                         },
@@ -78,7 +78,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "/utrans/"+{{NVFI.id}}+"/shut_down/",
+                    url: "{% url 'pools:shut_down' id=NVFI.id %}",
                     success: function(response) {
                     },
                 });
@@ -86,10 +86,10 @@
                 var check = setInterval(function() {
                     $.ajax({
                         type: "GET",
-                        url: "/ns/"+{{NVFI.id}}+"/state/",
+                        url: "{% url 'ns:state' id=NVFI.id %}",
                         success: function(response) {
                             if (response == "True"){
-                                $('#status-{{NVFI.id}}').html('Shut Down');
+                                $('#status-{{NVFI.id}}').html('<div style="display:inline-block;""><div style="background-color: red;height: 20px;width: 20px;border-radius: 50% 50% 50% 50%;float: left;margin-left: 20px"></div><div style="float:left;margin-left: 5px">Shut Down</div></div>');
                                 clearInterval(check);
                             }
                         },
@@ -103,3 +103,7 @@
         });
     });
 </script>
+
+
+
+
