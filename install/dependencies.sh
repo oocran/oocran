@@ -8,7 +8,7 @@ sudo apt-get install python-pip -y
 sudo apt install influxdb-client -y
 sudo apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev -y
 sudo apt-get install rabbitmq-server -y
-sudo apt-get install python-pycurl -y
+sudo apt-get install libssl-dev libcurl4-openssl-dev python-dev -y
 #InfluxDB
 wget https://dl.influxdata.com/influxdb/releases/influxdb_1.2.4_amd64.deb
 sudo dpkg -i influxdb_1.2.4_amd64.deb
