@@ -68,7 +68,7 @@ def celery_shut_down(id, action=None):
 from schedulers.models import Scheduler
 import datetime
 from drivers.OpenStack.APIs.nova.nova import launch, shut_down
-from drivers.Vagrant.APIs.api import vagrant_ssh, vagrant_destroy_nvf, vagrant_launch_nvf
+from drivers.Vagrant.APIs.main import vagrant_ssh, vagrant_destroy_nvf, vagrant_launch_nvf
 
 
 @task()
