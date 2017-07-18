@@ -39,7 +39,6 @@ srs/bbus/migrations/*
 !srs/bbus/migrations/__init__.py
 
 srs/oocran/secret_key.py
-
 srs/db.sqlite3
 srs/drivers/Vagrant/repository/*
 srs/celerybeat.pid
