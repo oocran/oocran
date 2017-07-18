@@ -16,9 +16,6 @@ touch ues/migrations/__init__.py
 #ns bbus
 rm bbus/migrations/*
 touch bbus/migrations/__init__.py
-#ns/epcs
-rm epcs/migrations/*
-touch epcs/migrations/__init__.py
 #ns/ns
 rm ns/migrations/*
 touch ns/migrations/__init__.py
@@ -48,4 +45,3 @@ rm db.sqlite3 &> /dev/null
 #delete vagrant files
 rm -r drivers/Vagrant/repository/* &> /dev/null
 cd ..
-./oocran install server
