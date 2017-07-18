@@ -15,7 +15,6 @@ class ScriptForm(forms.ModelForm):
                                                          ("File", "File"),
                                                          ("Ansible", "Ansible"),
                                                          ("Puppet", "Puppet"),
-                                                         ("Salt", "Salt"),
                                                          ("Chef", "Chef")])
 
     class Meta:

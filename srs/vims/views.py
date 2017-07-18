@@ -6,7 +6,7 @@ from operators.models import Operator
 from images.models import Image
 from oocran.global_functions import paginator
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import VimForm, DeviceForm
+from .forms import VimForm
 from django.contrib.auth.decorators import login_required
 from celery import task
 from drivers.OpenStack.APIs.keystone.keystone import create_user, delete_user

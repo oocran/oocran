@@ -30,9 +30,9 @@ def ansible(script):
     return element
 
 
-def file(file):
+def file(script):
     element = Template(u'''\
-    config.vm.provision "file", source: "{{file}}", destination: "/vagrant"
+    subconfig.vm.provision "file", source: "{{file}}", destination: "/vagrant"
 
 ''')
 
