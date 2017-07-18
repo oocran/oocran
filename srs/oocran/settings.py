@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'pools',
     'bbus',
     'ns',
-    'epcs',
     'ues',
     'vims',
     'scripts',
