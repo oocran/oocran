@@ -21,7 +21,7 @@
                 <div style="float:left;margin-left: 5px">Created</div>
               </div>
             {% elif object.state == "Creating"%}
-              <div style="display:inline-block;"">
+              <div style="display:inline-block;">
                 <div style="background-color: orange;height: 20px;width: 20px;border-radius: 50% 50% 50% 50%;float: left;margin-left: 20px"></div>
                 <div style="float:left;margin-left: 5px">Creating</div>
               </div>
@@ -31,7 +31,6 @@
             <a href="{% url 'operators:delete' object.id %}" class="btn btn-danger" role="button">Delete</a>
           </td>
         </tr>
-        {% include "partials/operators/javascript/created-creating.html" %}
       {%endfor%}
   </tbody>
 </table>
