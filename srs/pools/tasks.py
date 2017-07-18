@@ -70,7 +70,6 @@ import datetime
 from drivers.OpenStack.APIs.nova.nova import launch, shut_down
 from drivers.Vagrant.APIs.main import vagrant_ssh, vagrant_destroy_nvf, vagrant_launch_nvf
 
-
 @task()
 def ns():
     schedulers = Scheduler.objects.filter(type="ns")
