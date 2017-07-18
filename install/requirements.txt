@@ -10,13 +10,13 @@ python-openstackclient==2.6.0
 python-neutronclient==6.2.0
 python-heatclient==1.2.0
 python-ceilometerclient==2.4.0
+python-vagrant==0.5.14
 yapsy==1.11.223
 simple-crypt==4.1.7
 influxdb
 psutil
 paramiko
-pycurl
 crypto
 pycrypto
 docker
-python-vagrant==0.5.14
+pycurl
