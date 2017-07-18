@@ -1,0 +1,66 @@
+bbu1:
+  name: bbu1
+  rrh: 192.168.10.6
+  mgmt_ip: 192.168.10.56
+  vnf: docker
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 40
+  channel:
+    name: channel1
+    vnf: docker
+    vim: none
+    mgmt_ip: 192.168.10.57
+    sinr: 10
+    delay: 0
+  users:
+    ue1:
+      name: ue1
+      vnf: docker
+      vim: none
+      mgmt_ip: 192.168.10.58
+      latitude: 41.275259
+      longitude: 1.9853187
+      sensibility: -107.5
+      service: 36000
+
+bbu2:
+  name: bbu2
+  rrh: 192.168.10.8
+  mgmt_ip: 192.168.10.59
+  vnf: docker
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 40
+  users:
+    ue1:
+      name: ue2
+      vnf: docker
+      vim: none
+      mgmt_ip: 192.168.10.58
+      latitude: 41.275259
+      longitude: 1.9853187
+      sensibility: -107.5
+      service: 36000
+
+bbu3:
+  name: bbu3
+  rrh: 192.168.10.5
+  mgmt_ip: 192.168.10.61
+  vnf: libvirt
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 30
+
+bbu4:
+  name: bbu4
+  rrh: 192.168.10.4
+  mgmt_ip: 192.168.10.62
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 30

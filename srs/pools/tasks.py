@@ -23,12 +23,6 @@ def celery_launch(id):
     channels = Channel.objects.filter(ns=pool)
     ues = Ue.objects.filter(ns=pool)
 
-    '''if pool.vim_option == "Near":
-        OpenStack_create_deploy(pool, bbus, channels, ues)
-        [nvf.check_provision() for nvf in bbus]
-        [nvf.check_provision() for nvf in channels]
-        [nvf.check_provision() for nvf in ues]
-    elif pool.vim_option == "Vagrant":'''
     Vagrant_create_deploy(ns=pool, bbus=bbus, channels=channels, ues=ues)
 
     print "Provision finished"
@@ -49,9 +43,6 @@ def celery_shut_down(id, action=None):
     pool.scenario.save()
     pool.remove_frecuencies()
 
-    '''if pool.vim_option == "Near":
-        OpenStack_delete_deploy(pool)
-    elif pool.vim_option == "Vagrant":'''
     Vagrant_delete_deploy(pool)
 
     pool.status = 'Shut Down'

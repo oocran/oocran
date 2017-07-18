@@ -64,7 +64,7 @@ def docker(nvf):
         image = nvf.vnf.image,
         cpu=nvf.vnf.cpu,
         ram=nvf.vnf.ram,
-        ip=nvf.ip,
+        ip=nvf.mgmt_ip,
     )
     return element
 
