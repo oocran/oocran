@@ -29,7 +29,7 @@ Please refer to the OOCRAN Installation guide for a thorough walkthrough [wiki](
 
 Get Started
 ===========
-As of now, OOCRAN can only be deployed on top of OpenStack environments but OOCRAN will support local hypervisors (Docker, KVM, VirtualBox) in subsequent releases. To get started with some examples, please refer to the examples guide.
+As of now, OOCRAN can only be deployed on top of OpenStack environments but OOCRAN will support local hypervisors (Docker, KVM, VirtualBox ) in subsequent releases. To get started with some examples, please refer to the examples guide.
 
 Creating NFs
 ============
