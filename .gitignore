@@ -43,3 +43,7 @@ srs/oocran/secret_key.py
 srs/db.sqlite3
 srs/drivers/Vagrant/repository/*
 srs/celerybeat.pid
+.idea/misc.xml
+.idea/modules.xml
+.idea/oocran.iml
+.idea/vcs.xml
