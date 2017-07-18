@@ -8,7 +8,7 @@ from influxdb import InfluxDBClient
 from oocran.settings import INFLUXDB
 from drivers.OpenStack.APIs.nova.nova import console
 import paramiko, uuid
-from drivers.Vagrant.APIs.api import vagrant_ssh
+from drivers.Vagrant.APIs.main import vagrant_ssh
 from scenarios.models import RRH, Scenario
 
 
