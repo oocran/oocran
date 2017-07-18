@@ -6,7 +6,7 @@ from vims.models import OpenStack
 def libvirt(nvf):
     element = Template(u'''\
   config.vm.synced_folder '.', '/vagrant', disabled: true    
-  config.vm.define "{{name}}" do |{{name}}|
+  config.vm.define "{{name}}" do |subconfig|
     subconfig.vm.box = "{{image}}"
     subconfig.vm.provider "libvirt" do |v|
       v.driver = "kvm"

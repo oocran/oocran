@@ -238,7 +238,7 @@
             var select = 1;
             var count = 0;
             for(var i in myOpts){
-                if (myOpts[i].text.split(' - ')[1] == "Libvirt"){
+                if (myOpts[i].text.split(' - ')[1] == "libvirt"){
                     if (select == 1){
                         $('#id_image > option[value="'+myOpts[i].text.split(' - ')[0]+'"]').prop('selected', 'selected');
                         select = 0;
