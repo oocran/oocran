@@ -1,0 +1,23 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Task</th>
+            <th>Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for scheduler in schedulers %}
+            <tr>
+                <td><a href="{% url 'schedulers:details' scheduler.id %}">{{scheduler.name}}</a></td>
+                <td>{{scheduler.description}}</td>
+                <td>{{scheduler.action}}</td>
+                <td>{{scheduler.time|time:"H:i"}}</td>
+                <td><a href="{% url 'schedulers:delete' id=scheduler.id %}" class="btn btn-danger" role="button">Delete</a></td>
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>
+

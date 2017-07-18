@@ -1,0 +1,195 @@
+{%extends "base/base.html"%}
+{% load staticfiles %}
+
+{% block head %}
+    <script src="{% static 'base/js/jquery.flotgraph.js' %}" xmlns="http://www.w3.org/1999/html"></script>
+    <link href="{% static 'base/css/flot.css' %}" rel="stylesheet" type="text/css">
+{% endblock head %}
+
+{% block content %}
+    <h1>Details of {{bbu.get_name}}</h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'scenarios:scenarios' %}">Scenarios</a></li>
+        <li><a href="{% url 'scenarios:scenario' id=bbu.ns.scenario.id %}">{{bbu.ns.scenario}}</a></li>
+        <li><a href="{% url 'pools:details' id=bbu.ns.id %}">{{bbu.ns}}</a></li>
+        <li class="active">{{bbu.get_name}}</li>
+    </ol>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#pools">Information</a></li>
+        {% if channel != None%}
+            <li><a data-toggle="tab" href="#channel">Channel</a></li>
+        {% endif %}
+        <li><a data-toggle="tab" href="#ues">UEs</a></li>
+        <li><a data-toggle="tab" href="#schedulers">Schedulers</a></li>
+        <li><a data-toggle="tab" href="#alerts">Alerts</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="pools" class="tab-pane fade in active">
+            <br>
+            <div class="panel panel-default" style="float:left;width:48%">
+                <div class="panel-heading">Parameters</div>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>UUID</th>
+                            <td>{{bbu.uuid}}</td>
+                        </tr>
+                        <tr>
+                            <th>Power transmistted</th>
+                            <td>{{bbu.pt}}</td>
+                            <td>dBm</td>
+                        </tr>
+                        <tr>
+                            <th>Central frequency DL</th>
+                            <td>{{bbu.freC_DL}}</td>
+                            <td>Hz</td>
+                        </tr>
+                        <tr>
+                            <th>Bandwidth DL</th>
+                            <td>{{bbu.bw_dl}}</td>
+                            <td>Hz</td>
+                        </tr>
+                        <tr>
+                            <th>Central frequency UL</th>
+                            <td>{{bbu.freC_UL}}</td>
+                            <td>Hz</td>
+                        </tr>
+                        <tr>
+                            <th>Bandwidth UL</th>
+                            <td>{{bbu.bw_ul}}</td>
+                            <td>Hz</td>
+                        </tr>
+                        <tr>
+                            <th>Simulated</th>
+                            <td>{{bbu.is_simulate}}</td>
+                            <td></td>
+                        </tr>
+                        {% if bbu.is_simulate %}
+                            <tr>
+                                <th>Next NVF</th>
+                                <td>{{bbu.next_nvf}}</td>
+                                <td></td>
+                            </tr>
+                        {%endif%}
+                        </tbody>
+                    </table>
+                </div>
+
+
+            <div class="panel panel-default" style="float:right;width:48%">
+                <div class="panel-heading">Resources</div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Number of CPUs</th>
+                        <td>{{bbu.vnf.cpu}}</td>
+                        <td>cores</td>
+                    </tr>
+                    <tr>
+                        <th>RAM</th>
+                        <td>{{bbu.vnf.ram}}</td>
+                        <td>GB</td>
+                    </tr>
+                    <tr>
+                        <th>Disc Assigned</th>
+                        <td>{{bbu.vnf.disc}}</td>
+                        <td>GB</td>
+                    </tr>
+                    <tr>
+                        <th>Management IP</th>
+                        <td>{{bbu.mgmt_ip}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>VNF</th>
+                        <td><a target="_blank" href="{{bbu.vnf.get_absolut_url}}">{{bbu.vnf}}</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>VIM</th>
+                        <td><a target="_blank" href="{{bbu.vim.get_absolut_url}}">{{bbu.vim}}</a></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {%if bbu.operator.vnfm != "Vagrant" %}
+            <!--<h2 class="sub-header">Options</h2>
+            <a class="btn btn-default" role="button" onClick="window.open('');">Console</a>
+            <a class="btn btn-default" role="button" onclick="window.open('{% url 'bbus:log' id=bbu.id %}')">Log</a>-->
+        {%endif%}
+
+
+        <div id="schedulers" class="tab-pane fade">
+            <br>
+            <h2 class="sub-header">Schedulers</h2>
+            {% include "bbus/partials/schedulers.html" %}
+            {% include "base/partials/paginator.html" with object_list=schedulers %}
+            <br>
+            <a href="{% url 'bbus:scheduler' id=bbu.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#scheduler">Add</a>
+
+            <div class="modal fade" id="scheduler" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content"></div>
+                </div>
+            </div>
+        </div>
+
+        {% if channel != None %}
+            <div id="channel" class="tab-pane fade">
+                <br>
+                <h2 class="sub-header">Channel</h2>
+                <div class="panel panel-default" style="">
+                    <div class="panel-heading">Parameters</div>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>SINR</th>
+                            <td>{{channel.sinr}}</td>
+                            <td>dBm</td>
+                        </tr>
+                        <tr>
+                            <th>Delay</th>
+                            <td>{{channel.delay}}</td>
+                            <td>ms</td>
+                        </tr>
+                        <tr>
+                            <th>MGMT IP</th>
+                            <td>{{channel.mgmt_ip}}</td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+        <div id="ues" class="tab-pane fade">
+            <br>
+            <h2 class="sub-header">User Equipments</h2>
+            {% include "bbus/partials/ues.html" %}
+            {% include "base/partials/paginator.html" with object_list=ues %}
+        </div>
+
+        <div id="alerts" class="tab-pane fade">
+            <br>
+            <h2 class="sub-header">Alerts</h2>
+            {% include "bbus/partials/alerts.html" %}
+            {% include "base/partials/paginator.html" with object_list=alerts %}
+            <br>
+            <a href="{% url 'bbus:alert' id=bbu.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#alert">Add</a>
+
+            <div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascript %}{% endblock javascript %}
