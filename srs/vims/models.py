@@ -28,7 +28,6 @@ class Vim(models.Model):
         return OpenStack.objects.get(name=self.name).version
 
 
-
 class Node(models.Model):
     ip = models.CharField(max_length=120)
     name = models.CharField(max_length=120)
@@ -106,6 +105,7 @@ class Azure(Vim):
     client_id = models.CharField(max_length=120)
     client_secret = models.CharField(max_length=120)
     subscription_id = models.CharField(max_length=120)
+
 
 class Gce(Vim):
     google_project_id = models.CharField(max_length=120)

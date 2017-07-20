@@ -104,27 +104,28 @@ def shut_down(request, id=None):
 
 @login_required(login_url='/login/')
 def details(request, id=None):
-    utran = get_object_or_404(Pool, id=id)
-    bbus = Bbu.objects.filter(ns=utran)
-    schedulers = Scheduler.objects.filter(ns=utran)
+    pool = get_object_or_404(Pool, id=id)
+    bbus = Bbu.objects.filter(ns=pool)
+    schedulers = Scheduler.objects.filter(ns=pool)
     schedulers = paginator(request, schedulers)
-    alerts = Alert.objects.filter(ns=utran)
+    alerts = Alert.objects.filter(ns=pool)
     alerts = paginator(request, alerts)
 
     context = {
-        "user": utran.operator,
-        "utran": utran,
+        "user": request.user,
+        "utran": pool,
         "alerts": alerts,
         "bbus": bbus,
         "schedulers": schedulers,
         "url": get_current_site(request).domain.split(':')[0],
-        "grafana": "http://"+settings.GRAFANA+'/?login='+utran.operator.name+'&password='+utran.operator.decrypt(),
+        "grafana": "http://"+settings.GRAFANA+'/?login='+pool.operator.name+'&password='+pool.operator.decrypt(),
     }
     return render(request, "pools/detail.html", context)
 
 
 @login_required(login_url='/login/')
 def alert(request, id=None):
+    print "dins"
     scenario = get_object_or_404(Scenario, id=id)
     form = AlertForm(request.POST or None)
     if form.is_valid():

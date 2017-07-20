@@ -3,7 +3,7 @@ from django import forms
 
 class VimForm(forms.Form):
     name = forms.CharField(max_length=32)
-    type = forms.ChoiceField(required=True,widget=forms.Select(attrs={"onChange": 'select(this);'}), choices=[('OpenStack', 'OpenStack'),('Azure','Azure'),('AWS','AWS'),('GCE', 'GCE')])
+    type = forms.ChoiceField(required=True,widget=forms.Select(attrs={"onChange": 'select(this);'}), choices=[('OpenStack', 'OpenStack')])#,('Azure','Azure'),('AWS','AWS'),('GCE', 'GCE')])
     #version = forms.ChoiceField(required=True,widget=forms.Select(attrs={"onChange": 'select(this);'}), choices=[('2', 'Mitaka'),('3','Newton')])
 
     ip = forms.CharField(max_length=32, initial="controller")

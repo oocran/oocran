@@ -35,11 +35,12 @@ def delete(request, id=None):
 
 @task()
 def add_actual_users(id):
-    operators = Operator.objects.all()
+    operators = Operator.objects.exclude(name='admin')
     vim = Vim.objects.get(id=id)
+    if vim.type == "OpenStack":
+        vim = OpenStack.objects.get(name=vim.name)
     for operator in operators:
         print operator
-        print "create"
         create_user(operator, vim)
         create_operator(operator, vim)
 
@@ -56,7 +57,6 @@ def create(request):
                 if form.cleaned_data['password'] == form.cleaned_data['password_confirmation']:
                     vim = OpenStack.objects.create(name=form.cleaned_data['name'],
                                                     ip=form.cleaned_data['ip'],
-                                                    version = form.cleaned_data['version'],
                                                     longitude=form.cleaned_data['longitude'],
                                                     latitude=form.cleaned_data['latitude'],
                                                     type=form.cleaned_data['type'],
@@ -68,7 +68,7 @@ def create(request):
                                                     domain = form.cleaned_data['domain'],
                                                     )
                     vim.password = vim.encrypt(form.cleaned_data['password'])
-                    #vim.set_public_network()
+                    vim.set_public_network()
                     vim.save()
                 else:
                     messages.success(request, "Passwords are different!", extra_tags="alert alert-danger")

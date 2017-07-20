@@ -64,7 +64,6 @@
             </div>
 			<div id="software" class="tab-pane fade">
 				<br>
-				{{form.key|bootstrap}}
                 <div id="provider">
 				    {{form.provider|bootstrap}}
                 </div>
@@ -104,7 +103,6 @@
 <script>
     $( document ).ready(function() {
         var myOpts = document.getElementById('id_image').options;
-        document.getElementById('images').style.display="block";
         var select = 1;
         var count = 0;
         for(var i in myOpts){
@@ -117,6 +115,11 @@
             }
             else{
                  myOpts[i].style.display = "none";
+                 count = count + 1;
+				 if (count == myOpts.length){
+					document.getElementById('images').style.display="none";
+					$("#id_image").val('');
+				 }
             }
         };
     });

@@ -18,9 +18,9 @@ def check_parameters(parameters, keys):
     return {k: parameters[k] for k in set(keys) & set(parameters.keys())}
 
 
-def check_vnf(data, operator):
+def check_vnf(vnf, operator):
     try:
-        vnf = Vnf.objects.get(operator=operator, name=data)
+        vnf = Vnf.objects.get(operator=operator, name=vnf)
     except:
         vnf = False
     return vnf
@@ -35,113 +35,133 @@ def check_vim(name, type):
 
 
 def read_bbus(doc, operator):
-    keys = ["name", "rrh", "vnf", "bw_dl", "bw_ul", "pt", "mgmt_ip","vim"]
+    keys = ["name", "rrh", "vnf", "bw_dl", "bw_ul", "pt", "vim"]
     list = []
-    try:
-        for bbu, parameters in doc.items():
-            data = check_parameters(parameters, keys)
-            vnf = check_vnf(data['vnf'], operator)
-            if check_content(parameters, keys) is not False:
-                if data is not False:
-                    if vnf is not False:
-                        data['vnf'] = vnf
-                        data['operator'] = operator
-                        data['rrh'] = RRH.objects.get(ip=data['rrh'])
-                        if parameters.has_key('channel'):
-                            data['is_simulate'] = True
-                            channel = parameters['channel']
-                            data['next_nvf'] = channel['mgmt_ip']
-                        elif parameters.has_key('users'):
-                            data['is_simulate'] = True
-                            ues = parameters['users']['ue1']
-                            data['next_nvf'] = ues['mgmt_ip']
-                        if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE" and check_vim(name=data['vim'], type=vnf.provider) is not False:
-                            data['vim'] = check_vim(name=data['vim'], type=vnf.provider)
-                            list.append(data)
-                        else:
-                            del data['vim']
-                            list.append(data)
-                    else:
-                        return "VNF is not found!", "alert alert-danger"
-                else:
-                    return "The content format is not valid!", "alert alert-danger"
-            else:
-                return "The content format is not valid!", "alert alert-danger"
+    res = ""
+
+    for bbu, parameters in doc.items():
+        content = check_content(parameters, keys)
+        data = check_parameters(parameters, keys)
+        if content is False or data is False:
+            res = "The content format is not valid!"
+            break
+        vnf = check_vnf(vnf=data['vnf'], operator=operator)
+        if vnf is False:
+            res = data['name']+": VNF is not found!"
+            break
+        if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE":
+            vim = check_vim(name=data['vim'], type=vnf.provider)
+            if vim is False:
+                res = data['name']+": VIM is not registered!"
+                break
+
+        data['vnf'] = vnf
+        data['operator'] = operator
+        data['rrh'] = RRH.objects.get(ip=data['rrh'])
+        if parameters.has_key('channel'):
+            data['is_simulate'] = True
+            channel = parameters['channel']
+            data['next_nvf'] = channel['mgmt_ip']
+        elif parameters.has_key('users'):
+            data['is_simulate'] = True
+            ues = parameters['users']['ue1']
+            data['next_nvf'] = ues['mgmt_ip']
+        if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE":
+            data['vim'] = vim
+            list.append(data)
+        else:
+            del data['vim']
+            list.append(data)
+
+    if res == "":
         return list
-    except:
-        return "The content format is not valid!", "alert alert-danger"
+    else:
+        return res
 
 
 def read_channels(doc, operator):
-    keys = ["vnf", "vim","sinr", "delay", "name", "mgmt_ip"]
+    keys = ["vnf", "vim","sinr", "delay", "name"]
     list = []
-    try:
-        for bbu, conf in doc.items():
-            if conf.has_key('users'):
-                mgmt_ip = conf['users']['ue1']['mgmt_ip']
-            if conf.has_key('channel'):
-                channel = conf['channel']
-                data = check_parameters(channel, keys)
-                vnf = check_vnf(data['vnf'], operator)
-                if check_content(channel, keys) is not False:
-                    if data is not False:
-                        if vnf is not False:
-                            data['vnf'] = vnf
-                            data['bbu'] = bbu
-                            data['next_nvf'] = mgmt_ip
-                            if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE" and data['vim'] is not False:
-                                data['vim'] = check_vim(name=data['vim'], type=vnf.provider)
-                                list.append(data)
-                            else:
-                                del data['vim']
-                                list.append(data)
-                        else:
-                            return "VNF is not found!", "alert alert-danger"
-                    else:
-                        return "The content format is not valid!", "alert alert-danger"
-                else:
-                    return "The content format is not valid!", "alert alert-danger"
-        if len(list) is 0:
-            return None
-        else:
-            return list
-    except:
-        return "The content format is not valid!", "alert alert-danger"
+    res = ""
+
+    for bbu, conf in doc.items():
+        if conf.has_key('users'):
+            mgmt_ip = conf['users']['ue1']['mgmt_ip']
+        if conf.has_key('channel'):
+            channel = conf['channel']
+            data = check_parameters(channel, keys)
+            content = check_content(channel, keys)
+            if content is False or data is False:
+                res = "The content format is not valid!"
+                break
+            vnf = check_vnf(vnf=data['vnf'], operator=operator)
+            if vnf is False:
+                res = data['name'] + ": VNF is not found!"
+                break
+            if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE":
+                vim = check_vim(name=data['vim'], type=vnf.provider)
+                if vim is False:
+                    res = data['name'] + ": VIM is not registered!"
+                    break
+
+            data['vnf'] = vnf
+            data['bbu'] = bbu
+            data['next_nvf'] = mgmt_ip
+            if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE" and data['vim'] is not False:
+                data['vim'] = vim
+                list.append(data)
+            else:
+                del data['vim']
+                list.append(data)
+
+        if res != "":
+            break
+
+    if res != "":
+        return res
+    else:
+        return list
 
 
 def read_ues(doc, operator):
-    keys = ["vnf", "vim","sensibility", "service", "name", "latitude", "longitude", "mgmt_ip"]
+    keys = ["vnf", "vim", "sensibility", "service", "name", "latitude", "longitude"]
     list = []
-    try:
-        for bbu, conf in doc.items():
-            if conf.has_key('users'):
-                users = conf['users']
-                for ue, params in users.items():
-                    data = check_parameters(params, keys)
-                    vnf = check_vnf(data['vnf'], operator)
-                    if check_content(params, keys) is not False:
-                        if data is not False:
-                            if vnf is not False:
-                                data['vnf'] = vnf
-                                data['bbu'] = bbu
-                                if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE" and data['vim'] is not False:
-                                    data['vim'] = check_vim(name=data['vim'], type=vnf.provider)
-                                    list.append(data)
-                                else:
-                                    del data['vim']
-                                    list.append(data)
-                            else:
-                                return "VNF is not found!", "alert alert-danger"
-                        else:
-                            return "The content format is not valid!", "alert alert-danger"
-                    else:
-                        return "The content format is not valid!", "alert alert-danger"
-        if len(list) is 0:
-            return None
-        else:
-            return list
-    except:
-        return "The content format is not valid!", "alert alert-danger"
+    res = ""
+    for bbu, conf in doc.items():
+        if conf.has_key('users'):
+            users = conf['users']
+            for ue, params in users.items():
+                content = check_content(params, keys)
+                data = check_parameters(params, keys)
+                if content is False or data is False:
+                    res = "The content format is not valid!"
+                    break
+                vnf = check_vnf(vnf=data['vnf'], operator=operator)
+                if vnf is False:
+                    res = data['name']+": VNF is not found!"
+                    break
+                if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE":
+                    vim = check_vim(name=data['vim'], type=vnf.provider)
+                    if vim is False:
+                        res = data['name']+": VIM is not registered!"
+                        break
+
+                data['vnf'] = vnf
+                data['bbu'] = bbu
+                if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE" and data['vim'] is not False:
+                    data['vim'] = vim
+                    list.append(data)
+                else:
+                    del data['vim']
+                    list.append(data)
+
+            if res != "":
+                break
+
+    if res != "":
+        return res
+    else:
+        return list
 
 
 def read_users(doc, scenario):

@@ -101,7 +101,13 @@ class Pool(Ns):
             create_data_source(self)
             return "NS successfully created!", "alert alert-success"
         else:
-            return "The content format is not valid!", "alert alert-danger"
+            if type(bbus) is not list:
+                return bbus, "alert alert-danger"
+            if type(ues) is not list:
+                print "dins de tot"
+                return ues, "alert alert-danger"
+            if type(channels) is not list:
+                return channels, "alert alert-danger"
 
     def choose_vim(self):
         vims = Vim.objects.all()

@@ -31,7 +31,7 @@ def vagrant_destroy_nvf(nvf):
 
 
 def vagrant_launch_nvf(nvf):
-    os.system("cd " + os.getcwd() + '/drivers/Vagrant/repository/' + nvf.operator.name + "/" + nvf.ns.name + ";vagrant up " + nvf.name+" --provider="+nvf.operator.vagrant_hypervisor)
+    os.system("cd " + os.getcwd() + '/drivers/Vagrant/repository/' + nvf.operator.name + "/" + nvf.ns.name + ";vagrant up " + nvf.name)
     print "nvf "+nvf.name+" launched done!"
 
 
@@ -105,7 +105,7 @@ def create_nvf(nvf):
     elif nvf.vnf.provider == "LXC":
         element = providers.lxc(nvf) + provisions(nvf) + launch(nvf)
     elif nvf.vnf.provider == "OpenStack":
-        element = providers.openstack_v3(nvf, nvf.vim) + provisions(nvf) + launch(nvf)
+        element = providers.openstack_v3(nvf, nvf.vim) + provisions(nvf)
 
     end = Template(u'''\
   end

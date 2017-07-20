@@ -13,9 +13,9 @@ class ScriptForm(forms.ModelForm):
                                                 choices=[("Script", "Script"),
                                                          ("Direct Input", "Direct Input"),
                                                          ("File", "File"),
-                                                         ("Ansible", "Ansible"),
-                                                         ("Puppet", "Puppet"),
-                                                         ("Chef", "Chef")])
+                                                         ("Ansible", "Ansible"),])
+                                                         #("Puppet", "Puppet"),
+                                                         #("Chef", "Chef")])
 
     class Meta:
         model = Script

@@ -5,7 +5,7 @@ from vims.models import OpenStack
 
 def libvirt(nvf):
     element = Template(u'''\
-  config.vm.synced_folder '.', '/vagrant', disabled: true    
+  config.vm.synced_folder '.', '/vagrant', type: 'rsync'
   config.vm.define "{{name}}" do |subconfig|
     subconfig.vm.box = "{{image}}"
     subconfig.vm.provider "libvirt" do |v|
@@ -140,7 +140,7 @@ def openstack_v3(nvf, vim):
       os.domain_name                      = '{{domain}}'
       os.username                         = '{{username}}'
       os.password                         = '{{password}}'
-      os.floating_ip                      = "{{floating}}"
+      os.floating_ip_pool                 = '{{floating}}'
       os.flavor                           = '{{flavor}}'
       os.image                            = '{{image}}'
       os.networks                        << '{{network}}'
@@ -154,17 +154,18 @@ def openstack_v3(nvf, vim):
 
 ''')
 
+  vim = OpenStack.objects.get(name=vim.name)
 
   element = element.render(
       name=nvf.name,
-      auth="http://controller:5000/v3",
+      auth="http://"+vim.ip+":5000/v3",
       tenant=nvf.operator.name,
       username=nvf.operator.name,
       password=nvf.operator.decrypt(),
-      floating=nvf.mgmt_ip,
-      domain="default",
+      floating=vim.public_network,
+      domain=vim.domain,
       project=nvf.operator.name,
-      flavor=get_flavors(nvf, OpenStack.objects.get(name="UPC")),
+      flavor=get_flavors(nvf, vim),
       image=nvf.vnf.image,
       network="network",
 

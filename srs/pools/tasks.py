@@ -58,8 +58,8 @@ def celery_shut_down(id, action=None):
 
 from schedulers.models import Scheduler
 import datetime
-from drivers.OpenStack.APIs.nova.nova import launch, shut_down
 from drivers.Vagrant.APIs.main import vagrant_ssh, vagrant_destroy_nvf, vagrant_launch_nvf
+
 
 @task()
 def ns():
@@ -89,31 +89,12 @@ def nvf():
         if str(scheduler.time) == datetime.datetime.now().strftime('%H:%M:00'):
             if scheduler.action == "Launch":
                 for nvf in scheduler.nvfs.all():
-                    if scheduler.operator.vnfm == "Vagrant":
-                        vagrant_launch_nvf(nvf=nvf)
-                    elif scheduler.operator.vnfm == "OpenStack":
-                        launch(name=nvf.name,
-                               domain=nvf.ns.vim.domain,
-                               username=nvf.operator.name,
-                               project_domain_name=nvf.ns.vim.project_domain_name,
-                               project_name=nvf.operator.name,
-                               password=nvf.operator.password,
-                               ip=nvf.ns.vim.ip)
+                    vagrant_launch_nvf(nvf=nvf)
             elif scheduler.action == "Shut Down":
                 for nvf in scheduler.nvfs.all():
-                    if scheduler.operator.vnfm == "Vagrant":
-                        vagrant_destroy_nvf(nvf=nvf)
-                    elif scheduler.operator.vnfm == "OpenStack":
-                        shut_down(uuid=nvf.uuid,
-                                  domain=nvf.ns.vim.domain,
-                                  username=nvf.operator.name,
-                                  project_domain_name=nvf.ns.vim.project_domain_name,
-                                  project_name=nvf.operator.name,
-                                  password=nvf.operator.password,
-                                  ip=nvf.ns.vim.ip)
+                    vagrant_destroy_nvf(nvf=nvf)
             elif scheduler.action == "Reconfigure":
                 for nvf in scheduler.nvfs.all():
-                    if scheduler.operator.vnfm == "Vagrant":
-                        vagrant_ssh(script=scheduler.script, nvf=nvf)
+                    vagrant_ssh(script=scheduler.script, nvf=nvf)
             if scheduler.destroy is True:
                 scheduler.delete()

@@ -8,7 +8,7 @@ def script(script):
 ''')
 
     element = element.render(
-        file=script.file,
+        file=script.filename(),
     )
     return element
 
@@ -17,8 +17,9 @@ def ansible(script):
     element = Template(u'''\
     subconfig.vm.provision "ansible" do |ansible|
       ansible.playbook = "{{file}}"
-      ansible.sudo = true
-      ansible.limit = "all"
+      ansible.extra_vars = {
+        ansible_python_interpreter: "/usr/bin/python3.5",
+      }
     end
 
 ''')
@@ -37,7 +38,7 @@ def file(script):
 ''')
 
     element = element.render(
-        file=script.file
+        file=script.filename(),
     )
 
     return element
