@@ -3,7 +3,7 @@ OOCRAN: Open Orchestrator Cloud Radio Access Network
 
 What is OOCRAN?
 ===============
-OOCRAN is an implementation of the NFV MANO standard architecture, designed for wireless communications and provided by the NLnet foundation, that introduces the management of the radio spectrum. An OpenStack running cluster is necessary (tested on Mitaka release).
+OOCRAN is an implementation of the NFV MANO standard architecture, designed for wireless communications and provided by the NLnet foundation, that introduces the management of the radio spectrum. An OpenStack running cluster is necessary (tested on Newton release).
 
 Features
 ========
