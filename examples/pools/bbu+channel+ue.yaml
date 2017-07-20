@@ -1,7 +1,6 @@
 bbu1:
   name: bbu1
   rrh: 192.168.10.6
-  mgmt_ip: 192.168.10.56
   vnf: ubuntu
   vim: UPC
   bw_dl: 1400000
@@ -11,7 +10,6 @@ bbu1:
     name: channel1
     vnf: ubuntu
     vim: UPC
-    mgmt_ip: 192.168.10.57
     sinr: 10
     delay: 0
   users:
@@ -19,7 +17,6 @@ bbu1:
       name: ue1
       vnf: ubuntu
       vim: UPC
-      mgmt_ip: 192.168.10.58
       latitude: 41.275259
       longitude: 1.9853187
       sensibility: -107.5
