@@ -40,6 +40,7 @@ srs/bbus/migrations/*
 
 srs/oocran/secret_key.py
 
+
 srs/db.sqlite3
 srs/drivers/Vagrant/repository/*
 !srs/drivers/Vagrant/repository/__init__.py
