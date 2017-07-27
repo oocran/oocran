@@ -1,4 +1,5 @@
 from jinja2 import Template
+import os
 
 
 def script(script):
@@ -33,12 +34,13 @@ def ansible(script):
 
 def file(script):
     element = Template(u'''\
-    subconfig.vm.provision "file", source: "{{file}}", destination: "/vagrant"
+    subconfig.vm.provision "file", source: "{{file}}", destination: "{{name}}"
 
 ''')
 
     element = element.render(
         file=script.filename(),
+        name=str(script.file).split('/')[2]
     )
 
     return element
@@ -55,7 +57,7 @@ def direct_input(script):
 ''')
 
     element = element.render(
-        code=script.script
+        code=script.script,
     )
 
     return element

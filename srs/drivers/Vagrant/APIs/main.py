@@ -2,6 +2,7 @@ import vagrant
 import providers, provisioning
 from jinja2 import Template
 import os, shutil
+from django.contrib.sites.shortcuts import get_current_site
 
 
 def vagrant_launch(ns, bbus, channels, ues):
@@ -9,7 +10,6 @@ def vagrant_launch(ns, bbus, channels, ues):
     v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + '/' + ns.name)
     try:
         v.up()
-        print "finish"
     except:
         print "creating"
 
@@ -43,11 +43,13 @@ def list_boxes(operator):
     return list
 
 
-def launch(nvf):
+def launch(nvf, ns):
+    
     element = Template(u'''\
     subconfig.vm.provision :shell, :inline => "{{code}}"
 
 ''')
+
 
     if nvf.typ == "bbu":
         code = nvf.vnf.launch_script.replace("{{user}}", nvf.operator.name) \
@@ -60,6 +62,15 @@ def launch(nvf):
         code = nvf.vnf.launch_script.replace("{{tx}}", "aaa")
     elif nvf.typ == "ue":
         code = nvf.vnf.launch_script.replace("{{ue}}", "aaa")
+
+    print 
+
+    code =code.replace("{{nvf}}", nvf.name) \
+              .replace("{{oocran}}", "192.168.10.108") \
+              .replace("{{db}}", "ns_"+str(ns.id)) \
+              .replace("{{user}}", ns.operator.name) \
+              .replace("{{password}}", nvf.operator.decrypt()) \
+              .replace("{{interface}}", "eth0")
 
     element = element.render(
         code=code
@@ -88,22 +99,14 @@ def provisions(nvf):
     return element
 
 
-def create_nvf(nvf):
+def create_nvf(nvf, ns):
     element = ""
     if nvf.vnf.provider == "VirtualBox":
-        element = providers.virtualbox(nvf) + provisions(nvf) + launch(nvf)
+        element = providers.virtualbox(nvf) + provisions(nvf) + launch(nvf, ns)
     elif nvf.vnf.provider == "Libvirt":
-        element = providers.libvirt(nvf) + provisions(nvf) + launch(nvf)
+        element = providers.libvirt(nvf) + provisions(nvf) + launch(nvf, ns)
     elif nvf.vnf.provider == "Docker":
-        element = providers.docker(nvf) + provisions(nvf) + launch(nvf)
-    elif nvf.vnf.provider == "VMware Fusion":
-        element = providers.vmware_fusion(nvf) + provisions(nvf) + launch(nvf)
-    elif nvf.vnf.provider == "VMware Workstation":
-        element = providers.vmware_workstation(nvf) + provisions(nvf) + launch(nvf)
-    elif nvf.vnf.provider == "Parallels":
-        element = providers.parallels(nvf) + provisions(nvf) + launch(nvf)
-    elif nvf.vnf.provider == "LXC":
-        element = providers.lxc(nvf) + provisions(nvf) + launch(nvf)
+        element = providers.docker(nvf) + provisions(nvf) + launch(nvf, ns)
     elif nvf.vnf.provider == "OpenStack":
         element = providers.openstack_v3(nvf, nvf.vim) + provisions(nvf)
 
@@ -117,6 +120,11 @@ def create_nvf(nvf):
 
 
 def create_vagrantfile(ns, bbus, channels=None, ues=None):
+    try:
+        os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name)
+    except:
+        print "Folder exist."
+
     header = Template(u'''\
 Vagrant.configure("2") do |config|
 
@@ -125,15 +133,15 @@ Vagrant.configure("2") do |config|
 
     nvfs = ""
     for element in bbus:
-        nvf = create_nvf(element)
+        nvf = create_nvf(nvf=element, ns=ns)
         nvfs += nvf
     if channels is not None:
         for element in channels:
-            nvf = create_nvf(element)
+            nvf = create_nvf(nvf=element, ns=ns)
             nvfs += nvf
     if ues is not None:
         for element in ues:
-            nvf = create_nvf(element)
+            nvf = create_nvf(nvf=element, ns=ns)
             nvfs += nvf
 
     end = Template(u'''\
@@ -142,11 +150,6 @@ end
     end = end.render()
 
     print header + nvfs + end
-
-    try:
-        os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name)
-    except:
-        print "Folder exist."
 
     outfile = open(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name + '/Vagrantfile', 'w')
     outfile.write(header + nvfs + end)

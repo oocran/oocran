@@ -50,21 +50,28 @@ def create(request):
 @login_required(login_url='/login/')
 def sincronize(request):
     operator = Operator.objects.get(user=request.user)
-    images = docker_images()
-    for image in images:
-        try:
-            Image.objects.get(operator__user=request.user, name=image.name)
-        except:
-            img = Image.objects.create(name=image.name, format="Docker", operator=operator)
-            img.save()
+    try:
+        images = docker_images()
+        for image in images:
+            try:
+                Image.objects.get(operator__user=request.user, name=image.name)
+            except:
+                img = Image.objects.create(name=image.name, format="Docker", operator=operator)
+                img.save()
+    except:
+        messages.success(request, "Docker containers was not found!", extra_tags="alert alert-danger")
 
-    images = list_boxes(operator)
-    for image in images:
-        try:
-            Image.objects.get(operator__user=request.user, name=image.name)
-        except:
-            img = Image.objects.create(name=image.name,format=image.provider, operator=operator, version=image.version)
-            img.save()
+    try:
+        images = list_boxes(operator)
+        for image in images:
+            try:
+                Image.objects.get(operator__user=request.user, name=image.name)
+            except:
+                img = Image.objects.create(name=image.name,format=image.provider, operator=operator, version=image.version)
+                img.save()
+    except:
+        messages.success(request, "Vagrant boxes was not found!", extra_tags="alert alert-danger")
+
     return redirect("images:list")
 
 

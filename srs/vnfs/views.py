@@ -29,7 +29,6 @@ def list(request):
 def create(request):
     scripts = Script.objects.filter(Q(operator__user=request.user) | Q(operator__name="admin"))
     key = Key.objects.filter(operator__user=request.user)
-    operator = get_object_or_404(Operator, user=request.user)
     images = Image.objects.all()
 
     form = VnfForm(request.POST or None, request.FILES or None, scripts=scripts, images=images, key=key)

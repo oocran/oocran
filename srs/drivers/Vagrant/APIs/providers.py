@@ -7,6 +7,7 @@ def libvirt(nvf):
     element = Template(u'''\
   config.vm.synced_folder '.', '/vagrant', type: 'rsync'
   config.vm.define "{{name}}" do |subconfig|
+    subconfig.vm.network "private_network", ip: "192.168.50.4"
     subconfig.vm.box = "{{image}}"
     subconfig.vm.provider "libvirt" do |v|
       v.driver = "kvm"
@@ -28,7 +29,7 @@ def libvirt(nvf):
 def virtualbox(nvf):
     element = Template(u'''\
   config.vm.define "{{name}}" do |subconfig|
-    subconfig.vm.network "private_network", ip: "{{ip}}"
+    subconfig.vm.network "private_network", ip: "192.168.50.4"
     subconfig.vm.box = "{{image}}"
     subconfig.vm.provider "virtualbox" do |v|
       v.memory = {{ram}}

@@ -34,3 +34,4 @@ sudo apt-get install qemu libvirt-bin ebtables dnsmasq -y
 sudo apt-get install libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev -y
 vagrant plugin install vagrant-openstack-provider 
 vagrant plugin install vagrant-libvirt
+vagrant plugin install vagrant-vbguest

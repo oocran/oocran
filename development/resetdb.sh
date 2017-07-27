@@ -40,6 +40,8 @@ touch alerts/migrations/__init__.py
 #keys
 rm keys/migrations/*
 touch keys/migrations/__init__.py
+#files
+sudo rm -r oocran/repositories/*
 #delete db
 rm db.sqlite3 &> /dev/null
 #delete vagrant files

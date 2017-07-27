@@ -58,6 +58,7 @@ def delete(request, id=None):
 @login_required(login_url='/login/')
 def details(request, id=None):
     script = get_object_or_404(Script, id=id)
+    print script.file
 
     context = {
         "user": request.user,

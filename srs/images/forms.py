@@ -14,7 +14,7 @@ class ImageForm(forms.ModelForm):
                                                            ('AMI', 'AMI'),
                                                            ('Docker', 'Docker'), 
                                                            ('Libvirt', 'Libvirt'),
-                                                           ('VirtualBox', 'VirtualBox'),
+                                                           ('virtualbox', 'VirtualBox'),
                                                            ('VMware', 'VMware')])
 
     class Meta:
