@@ -83,7 +83,7 @@
             {% include "pools/partials/alerts.html" %}
             {% include "base/partials/paginator.html" with object_list=alerts %}
             <br>
-            <a href="{% url 'pools:alert' id=utran.scenario.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#alert">Add</a>
+            <a href="{% url 'pools:alert' id=utran.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#alert">Add</a>
 
             <div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">

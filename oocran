@@ -69,8 +69,6 @@ function start {
             gnome-terminal -e "bash -c 'celery -A oocran worker -l info;exec $SHELL'"
             gnome-terminal -e "bash -c 'celery -A oocran beat -l info -S django;exec $SHELL'"
             gnome-terminal -e "bash -c 'influxd;exec $SHELL'"
-            #gnome-terminal -e "bash -c 'kapacitord -config > examples/kapacitor/kapacitor.conf;sudo kapacitord -config kapacitor.conf;exec $SHELL'"
-            #sudo service grafana-server start
             echo "username: admin"
             echo "password: admin"
             python manage.py runserver $PARAM

@@ -21,7 +21,7 @@ def details(request, id=None):
     bbu = get_object_or_404(Bbu, id=id)
     ues = Ue.objects.filter(attached_to=bbu)
     ues = paginator(request, ues)
-    alerts = Alert.objects.filter(nvf=bbu)
+    alerts = Alert.objects.filter(nvfs=bbu)
     alerts = paginator(request, alerts)
     schedulers = Scheduler.objects.filter(nvfs=bbu)
     schedulers = paginator(request, schedulers)
@@ -52,7 +52,7 @@ def alert(request, id=None):
         except:
             alert = form.save(commit=False)
             alert.operator = get_object_or_404(Operator, user=request.user)
-            alert.nvf = bbu
+            alert.nvfs = bbu
             alert.uuid = uuid.uuid4().hex
             alert.save()
 

@@ -15,7 +15,9 @@ class PoolForm(forms.ModelForm):
 
 class AlertForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        self.nvfs = kwargs.pop('nvfs')
         super(AlertForm, self).__init__(*args, **kwargs)
+        self.fields['nvfs'] = forms.MultipleChoiceField(choices=[(x.id, x) for x in self.nvfs])
         self.fields['action'] = forms.ChoiceField(required=False,
                                                   widget=forms.Select(attrs={"onChange": 'select(this);'}),
                                                   choices=[("Launch", "Launch"),
@@ -29,6 +31,7 @@ class AlertForm(forms.ModelForm):
             "description",
             "action",
             "script",
+            "nvfs",
         ]
 
 

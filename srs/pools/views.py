@@ -125,9 +125,8 @@ def details(request, id=None):
 
 @login_required(login_url='/login/')
 def alert(request, id=None):
-    print "dins"
-    scenario = get_object_or_404(Scenario, id=id)
-    form = AlertForm(request.POST or None)
+    utran = get_object_or_404(Pool, id=id)
+    form = AlertForm(request.POST or None, nvfs=Bbu.objects.filter(ns=utran))
     if form.is_valid():
         try:
             Alert.objects.get(operator__user=request.user, name=form.cleaned_data['name'])
@@ -135,19 +134,19 @@ def alert(request, id=None):
         except:
             alert = form.save(commit=False)
             alert.operator = get_object_or_404(Operator, user=request.user)
-            alert.scenario = scenario
+            alert.scenario = utran.scenario
             alert.uuid = uuid.uuid4().hex
             alert.save()
 
             messages.success(request, "Alert created successfully!", extra_tags="alert alert-success")
-        return redirect("alerts:list")
+        return redirect("pools:details")
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")
-        return redirect("alerts:list")
+        return redirect("pools:details")
 
     context = {
         "user": request.user,
-        "scenario": scenario,
+        "utran": utran,
         "form": form,
     }
     return render(request, "pools/alert.html", context)

@@ -32,6 +32,7 @@ sudo rabbitmqctl set_permissions -p oocran oocran ".*" ".*" ".*"
 sudo apt-get build-dep vagrant ruby-libvirt -y
 sudo apt-get install qemu libvirt-bin ebtables dnsmasq -y
 sudo apt-get install libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev -y
+sudo apt-get install vagrant
 vagrant plugin install vagrant-openstack-provider 
 vagrant plugin install vagrant-libvirt
 vagrant plugin install vagrant-vbguest

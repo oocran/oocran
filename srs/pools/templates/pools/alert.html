@@ -6,12 +6,13 @@
 </div>
 
 <div class="modal-body">
-	<form method="POST" action="{% url 'pools:alert' id=scenario.id %}" enctype="multipart/form-data">
+	<form method="POST" action="{% url 'pools:alert' id=utran.id %}" enctype="multipart/form-data">
         {%csrf_token%}
 
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#info">Information</a></li>
-            <li><a data-toggle="tab" href="#details">Details</a></li>
+			<li><a data-toggle="tab" href="#elements">Elements</a></li>
+            <li><a data-toggle="tab" href="#action">Action</a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -20,7 +21,11 @@
 				{{form.name|bootstrap}}
 				{{form.description|bootstrap}}
 			</div>
-			<div id="details" class="tab-pane fade">
+			<div id="elements" class="tab-pane fade">
+				<br>
+				{{form.nvfs|bootstrap}}
+			</div>
+			<div id="action" class="tab-pane fade">
 				<br>
 				{{form.action|bootstrap}}
 				<div id="script" style="display: none;">

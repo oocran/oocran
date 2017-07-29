@@ -12,7 +12,7 @@ class Alert(models.Model):
     action = models.CharField(max_length=120)
     uuid = models.UUIDField()
     ns = models.ForeignKey(Ns, null=True, blank=True)
-    nvf = models.ForeignKey(Nvf, null=True, blank=True)
+    nvfs = models.ManyToManyField(Nvf)
     script = models.TextField(null=True, blank=True)
     scenario = models.ForeignKey(Scenario, null=True, blank=True)
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE)
