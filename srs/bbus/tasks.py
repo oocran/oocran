@@ -1,18 +1,25 @@
 from __future__ import absolute_import, unicode_literals
-from .models import Utran, BBU, Channel, UE
+from .models import Bbu
 from celery import task
-from django.utils import timezone
-from drivers.OpenStack.deployments.utran import create_deploy as OpenStack_create_deploy
-from drivers.OpenStack.deployments.utran import delete_deploy as OpenStack_delete_deploy
-from drivers.Vagrant.APIs.api import vagrant_launch as Vagrant_create_deploy
-from drivers.Vagrant.APIs.api import vagrant_destroy as Vagrant_delete_deploy
+from drivers.Vagrant.APIs.main import vagrant_launch_nvf, vagrant_destroy_nvf, vagrant_ssh
 
 
 @task()
-def launch(id):
+def launch_nvf(id):
+    nvf = Bbu.objects.get(id=id)
+    vagrant_launch_nvf(nvf)
     print "NS running"
 
 
 @task()
-def shut_down(id, action=None):
+def shut_down_nvf(id):
+    nvf = Bbu.objects.get(id=id)
+    vagrant_destroy_nvf(nvf)
+    print "NS shut down"
+
+
+@task()
+def reconfigure_nvf(id, script):
+    nvf = Bbu.objects.get(id=id)
+    vagrant_ssh(nvf=nvf, script=script)
     print "NS shut down"

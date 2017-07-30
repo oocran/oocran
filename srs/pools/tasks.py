@@ -53,6 +53,7 @@ def celery_shut_down(id, action=None):
         pool.scenario.save()
         pool.delete()
 
+
 ########################################################
 
 

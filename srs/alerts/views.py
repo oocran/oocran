@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from oocran.global_functions import paginator
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from oocran import settings
 import json, uuid
 from bbus.models import Bbu
 from pools.tasks import celery_launch, celery_shut_down
@@ -78,26 +77,24 @@ def delete(request, id = None):
 @csrf_exempt
 def listener(request):
     for value in request:
-        webhook = json.loads(value)
-        if settings.GRAFANA in webhook['ruleUrl']:
+        #webhook = json.loads(value)
+        uuid = value.split(',')[0].split(':')[1]
+        name = value.split(',')[1].split(':')[1]
+        passw = value.split(',')[2].split(':')[1]
+        '''if settings.GRAFANA in webhook['ruleUrl']:
             try:
-                msn = webhook['message'].replace("{","").replace("}","")
+                msn = webhook['message'].replace("{", "").replace("}", "")
                 uuid = msn.split(',')[0].split(':')[1]
                 name = msn.split(',')[1].split(':')[1]
                 passw = msn.split(',')[2].split(':')[1]
             except:
-                return HttpResponse('pong')
+                return HttpResponse('pong')'''
 
-            try:
-                alert = Alert.objects.get(uuid=uuid)
-                if alert.operator.decrypt() == passw and alert.operator.name == name:
-                    if alert.action == "Launch":
-                        celery_launch.delay(id=alert.ns.id)
-                    elif alert.action == "Shut Down":
-                        celery_shut_down.delay(id=alert.ns.id)
-                    elif alert.action == "Reconfigure":
-                        print "aaaa"
-            except:
-                return HttpResponse('pong')
+        try:
+            alert = Alert.objects.get(uuid=uuid, operator__name=name)
+            if alert.operator.decrypt() == passw:
+                alert.execute()
+        except:
+            return HttpResponse('pong')
 
     return HttpResponse('pong')

@@ -135,14 +135,17 @@ def alert(request, id=None):
             alert = form.save(commit=False)
             alert.operator = get_object_or_404(Operator, user=request.user)
             alert.scenario = utran.scenario
+            alert.ns = utran
             alert.uuid = uuid.uuid4().hex
             alert.save()
+            for id in form.cleaned_data['nvfs']:
+                alert.nvfs.add(get_object_or_404(Nvf, id=id))
 
             messages.success(request, "Alert created successfully!", extra_tags="alert alert-success")
-        return redirect("pools:details")
+        return redirect("pools:details", id=utran.id)
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")
-        return redirect("pools:details")
+        return redirect("pools:details", id=utran.id)
 
     context = {
         "user": request.user,

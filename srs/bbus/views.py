@@ -52,9 +52,9 @@ def alert(request, id=None):
         except:
             alert = form.save(commit=False)
             alert.operator = get_object_or_404(Operator, user=request.user)
-            alert.nvfs = bbu
             alert.uuid = uuid.uuid4().hex
             alert.save()
+            alert.nvfs.add(bbu)
 
             messages.success(request, "Alert created successfully!", extra_tags="alert alert-success")
         return redirect("bbus:details", id=id)

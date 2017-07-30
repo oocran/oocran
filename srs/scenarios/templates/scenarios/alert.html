@@ -24,21 +24,8 @@
 				<br>
 				{{form.ns|bootstrap}}
 				{{form.action|bootstrap}}
-				<div id="script" style="display: none;">
-					{{ form.script |bootstrap }}
-				</div>
 			</div>
 		</div>
 		<input type="submit" class="btn btn-default" value="Add"/>
 	</form>
 </div>
-
-<script>
-	function select(object) {
-		if (object.value == "Reconfigure") {
-			document.getElementById("script").style.display = "block";
-		} else {
-			document.getElementById("script").style.display = "none";
-		}
-	}
-</script>

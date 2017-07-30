@@ -4,6 +4,8 @@ from operators.models import Operator
 from ns.models import Ns, Nvf
 from scenarios.models import Scenario
 from django.core.urlresolvers import reverse
+from pools.tasks import celery_launch, celery_shut_down
+from bbus.tasks import launch_nvf, shut_down_nvf, reconfigure_nvf
 
 
 class Alert(models.Model):
@@ -25,8 +27,29 @@ class Alert(models.Model):
     def get_absolut_url(self):
         return reverse("alerts:details", kwargs={"id": self.id})
 
-    def apply_change(self):
-        print "apply"
+    def execute(self):
+        if self.action == "Launch":
+            if self.nvfs.count() is 0:
+                print "launch ns"
+                celery_launch.delay(id=self.ns.id)
+            else:
+                for nvf in self.nvfs.all():
+                    print "launch bbu " + nvf.name
+                    launch_nvf.delay(id=nvf.id)
+
+        elif self.action == "Shut Down":
+            if self.nvfs.count() is 0:
+                print "shut down ns"
+                celery_shut_down.delay(id=self.ns.id)
+            else:
+                for nvf in self.nvfs.all():
+                    print "shut down bbu"
+                    shut_down_nvf.delay(id=nvf.id)
+
+        elif self.action == "Reconfigure":
+            for nvf in self.nvfs.all():
+                print "reconfigure"
+                reconfigure_nvf.delay(id=nvf.id, script=self.script)
 
     class Meta:
         ordering = ["-timestamp", "-update"]

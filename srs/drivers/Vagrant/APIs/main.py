@@ -35,7 +35,7 @@ def vagrant_launch_nvf(nvf):
     print "nvf "+nvf.name+" launched done!"
 
 
-def list_boxes(operator):
+def list_boxes():
     v = vagrant.Vagrant()
     list = []
     for box in v.box_list():

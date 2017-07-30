@@ -22,8 +22,7 @@ class AlertForm(forms.ModelForm):
         self.fields['action'] = forms.ChoiceField(required=False,
                                                   widget=forms.Select(attrs={"onChange": 'select(this);'}),
                                                   choices=[("Launch", "Launch"),
-                                                           ("Shut Down", "Shut Down"),
-                                                           ("Reconfigure", "Reconfigure"), ])
+                                                           ("Shut Down", "Shut Down"),])
 
     class Meta:
         model = Alert

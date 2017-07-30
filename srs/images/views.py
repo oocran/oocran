@@ -62,7 +62,7 @@ def sincronize(request):
         messages.success(request, "Docker containers was not found!", extra_tags="alert alert-danger")
 
     try:
-        images = list_boxes(operator)
+        images = list_boxes()
         for image in images:
             try:
                 Image.objects.get(operator__user=request.user, name=image.name)
