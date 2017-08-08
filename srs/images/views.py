@@ -67,7 +67,7 @@ def sincronize(request):
             try:
                 Image.objects.get(operator__user=request.user, name=image.name)
             except:
-                img = Image.objects.create(name=image.name,format=image.provider, operator=operator, version=image.version)
+                img = Image.objects.create(name=image.name, format=image.provider, operator=operator, version=image.version)
                 img.save()
     except:
         messages.success(request, "Vagrant boxes was not found!", extra_tags="alert alert-danger")

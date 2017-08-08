@@ -4,8 +4,6 @@ from ues.models import Ue
 from bbus.models import Bbu
 from celery import task
 from django.utils import timezone
-from drivers.OpenStack.deployments.utran import create_deploy as OpenStack_create_deploy
-from drivers.OpenStack.deployments.utran import delete_deploy as OpenStack_delete_deploy
 from drivers.Vagrant.APIs.main import vagrant_launch as Vagrant_create_deploy
 from drivers.Vagrant.APIs.main import vagrant_destroy as Vagrant_delete_deploy
 
@@ -13,8 +11,7 @@ from drivers.Vagrant.APIs.main import vagrant_destroy as Vagrant_delete_deploy
 @task()
 def celery_launch(id):
     pool = Pool.objects.get(id=id)
-    pool.scenario.active_infras += 1
-    pool.scenario.save()
+
     pool.status = 'Working-launch'
     pool.save()
 
@@ -29,6 +26,8 @@ def celery_launch(id):
 
     pool.status = 'Running'
     pool.launch_time = timezone.now()
+    pool.scenario.active_infras += 1
+    pool.scenario.save()
     pool.save()
     print "NS running"
 

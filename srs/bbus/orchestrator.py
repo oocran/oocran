@@ -128,21 +128,6 @@ def read_users(doc, scenario):
         return "The content format is not valid!", "alert alert-danger"
 
 
-def jsontoheat(code):
-    elements = {}
-    connection = {}
-
-    operators = code['operators']
-    for key, value in operators.items():
-        elements[key] = value['properties']['title']
-
-    links = code['links']
-    for key, value in links.items():
-        connection[value['fromOperator']] = value['toOperator']
-
-    return elements, connection
-
-
 def distance(lon1, lat1, lon2, lat2):
     """
     Calculate distance between terminal and bts

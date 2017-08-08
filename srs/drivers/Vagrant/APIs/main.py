@@ -63,14 +63,10 @@ def launch(nvf, ns):
     elif nvf.typ == "ue":
         code = nvf.vnf.launch_script.replace("{{ue}}", "aaa")
 
-    print 
-
     code =code.replace("{{nvf}}", nvf.name) \
-              .replace("{{oocran}}", "192.168.10.108") \
               .replace("{{db}}", "ns_"+str(ns.id)) \
               .replace("{{user}}", ns.operator.name) \
-              .replace("{{password}}", nvf.operator.decrypt()) \
-              .replace("{{interface}}", "eth0")
+              .replace("{{password}}", nvf.operator.decrypt())
 
     element = element.render(
         code=code

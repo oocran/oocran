@@ -30,25 +30,23 @@ class Alert(models.Model):
     def execute(self):
         if self.action == "Launch":
             if self.nvfs.count() is 0:
-                print "launch ns"
                 celery_launch.delay(id=self.ns.id)
             else:
                 for nvf in self.nvfs.all():
-                    print "launch bbu " + nvf.name
                     launch_nvf.delay(id=nvf.id)
 
         elif self.action == "Shut Down":
             if self.nvfs.count() is 0:
-                print "shut down ns"
                 celery_shut_down.delay(id=self.ns.id)
             else:
-                for nvf in self.nvfs.all():
-                    print "shut down bbu"
-                    shut_down_nvf.delay(id=nvf.id)
+                if Nvf.objects.filter(ns=self.nvfs.all()[0].ns).count() is self.nvfs.all().count():
+                    celery_shut_down.delay(id=self.nvfs.all()[0].ns.id)
+                else:
+                    for nvf in self.nvfs.all():
+                        shut_down_nvf.delay(id=nvf.id)
 
         elif self.action == "Reconfigure":
             for nvf in self.nvfs.all():
-                print "reconfigure"
                 reconfigure_nvf.delay(id=nvf.id, script=self.script)
 
     class Meta:

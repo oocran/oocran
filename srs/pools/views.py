@@ -85,7 +85,6 @@ def delete(request, id=None):
 def launch(request, id=None):
     pool = get_object_or_404(Pool, id=id)
     celery_launch.delay(id)
-    pool.save()
 
     messages.success(request, "Pool successfully Launched!", extra_tags="alert alert-success")
     return redirect("pools:details", id=pool.scenario.id)

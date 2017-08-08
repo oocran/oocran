@@ -76,10 +76,12 @@ class Bbu(Nvf):
         self.freC_UL = None
         self.color_DL = "#AA0000"
         self.color_UL = "#AA0000"
+        self.is_running = False
         self.save()
 
     def assign_frequency(self):
         self.rb_assigment()
+        self.is_running = True
         frecuencies = self.used_frecuencys()
         planification_DL(self, frecuencies, self.bw_dl)
         planification_UL(self, frecuencies, self.bw_dl)

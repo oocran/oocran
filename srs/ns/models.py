@@ -75,6 +75,7 @@ class Nvf(models.Model):
     vim = models.ForeignKey(Vim, on_delete=models.CASCADE, null=True, blank=True)
     vnf = models.ForeignKey(Vnf, null=True, blank=True)
     mgmt_ip = models.CharField(max_length=120, blank=True, null=True)
+    is_running = models.BooleanField(default=False)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 

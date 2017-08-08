@@ -55,7 +55,7 @@ def docker(nvf):
   config.vm.define "{{name}}" do |subconfig|
     subconfig.vm.provider "docker" do |v|
       v.image = "{{image}}"
-      v.remains_running = false
+      v.remains_running = true
     end
 
 ''')

@@ -7,7 +7,7 @@ class VimForm(forms.Form):
     #version = forms.ChoiceField(required=True,widget=forms.Select(attrs={"onChange": 'select(this);'}), choices=[('2', 'Mitaka'),('3','Newton')])
 
     ip = forms.CharField(max_length=32, initial="controller")
-    sdn_controller = forms.CharField(max_length=32,required = False)
+    #sdn_controller = forms.CharField(max_length=32,required = False)
     latitude = forms.FloatField(initial=41.40649)
     longitude = forms.FloatField(initial=2.0787274)
     #OpenStack

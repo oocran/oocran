@@ -13,7 +13,6 @@
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#info">Information</a></li>
 			<li><a data-toggle="tab" href="#type">Type</a></li>
-			<li><a data-toggle="tab" href="#sdn">SDN</a></li>
 		</ul>
 		<div class="tab-content">
 			<div id="info" class="tab-pane fade in active">
@@ -54,10 +53,6 @@
 				    {{ form.client_secret|bootstrap }}
 				    {{ form.google_json_key_location|bootstrap }}
 			    </div>
-			</div>
-			<div id="sdn" class="tab-pane fade">
-				<br>
-				{{form.sdn_controller|bootstrap}}
 			</div>
 		</div>
 		<input type="submit" class="btn btn-default" value="Register"/>
