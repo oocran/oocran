@@ -47,6 +47,10 @@ Project state
 =============
 Follow the state of the project on [Trello](https://trello.com/b/LRjh0hs3/oocran)
 
+Mail List
+=============
+Subscribe to OOCRAN developer team, check the following [link](http://oocran.dynu.com/mail_list)
+
 License
 =======
 
