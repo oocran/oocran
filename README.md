@@ -31,10 +31,6 @@ Get Started
 ===========
 As of now, OOCRAN can only be deployed on top of OpenStack environments but OOCRAN will support local hypervisors (Docker, KVM, VirtualBox ) in subsequent releases. To get started with some examples, please refer to the examples guide.
 
-Creating NFs
-============
-The Network Functions developing tool kit will provide all the necessary tools to start, manage and monitor your own NFs.
-
 News and Website
 ================
 Information about OOCRAN can be found in the [website](http://oocran.dynu.com/)
