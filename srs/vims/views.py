@@ -83,6 +83,7 @@ def create(request):
                                             session_token = form.cleaned_data['session_token'],
                                             keypair_name  = form.cleaned_data['keypair_name'],
                                             )
+                vim.secret_access_key = vim.encrypt(form.cleaned_data['secret_access_key'])
                 vim.save()
             elif form.cleaned_data['type'] == 'Azure':
                 vim = Azure.objects.create(name=form.cleaned_data['name'],
@@ -95,6 +96,7 @@ def create(request):
                                             client_secret = form.cleaned_data['client_secret'],
                                             subscription_id = form.cleaned_data['subscription_id'],
                                             )
+                vim.client_secret = vim.encrypt(form.cleaned_data['client_secret'])
                 vim.save()
             elif form.cleaned_data['type'] == 'GCE':
                 vim = Gce.objects.create(name=form.cleaned_data['name'],
@@ -127,6 +129,12 @@ def details(request, id=None):
     vim = get_object_or_404(Vim, id=id)
     if vim.type == "OpenStack":
         vim = get_object_or_404(OpenStack, name=vim.name)
+    elif vim.type == "AWS":
+        vim = get_object_or_404(Aws, name=vim.name)
+    elif vim.type == "GCE":
+        vim = get_object_or_404(Gce, name=vim.name)
+    elif vim.type == "Azure":
+        vim = get_object_or_404(Azure, name=vim.name)
 
     context = {
         "user": request.user,

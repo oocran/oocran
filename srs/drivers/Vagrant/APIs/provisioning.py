@@ -46,8 +46,19 @@ def file(script):
     return element
 
 
-def chef():
-    return "chef"
+def chef(script):
+    element = Template(u'''\
+    subconfig.vm.provision "chef_apply" do |chef|
+      chef.recipe = File.read("{{file}}")
+    end
+
+''')
+
+    element = element.render(
+        file=script.path+script.file,
+    )
+
+    return element
 
 
 def direct_input(script):
@@ -80,7 +91,7 @@ def puppet(script):
     return element
 
 
-def salt(file):
+def salt(script):
     element = Template(u'''\
     subconfig.vm.provision :salt do |salt|
       salt.masterless = true
@@ -91,8 +102,7 @@ def salt(file):
 ''')
 
     element = element.render(
-        file=file,
-        path=file.path,
+        file=script.path+script,
     )
 
     return element

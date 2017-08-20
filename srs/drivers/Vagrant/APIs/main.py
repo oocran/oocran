@@ -53,7 +53,7 @@ def launch(nvf, ns):
 
     if nvf.typ == "bbu":
         code = nvf.vnf.launch_script.replace("{{user}}", nvf.operator.name) \
-                                    .replace("{{password}}", nvf.operator.decrypt()) \
+                                    .replace("{{passw}}", nvf.operator.decrypt()) \
                                     .replace("{{rrh}}", nvf.rrh.ip) \
                                     .replace("{{freq}}", str(nvf.freC_DL)) \
                                     .replace("{{pw}}", str(nvf.pt)) \
@@ -66,7 +66,9 @@ def launch(nvf, ns):
     code =code.replace("{{nvf}}", nvf.name) \
               .replace("{{db}}", "ns_"+str(ns.id)) \
               .replace("{{user}}", ns.operator.name) \
-              .replace("{{password}}", nvf.operator.decrypt())
+              .replace("{{passw}}", nvf.operator.decrypt()) \
+              .replace("{{server}}", "192.168.1.117") \
+
 
     element = element.render(
         code=code
@@ -87,6 +89,8 @@ def provisions(nvf):
                 element += provisioning.ansible(script)
             elif script.type == "Puppet":
                 element += provisioning.puppet(script)
+            elif script.type == "Chef":
+                element += provisioning.chef(script)
             elif script.type == "File":
                 element += provisioning.file(script)
             elif script.type == "Salt":
@@ -104,7 +108,13 @@ def create_nvf(nvf, ns):
     elif nvf.vnf.provider == "Docker":
         element = providers.docker(nvf) + provisions(nvf) + launch(nvf, ns)
     elif nvf.vnf.provider == "OpenStack":
-        element = providers.openstack_v3(nvf, nvf.vim) + provisions(nvf)
+        element = providers.openstack_v3(nvf) + provisions(nvf)
+    elif nvf.vnf.provider == "AWS":
+        element = providers.aws(nvf) + provisions(nvf)
+    elif nvf.vnf.provider == "GCE":
+        element = providers.openstack_v3(nvf) + provisions(nvf)
+    elif nvf.vnf.provider == "Azure":
+        element = providers.azure(nvf) + provisions(nvf)
 
     end = Template(u'''\
   end

@@ -3,7 +3,7 @@ from django import forms
 
 class VimForm(forms.Form):
     name = forms.CharField(max_length=32)
-    type = forms.ChoiceField(required=True,widget=forms.Select(attrs={"onChange": 'select(this);'}), choices=[('OpenStack', 'OpenStack')])#,('Azure','Azure'),('AWS','AWS'),('GCE', 'GCE')])
+    type = forms.ChoiceField(required=True,widget=forms.Select(attrs={"onChange": 'select(this);'}), choices=[('OpenStack', 'OpenStack'),('AWS','AWS'),('GCE', 'GCE'), ('Azure','Azure')])
     #version = forms.ChoiceField(required=True,widget=forms.Select(attrs={"onChange": 'select(this);'}), choices=[('2', 'Mitaka'),('3','Newton')])
 
     ip = forms.CharField(max_length=32, initial="controller")
@@ -31,4 +31,4 @@ class VimForm(forms.Form):
     #GCE
     google_project_id = forms.CharField(max_length=120,required = False)
     google_client_email = forms.CharField(max_length=120,required = False)
-    google_json_key_location = forms.CharField(max_length=120,required = False)
+    google_json_key_location = forms.FileField(required = False)

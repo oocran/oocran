@@ -99,6 +99,21 @@ class Aws(Vim):
     session_token = models.CharField(max_length=120)
     keypair_name = models.CharField(max_length=120)
 
+    def encrypt(self, password):
+        PADDING = '{'
+        pad = lambda s: s + (32 - len(s) % 32) * PADDING
+        EncodeAES = lambda c, s: base64.b64encode(c.encrypt(pad(s)))
+        cipher = AES.new(SECRET_KEY.decode('base-64'))
+        encoded = EncodeAES(cipher, password)
+        return encoded
+
+    def decrypt(self):
+        PADDING = '{'
+        DecodeAES = lambda c, e: c.decrypt(base64.b64decode(e)).rstrip(PADDING)
+        cipher = AES.new(SECRET_KEY.decode('base-64'))
+        decoded = DecodeAES(cipher, self.secret_access_key)
+        return decoded
+
 
 class Azure(Vim):
     tenant_id = models.CharField(max_length=120)
@@ -106,8 +121,27 @@ class Azure(Vim):
     client_secret = models.CharField(max_length=120)
     subscription_id = models.CharField(max_length=120)
 
+    def encrypt(self, password):
+        PADDING = '{'
+        pad = lambda s: s + (32 - len(s) % 32) * PADDING
+        EncodeAES = lambda c, s: base64.b64encode(c.encrypt(pad(s)))
+        cipher = AES.new(SECRET_KEY.decode('base-64'))
+        encoded = EncodeAES(cipher, password)
+        return encoded
+
+    def decrypt(self):
+        PADDING = '{'
+        DecodeAES = lambda c, e: c.decrypt(base64.b64decode(e)).rstrip(PADDING)
+        cipher = AES.new(SECRET_KEY.decode('base-64'))
+        decoded = DecodeAES(cipher, self.client_secret)
+        return decoded
+
+
+def content_file_name(filename):
+    return '/'.join(['gce', filename])
+
 
 class Gce(Vim):
     google_project_id = models.CharField(max_length=120)
     google_client_email = models.CharField(max_length=120)
-    google_json_key_location = models.CharField(max_length=120)
+    google_json_key_location = models.FileField(upload_to=content_file_name, null=True, blank=True)

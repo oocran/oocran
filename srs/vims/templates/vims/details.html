@@ -29,33 +29,23 @@
                 <th>Latitude</th>
                 <td>{{vim.latitude}}</td>
             </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{vim.type}}</td>
+            </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="panel panel-default" style="float:left;width:47%;margin-right:15px;margin-bottom:50px">
-        <div class="panel-heading">Configuration</div>
-        <table class="table">
-            <tbody>
-            <tr>
-                <th>Username</th>
-                <td>{{vim.username}}</td>
-            </tr>
-            <tr>
-                <th>Project Domain</th>
-                <td>{{vim.project_domain}}</td>
-            </tr>
-            <tr>
-                <th>Project Name</th>
-                <td>{{vim.project}}</td>
-            </tr>
-            <tr>
-                <th>Public Network</th>
-                <td>{{vim.public_network}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    {% if vim.type == "OpenStack" %}
+        {% include "partials/vims/openstack.html" %}
+    {% elif vim.type == "GCE" %}
+        {% include "partials/vims/gce.html" %}
+    {% elif vim.type == "AWS" %}
+        {% include "partials/vims/aws.html" %}
+    {% elif vim.type == "Azure" %}
+        {% include "partials/vims/azure.html" %}
+    {% endif %}
 
     <div id="list" class="tab-pane fade in active">
         <h3>Public IPs</h3>

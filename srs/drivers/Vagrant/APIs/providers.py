@@ -1,6 +1,6 @@
 from jinja2 import Template
 from drivers.OpenStack.APIs.nova.nova import get_flavors
-from vims.models import OpenStack
+from vims.models import OpenStack, Aws, Gce, Azure
 
 
 def libvirt(nvf):
@@ -130,7 +130,7 @@ def parallels(nvf):
     return element
 
 
-def openstack_v3(nvf, vim):
+def openstack_v3(nvf):
   element = Template(u'''\
   config.vm.define "{{name}}" do |subconfig|
     subconfig.ssh.username = '{{username}}'  
@@ -155,7 +155,7 @@ def openstack_v3(nvf, vim):
 
 ''')
 
-  vim = OpenStack.objects.get(name=vim.name)
+  vim = OpenStack.objects.get(name=nvf.vim.name)
 
   element = element.render(
       name=nvf.name,
@@ -183,17 +183,75 @@ def aws(nvf):
     aws.keypair_name = "{{keypair}}"
     aws.ami = "{{image}}"
     override.ssh.username = "{{username}}"
-  end
 
 ''')
+
+  vim = Aws.objects.get(name=nvf.vim.name)
 
   element = element.render(
       name=nvf.name,
       username=nvf.operator.name,
       image=nvf.vnf.image,
-      key="",
-      secret_key="",
-      token="",
-      keypair="",
+      key=vim.access_key_id,
+      secret_key=vim.decrypt(),
+      token=vim.session_token,
+      keypair=vim.keypair_name,
+  )
+  return element
+
+
+def gce(nvf):
+  element = Template(u'''\
+  config.vm.box = "{{image}}"
+
+  config.vm.provider :google do |google, override|
+    google.google_project_id = {{google_project_id}}
+    google.google_client_email = {{google_client_email}}
+    google.google_json_key_location = {{google_json_key_location}}
+
+    override.ssh.username = {{username}}
+
+''')
+
+  vim = Gce.objects.get(name=nvf.vim.name)
+
+  element = element.render(
+      name=nvf.name,
+      username=nvf.operator.name,
+      image=nvf.vnf.image,
+      google_project_id=vim.google_project_id,
+      google_client_email=vim.google_client_email,
+      google_json_key_location=vim.google_json_key_location,
+  )
+  return element
+
+
+def azure(nvf):
+  element = Template(u'''\
+  config.vm.box = 'azure'
+
+  config.vm.provider :azure do |azure, override|
+    azure.tenant_id = {{tenant_id}}
+    azure.client_id = {{client_id}}
+    azure.client_secret = {{client_secret}}
+    azure.subscription_id = {{subscription_id}}
+
+    azure.vm_image_urn = '{{image}}'
+    azure.vm_password = {{password}}
+    azure.admin_username = {{username}}
+
+''')
+
+  vim = Azure.objects.get(name=nvf.vim.name)
+
+  element = element.render(
+      name=nvf.name,
+      username=nvf.operator.name,
+      password=nvf.operator.decrypt(),
+      image=nvf.vnf.image,
+      tenant_id=vim.tenant_id,
+      client_id=vim.client_id,
+      client_secret=vim.decrypt(),
+      subscription_id=vim.subscription_id,
   )
   return element

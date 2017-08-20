@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vim, Device, Node, OpenStack
+from .models import Vim, Device, Node, OpenStack, Aws, Gce, Azure
 
 
 class VimModelAdmin(admin.ModelAdmin):
@@ -26,6 +26,45 @@ class OpenStackModelAdmin(admin.ModelAdmin):
         model = OpenStack
 
 admin.site.register(OpenStack, OpenStackModelAdmin)
+
+
+class AwsModelAdmin(admin.ModelAdmin):
+    list_display = ["name", "update", "timestamp"]
+    list_display_links = ["update"]
+    list_filter = ["update", "timestamp"]
+    list_editable = ["name"]
+    search_fields = ["name"]
+
+    class Meta:
+        model = Aws
+
+admin.site.register(Aws, AwsModelAdmin)
+
+
+class AzureModelAdmin(admin.ModelAdmin):
+    list_display = ["name", "update", "timestamp"]
+    list_display_links = ["update"]
+    list_filter = ["update", "timestamp"]
+    list_editable = ["name"]
+    search_fields = ["name"]
+
+    class Meta:
+        model = Azure
+
+admin.site.register(Azure, AzureModelAdmin)
+
+
+class GceModelAdmin(admin.ModelAdmin):
+    list_display = ["name", "update", "timestamp"]
+    list_display_links = ["update"]
+    list_filter = ["update", "timestamp"]
+    list_editable = ["name"]
+    search_fields = ["name"]
+
+    class Meta:
+        model = Gce
+
+admin.site.register(Gce, GceModelAdmin)
 
 
 class DeviceModelAdmin(admin.ModelAdmin):
