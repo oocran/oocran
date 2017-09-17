@@ -26,7 +26,7 @@ function server {
     echo "$CODE" | python manage.py shell &> /dev/null
     echo ""
     echo "Installation Finished!!"
-    echo "Write oocran start IP:PORT for start server."
+    echo "Write oocran start IP:PORT to start server."
     exit
 }
 
@@ -66,7 +66,7 @@ function start {
              celery -A oocran worker -l info
              python manage.py runserver $PARAM
         else
-            gnome-terminal -e "bash -c 'celery -A oocran worker -l info;exec $SHELL'"
+            #gnome-terminal -e "bash -c 'celery -A oocran worker -l info;exec $SHELL'"
             gnome-terminal -e "bash -c 'celery -A oocran beat -l info -S django;exec $SHELL'"
             gnome-terminal -e "bash -c 'influxd;exec $SHELL'"
             echo "username: admin"

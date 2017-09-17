@@ -63,6 +63,10 @@ class Operator(models.Model):
         self.password = self.encrypt()
         self.save()
         self.add_to_vims.delay(name=self.name)
+
+        if not os.path.isdir(os.getcwd() + '/drivers/Vagrant/repository/'):
+            os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/')
+
         os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + self.name)
         self.monitoring()
 

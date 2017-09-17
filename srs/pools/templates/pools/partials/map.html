@@ -23,7 +23,7 @@
         });
         {{bbu.rrh.name}}.addListener('click', function() {
           var infoWindow = new google.maps.InfoWindow({
-              content: '<h6>IP: {{bbu.rrh.ip}}</h6><h6>Central Frequency DL: {{bbu.freC_DL}}</h6><h6>Central Frequency UL: {{bbu.freC_UL}}</h6>'
+              content: '<h5>IP: {{bbu.rrh.ip}}</h5><h5>Central Frequency DL: {{bbu.freC_DL}}</h5><h5>Central Frequency UL: {{bbu.freC_UL}}</h5>'
           });
           infoWindow.open(map,{{bbu.rrh.name}});
         });

@@ -1,0 +1,53 @@
+bbu1:
+  name: bbu1
+  rrh: 192.168.10.6
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 3
+
+bbu2:
+  name: bbu2
+  rrh: 192.168.10.2
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 3
+
+bbu3:
+  name: bbu3
+  rrh: 192.168.10.5
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 3
+
+bbu4:
+  name: bbu4
+  rrh: 192.168.10.7
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 3
+
+bbu5:
+  name: bbu5
+  rrh: 192.168.10.3
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 3
+
+bbu6:
+  name: bbu6
+  rrh: 192.168.10.8
+  vnf: virtualbox
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 3
