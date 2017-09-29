@@ -8,7 +8,7 @@ from bbus.models import Bbu
 from scenarios.models import Scenario
 from django.contrib.auth.decorators import login_required
 from oocran.global_functions import paginator
-from oocran import settings
+from ues.models import Ue
 from schedulers.models import Scheduler
 from .tasks import celery_launch, celery_shut_down
 from django.contrib.sites.shortcuts import get_current_site
@@ -105,6 +105,7 @@ def shut_down(request, id=None):
 def details(request, id=None):
     pool = get_object_or_404(Pool, id=id)
     bbus = Bbu.objects.filter(ns=pool)
+    ues = Ue.objects.filter(scenario=pool.scenario)
     schedulers = Scheduler.objects.filter(ns=pool)
     schedulers = paginator(request, schedulers)
     alerts = Alert.objects.filter(ns=pool)
@@ -113,11 +114,11 @@ def details(request, id=None):
     context = {
         "user": request.user,
         "utran": pool,
+        "ues": ues,
         "alerts": alerts,
         "bbus": bbus,
         "schedulers": schedulers,
         "url": get_current_site(request).domain.split(':')[0],
-        "grafana": "http://"+settings.GRAFANA+'/?login='+pool.operator.name+'&password='+pool.operator.decrypt(),
     }
     return render(request, "pools/detail.html", context)
 

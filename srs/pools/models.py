@@ -37,7 +37,7 @@ class Pool(Ns):
             bbu.uuid = uuid.uuid4().hex
             bbu.typ = "bbu"
             self.rb_offer += bbu.bw_dl
-            bbu.radio = 20
+            bbu.radio = bbu.pt
             self.price += price(bbu, bbu.bw_dl)
             bbu.save()
 
@@ -79,7 +79,6 @@ class Pool(Ns):
             self.scenario.save()
             self.save()
             self.create_influxdb_database()
-            create_data_source(self)
             return "NS successfully created!", "alert alert-success"
         elif type(bbus) is list and type(ues) is list and channels is None:
             self.save()

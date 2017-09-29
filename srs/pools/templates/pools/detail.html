@@ -17,7 +17,6 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#info">Information</a></li>
         <li><a data-toggle="tab" href="#bbus">BBUs</a></li>
-        <li><a data-toggle="tab" id="show-map" href="#map">Map</a></li>
         <li><a data-toggle="tab" href="#schedulers">Schedulers</a></li>
         <li><a data-toggle="tab" href="#alerts">Alerts</a></li>
     </ul>
@@ -54,12 +53,8 @@
                     </tbody>
                 </table>
             </div>
-            <a href="{{grafana}}" class="btn btn-default" role="button">Show Graph</a>
-        </div>
-
-        <div id="map" class="tab-pane fade">
             <br>
-            <div id="map-canvas" style="width:auto;height:400px;"></div>
+            <div id="map-content" style="width:auto;height:400px;"></div>
         </div>
 
         <div id="schedulers" class="tab-pane fade">

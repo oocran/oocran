@@ -11,7 +11,7 @@
 
     {% if user.is_staff %}
         <a id="submit" href="{% url 'images:create' %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Add</a>
-        <a href="{% url 'images:sincronize' %}" class="btn btn-default" role="button">Sincronize</a>
+        <a href="{% url 'images:sincronize' %}" class="btn btn-default" role="button">Search</a>
         <br><br>
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

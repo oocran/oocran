@@ -1,0 +1,140 @@
+ue1:
+  name: ue1
+  latitude: 41.2750981
+  longitude: 1.9863414
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue2:
+  name: ue2
+  latitude: 41.2751015
+  longitude: 1.9863820
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue3:
+  name: ue3
+  latitude: 41.2750812
+  longitude: 1.9863685
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue4:
+  name: ue4
+  latitude: 41.2750388
+  longitude: 1.9863640
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue5:
+  name: ue5
+  latitude: 41.2750337
+  longitude: 1.9864114
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue6:
+  name: ue6
+  latitude: 41.2751973
+  longitude: 1.9863212
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue7:
+  name: ue7
+  latitude: 41.2751524
+  longitude: 1.9863212
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue8:
+  name: ue8
+  latitude: 41.2751829
+  longitude: 1.9863392
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue9:
+  name: ue9
+  latitude: 41.2752956
+  longitude: 1.9866313
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue10:
+  name: ue10
+  latitude: 41.2752600
+  longitude: 1.9866381
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue11:
+  name: ue11
+  latitude: 41.2752058
+  longitude: 1.9866358
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue12:
+  name: ue12
+  latitude: 41.2752228
+  longitude: 1.9865975
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue13:
+  name: ue13
+  latitude: 41.2751499
+  longitude: 1.9866561
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue14:
+  name: ue14
+  latitude: 41.2751194
+  longitude: 1.9866516
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue15:
+  name: ue15
+  latitude: 41.2751143
+  longitude: 1.9867012
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue16:
+  name: ue16
+  latitude: 41.2753567
+  longitude: 1.9869031
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue17:
+  name: ue17
+  latitude: 41.2753058
+  longitude: 1.9868918
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue18:
+  name: ue18
+  latitude: 41.2752651
+  longitude: 1.9869617
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue19:
+  name: ue19
+  latitude: 41.2752041
+  longitude: 1.9869820
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue20:
+  name: ue20
+  latitude: 41.2751668
+  longitude: 1.9869944
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e

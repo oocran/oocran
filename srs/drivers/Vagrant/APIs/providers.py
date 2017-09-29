@@ -34,6 +34,7 @@ def virtualbox(nvf):
     subconfig.vm.provider "virtualbox" do |v|
       v.memory = {{ram}}
       v.cpus = {{cpu}}
+      v.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
     end
 
 ''')

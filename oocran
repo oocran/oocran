@@ -10,7 +10,8 @@ function dependencies {
 function server {
     echo "Install OOCRAN server!"
     echo ""
-    pip install -r install/requirements.txt
+    #Install dependecies
+    pip install -r requirements.txt
     #Change secret key
     python install/key.py
     cd srs
@@ -66,7 +67,7 @@ function start {
              celery -A oocran worker -l info
              python manage.py runserver $PARAM
         else
-            #gnome-terminal -e "bash -c 'celery -A oocran worker -l info;exec $SHELL'"
+            gnome-terminal -e "bash -c 'celery -A oocran worker -l info;exec $SHELL'"
             gnome-terminal -e "bash -c 'celery -A oocran beat -l info -S django;exec $SHELL'"
             gnome-terminal -e "bash -c 'influxd;exec $SHELL'"
             echo "username: admin"

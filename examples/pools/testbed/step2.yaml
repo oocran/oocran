@@ -1,0 +1,17 @@
+bbu13:
+  name: bbu13
+  rrh: 192.168.10.13
+  vnf: vbbu
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 16
+
+bbu16:
+  name: bbu16
+  rrh: 192.168.10.16
+  vnf: vbbu
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 16

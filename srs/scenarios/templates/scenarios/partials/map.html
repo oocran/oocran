@@ -9,7 +9,7 @@
         draggable: true,
         mapTypeId: google.maps.MapTypeId.MAP,
       };
-      map = new google.maps.Map(document.getElementById("map-canvas"),options);
+      map = new google.maps.Map(document.getElementById("map-content"),options);
 
       {% for rrh in scenario.rrh.all %}
         var {{rrh.name}} = new google.maps.Marker({
@@ -17,7 +17,7 @@
             lat: {{rrh.latitude}},
             lng: {{rrh.longitude}}
           },
-          icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-pushpin.png',
+          icon: 'https://png.icons8.com/cellular-network/color/24',
           draggable: false,
           map:map
         });
@@ -41,6 +41,7 @@
             lat: {{ue.latitude}},
             lng: {{ue.longitude}}
           },
+          icon: 'https://png.icons8.com/male-user/androidL/24',
           draggable: false,
           map:map
         });
@@ -61,9 +62,4 @@
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 
-    $(document).ready(function(){
-        $("#map-canvas").click(function(){
-        google.maps.event.trigger(map, "resize");
-        });
-    });
 </script>

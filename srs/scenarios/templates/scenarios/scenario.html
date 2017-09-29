@@ -13,26 +13,28 @@
     </ol>
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#pools" onclick="none()">Pool</a></li>
-        <li><a data-toggle="tab" href="#users" onclick="none()">Users</a></li>
-        <li><a data-toggle="tab" href="#localization" onclick="localization()" >Map</a></li>
-        <li><a data-toggle="tab" href="#schedulers" onclick="none()">Schedulers</a></li>
-        <li><a data-toggle="tab" href="#alerts" onclick="none()">Alerts</a></li>
+        <li class="active"><a data-toggle="tab" href="#info">Information</a></li>
+        <li><a data-toggle="tab" href="#pools">Pool</a></li>
+        <li><a data-toggle="tab" href="#users">Users</a></li>
+        <li><a data-toggle="tab" href="#schedulers" >Schedulers</a></li>
+        <li><a data-toggle="tab" href="#alerts">Alerts</a></li>
     </ul>
 
     <div class="tab-content">
-        <div id="localization" class="tab-pane fade">
+        <div id="info" class="tab-pane fade  in active">
             <br>
-            <div id="map-canvas" style="width:auto;height:400px;"></div>
+            <div id="map-content" style="width:auto;height:400px;"></div>
         </div>
 
         <div id="users" class="tab-pane fade">
             <br>
+            <div class="actions" style="float:right;margin-right:20px">
+                <a href="{% url 'ues:create' id=scenario.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#user">Add</a>
+                <a href="{% url 'ues:alldeletes' id=scenario.id %}" class="btn btn-danger" role="button">Delete All</a>
+            </div>
             <h2 class="sub-header">Users Equipment</h2>
             {% include "scenarios/partials/ues.html" %}
-            {% include "base/partials/paginator.html" with object_list=ues %}
             <br>
-            <a href="{% url 'ues:create' id=scenario.id %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#user">Add</a>
 
             <div class="modal fade" id="user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -41,7 +43,7 @@
             </div>
         </div>
 
-        <div id="pools" class="tab-pane fade in active">
+        <div id="pools" class="tab-pane fade">
             <br>
             <h2 class="sub-header">BaseBand Unit Pool</h2>
             {% include "scenarios/partials/pools.html" %}
@@ -90,4 +92,17 @@
 
 {%block javascript%}
     {% include "scenarios/partials/map.html" %}
+    <script>
+        $(document).ready(function () {
+            var checked = ""
+            $('input').on('click',function () {
+                var ckbox = $(this);
+                if (ckbox.is(':checked')) {
+                    checked = checked+ckbox.attr('id').split('_')[1]+'-';
+                } else {
+                    checked = checked.replace(ckbox.attr('id').split('_')[1]+'-', '')
+                }
+            });
+        });
+    </script>
 {%endblock javascript%}

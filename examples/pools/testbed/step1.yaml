@@ -1,0 +1,53 @@
+bbu11:
+  name: bbu11
+  rrh: 192.168.10.11
+  vnf: vbbu
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 12
+
+bbu12:
+  name: bbu12
+  rrh: 192.168.10.12
+  vnf: vbbu
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 12
+
+bbu14:
+  name: bbu14
+  rrh: 192.168.10.14
+  vnf: vbbu
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 12
+
+bbu15:
+  name: bbu15
+  rrh: 192.168.10.15
+  vnf: vbbu
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 12
+
+bbu17:
+  name: bbu17
+  rrh: 192.168.10.17
+  vnf: vbbu
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 12
+
+bbu18:
+  name: bbu18
+  rrh: 192.168.10.18
+  vnf: vbbu
+  vim: none
+  bw_dl: 1400000
+  bw_ul: 1400000
+  pt: 12

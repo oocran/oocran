@@ -92,7 +92,7 @@ def scenario(request, id=None):
     pools = Pool.objects.filter(scenario=scenario)
     pools = paginator(request, pools)
     ues = Ue.objects.filter(scenario=scenario)
-    ues = paginator(request, ues)
+    #ues = paginator(request, ues)
     schedulers = Scheduler.objects.filter(scenario=scenario)
     schedulers = paginator(request, schedulers)
     alerts = Alert.objects.filter(scenario=scenario)
@@ -117,13 +117,15 @@ def alert(request, id=None):
             Alert.objects.get(operator__user=request.user, name=form.cleaned_data['name'])
             messages.success(request, "Name repeated!", extra_tags="alert alert-danger")
         except:
-            alert = form.save(commit=False)
-            alert.operator = get_object_or_404(Operator, user=request.user)
-            alert.scenario = scenario
-            alert.uuid = uuid.uuid4().hex
-            alert.save()
-
-            messages.success(request, "Alert created successfully!", extra_tags="alert alert-success")
+            if form.cleaned_data['ns'] is not None:
+                alert = form.save(commit=False)
+                alert.operator = get_object_or_404(Operator, user=request.user)
+                alert.scenario = scenario
+                alert.uuid = uuid.uuid4().hex
+                alert.save()
+                messages.success(request, "Alert created successfully!", extra_tags="alert alert-success")
+            else:
+                messages.success(request, "NS not selected!", extra_tags="alert alert-danger")
         return redirect("scenarios:scenario", id)
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")

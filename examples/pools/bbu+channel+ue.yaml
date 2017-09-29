@@ -12,6 +12,7 @@ bbu1:
     vim: UPC
     sinr: 10
     delay: 0
+    mgmt_ip: 192.168.10.9
   users:
     ue1:
       name: ue1
@@ -21,3 +22,4 @@ bbu1:
       longitude: 1.9853187
       sensibility: -107.5
       service: 36000
+      mgmt_ip: 192.168.10.8

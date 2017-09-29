@@ -47,6 +47,14 @@ def delete(request, id=None):
 
 
 @login_required(login_url='/login/')
+def alldeletes(request, id=None):
+    scenario = get_object_or_404(Scenario, id=id)
+    Ue.objects.filter(scenario=scenario).delete()
+
+    return redirect("scenarios:scenario", id=id)
+
+
+@login_required(login_url='/login/')
 def details(request, id=None):
     ue = get_object_or_404(Ue, id=id)
 

@@ -6,12 +6,11 @@ from vims.models import Vim, OpenStack
 from drivers.OpenStack.APIs.keystone.keystone import create_user, delete_user
 from drivers.OpenStack.deployments.operator import create_operator
 from influxdb import InfluxDBClient
-import os, shutil
 from drivers import Grafana
 from Crypto.Cipher import AES
 from oocran.secret_key import SECRET_KEY
-import base64
 from celery import task
+import base64, os, shutil
 
 
 class Operator(models.Model):
@@ -68,7 +67,7 @@ class Operator(models.Model):
             os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/')
 
         os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + self.name)
-        self.monitoring()
+        #self.monitoring()
 
     def remove(self):
         vims = OpenStack.objects.all()
