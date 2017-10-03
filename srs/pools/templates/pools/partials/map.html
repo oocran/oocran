@@ -17,7 +17,7 @@
             lat: {{bbu.rrh.latitude}},
             lng: {{bbu.rrh.longitude}}
           },
-          icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-pushpin.png',
+          icon: 'https://png.icons8.com/cellular-network/color/24',
           draggable: false,
           map:map
         });
@@ -29,6 +29,7 @@
         });
           var {{bbu.rrh.name}}_circle = new google.maps.Circle({
             map: map,
+            strokeWeight: 1,
             radius: {{bbu.pt}},    // 10 miles in metres
           });
 
@@ -41,6 +42,7 @@
             lat: {{ue.latitude}},
             lng: {{ue.longitude}}
           },
+
           draggable: false,
           map:map
         });
