@@ -16,6 +16,8 @@ function server {
 
     echo "Install OOCRAN server!"
     echo ""
+    #Install dependecies
+    pip install -r requirements.txt
     influx  -execute "CREATE USER admin WITH PASSWORD 'admin' WITH ALL PRIVILEGES"
     sudo rabbitmqctl set_permissions -p oocran oocran ".*" ".*" ".*"
     vagrant plugin install vagrant-openstack-provider
@@ -23,8 +25,6 @@ function server {
     vagrant plugin install vagrant-vbguest
     sudo rabbitmqctl add_user oocran oocran
     sudo rabbitmqctl add_vhost oocran
-    #Install dependecies
-    pip install -r requirements.txt
     #Change secret key
     python install/key.py
     cd srs

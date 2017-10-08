@@ -14,9 +14,7 @@ python-vagrant==0.5.14
 yapsy==1.11.223
 simple-crypt==4.1.7
 influxdb
-psutil
 paramiko
 crypto
 pycrypto
-docker
 pycurl
