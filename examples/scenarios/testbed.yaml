@@ -1,8 +1,8 @@
-rrh1:
-    name: rrh1
+rrh11:
+    name: rrh11
     ip: 192.168.10.11
-    latitude: 41.275028
-    longitude: 1.986392
+    latitude: 41.275306
+    longitude: 1.986192
     pt: 20
     bw: 2390000000-2440000000
     first_band: 2390000000-2400000000
@@ -12,11 +12,11 @@ rrh1:
     - 192.168.10.12
     - 192.168.10.15
 
-rrh2:
-    name: rrh2
+rrh12:
+    name: rrh12
     ip: 192.168.10.12
-    latitude: 41.275197
-    longitude: 1.986312
+    latitude: 41.275348
+    longitude: 1.986363
     pt: 20
     bw: 2390000000-2440000000
     first_band: 2390000000-2400000000
@@ -27,11 +27,11 @@ rrh2:
     - 192.168.10.15
     - 192.168.10.14
 
-rrh3:
-    name: rrh3
+rrh13:
+    name: rrh13
     ip: 192.168.10.13
-    latitude: 41.275332
-    longitude: 1.986406
+    latitude: 41.275392
+    longitude: 1.986534
     pt: 20
     bw: 2390000000-2440000000
     first_band: 2390000000-2400000000
@@ -41,11 +41,11 @@ rrh3:
     - 192.168.10.12
     - 192.168.10.14
 
-rrh4:
-    name: rrh4
+rrh14:
+    name: rrh14
     ip: 192.168.10.14
-    latitude: 41.275283
-    longitude: 1.986610
+    latitude: 41.275429
+    longitude: 1.986706
     pt: 20
     bw: 2390000000-2440000000
     first_band: 2390000000-2400000000
@@ -56,11 +56,11 @@ rrh4:
     - 192.168.10.15
     - 192.168.10.16
 
-rrh5:
-    name: rrh5
+rrh15:
+    name: rrh15
     ip: 192.168.10.15
-    latitude: 41.275110
-    longitude: 1.986682
+    latitude: 41.275468
+    longitude: 1.986880
     pt: 20
     bw: 2390000000-2440000000
     first_band: 2390000000-2400000000
@@ -71,11 +71,11 @@ rrh5:
     - 192.168.10.11
     - 192.168.10.18
 
-rrh6:
-    name: rrh6
+rrh16:
+    name: rrh16
     ip: 192.168.10.16
-    latitude: 41.275409
-    longitude: 1.986708
+    latitude: 41.275194
+    longitude: 1.986306
     pt: 20
     bw: 2390000000-2440000000
     first_band: 2390000000-2400000000
@@ -85,11 +85,11 @@ rrh6:
     - 192.168.10.14
     - 192.168.10.17
 
-rrh7:
-    name: rrh7
+rrh17:
+    name: rrh17
     ip: 192.168.10.17
-    latitude: 41.275365
-    longitude: 1.986900
+    latitude: 41.275066
+    longitude: 1.986365
     pt: 20
     bw: 2390000000-2440000000
     first_band: 2390000000-2400000000
@@ -99,11 +99,53 @@ rrh7:
     - 192.168.10.16
     - 192.168.10.18
 
-rrh8:
-    name: rrh8
+rrh18:
+    name: rrh18
     ip: 192.168.10.18
-    latitude: 41.275193
-    longitude: 1.986969
+    latitude: 41.275264
+    longitude: 1.986601
+    pt: 20
+    bw: 2390000000-2440000000
+    first_band: 2390000000-2400000000
+    second_band: 2400000000-2500000000
+    third_band: 2500000000-2600000000
+    neighbor:
+    - 192.168.10.15
+    - 192.168.10.17
+
+rrh19:
+    name: rrh19
+    ip: 192.168.10.19
+    latitude: 41.275136
+    longitude: 1.986659
+    pt: 20
+    bw: 2390000000-2440000000
+    first_band: 2390000000-2400000000
+    second_band: 2400000000-2500000000
+    third_band: 2500000000-2600000000
+    neighbor:
+    - 192.168.10.15
+    - 192.168.10.17
+
+rrh20:
+    name: rrh20
+    ip: 192.168.10.20
+    latitude: 41.275337
+    longitude: 1.986905
+    pt: 20
+    bw: 2390000000-2440000000
+    first_band: 2390000000-2400000000
+    second_band: 2400000000-2500000000
+    third_band: 2500000000-2600000000
+    neighbor:
+    - 192.168.10.15
+    - 192.168.10.17
+
+rrh21:
+    name: rrh21
+    ip: 192.168.10.21
+    latitude: 41.275209
+    longitude: 1.986962
     pt: 20
     bw: 2390000000-2440000000
     first_band: 2390000000-2400000000

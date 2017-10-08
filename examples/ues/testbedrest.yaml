@@ -117,3 +117,38 @@ ue20:
   sensibility: -107.5
   service: 1400000
   attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue21:
+  name: ue21
+  latitude: 41.275292
+  longitude: 1.986204
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue22:
+  name: ue22
+  latitude: 41.275280
+  longitude: 1.986240
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue23:
+  name: ue23
+  latitude: 41.275470
+  longitude: 1.986884
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue24:
+  name: ue24
+  latitude: 41.275456
+  longitude: 1.986829
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
+ue25:
+  name: ue25
+  latitude: 41.275476
+  longitude: 1.986904
+  sensibility: -107.5
+  service: 1400000
+  attached_to: 592d0a9c005740dda1f0f76540baab3e
