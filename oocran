@@ -64,19 +64,19 @@ function start {
         echo "Please introduce IP:Port"
         exit
     else
-        if [ "$OPTION" == "test" ]
-          then
-             echo "username: admin"
-             echo "password: admin"
-             echo ""
-             celery -A oocran worker -l info
-             python manage.py runserver $PARAM
-        else
-            #gnome-terminal -e "bash -c 'celery -A oocran worker -l info;exec $SHELL'"
-            #gnome-terminal -e "bash -c 'celery -A oocran beat -l info -S django;exec $SHELL'"
-            #gnome-terminal -e "bash -c 'influxd;exec $SHELL'"
+        #gnome-terminal -e "bash -c 'celery -A oocran worker -l info;exec $SHELL'"
+        #gnome-terminal -e "bash -c 'celery -A oocran beat -l info -S django;exec $SHELL'"
+        #gnome-terminal -e "bash -c 'influxd;exec $SHELL'"
+        if [ -z "$LOG" ]
+        then
             celery -A oocran worker -l info &>> ../log/worker.log &
             celery -A oocran beat -l info -S django &>> ../log/scheduler.log &
+            echo "username: admin"
+            echo "password: admin"
+            python manage.py runserver $PARAM
+        else
+            celery -A oocran worker -l info &>> "$LOG/worker.log" &
+            celery -A oocran beat -l info -S django &>> "$LOG/scheduler.log" &
             echo "username: admin"
             echo "password: admin"
             python manage.py runserver $PARAM
@@ -94,7 +94,7 @@ else
 
     OPTION=$1
     PARAM=$2
-    OPTION=$3
+    LOG=$3
 
     case "$1" in
        install) install
