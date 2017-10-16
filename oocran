@@ -8,23 +8,10 @@ function dependencies {
 }
 
 function server {
-    #Make sure only root can run our script
-    #if [ "$(id -u)" != "0" ]; then
-    #   echo "This script must be run as root" 1>&2
-    #   exit 1
-    #fi
-
     echo "Install OOCRAN server!"
     echo ""
     #Install dependecies
     pip install -r requirements.txt
-    influx  -execute "CREATE USER admin WITH PASSWORD 'admin' WITH ALL PRIVILEGES"
-    #sudo rabbitmqctl set_permissions -p oocran oocran ".*" ".*" ".*"
-    vagrant plugin install vagrant-openstack-provider
-    vagrant plugin install vagrant-libvirt
-    vagrant plugin install vagrant-vbguest
-    #sudo rabbitmqctl add_user oocran oocran
-    #sudo rabbitmqctl add_vhost oocran
     #Change secret key
     python install/key.py
     cd srs
@@ -61,6 +48,11 @@ function install {
             dependencies
         fi
     fi
+}
+
+function reset {
+    cd development && ./resetdb.sh
+    echo "OOCRAN reset done!"
 }
 
 function start {
@@ -106,6 +98,8 @@ else
        install) install
           ;;
        start) start
+          ;;
+       reset) reset
           ;;
        *) echo "Order Not Found"
           ;;
