@@ -50,7 +50,7 @@ Subscribe to OOCRAN developer team, check the following [link](http://oocran.dyn
 License
 =======
 
-This software is licensed under the `AGPL License`. See the ``LICENSE``
+This software is licensed under the `BSD License`. See the ``LICENSE``
 file in the top distribution directory for the full license text.
 
 Supported by
