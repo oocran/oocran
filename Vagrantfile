@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     v.cpus = 1
   end
 
-  #config.vm.synced_folder "/home/user/workspace/sdr", "/vagrant"
+  #config.vm.synced_folder "/", "/vagrant"
 
   #Update and upgrade
   config.vm.provision "shell", inline: <<-SHELL

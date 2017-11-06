@@ -50,8 +50,9 @@ Subscribe to OOCRAN developer team, check the following [link](http://oocran.dyn
 License
 =======
 
-This software is licensed under the `BSD License`. See the ``LICENSE``
-file in the top distribution directory for the full license text.
+This software is licensed under the `Apache2 License`.  
+OOCRAN is based on Django project with use the `BSD License`.
+See the ``LICENSE`` files in the top distribution directory for the full license text.
 
 Supported by
 ============

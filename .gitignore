@@ -1,50 +1,50 @@
 # Created by .ignore support plugin (hsz.mobi)
 
-srs/images/migrations/*
-!srs/images/migrations/__init__.py
+src/images/migrations/*
+!src/images/migrations/__init__.py
 
-srs/oocran/repositories
+src/oocran/repositories
 
-srs/operators/migrations/*
-!srs/operators/migrations/__init__.py
+src/operators/migrations/*
+!src/operators/migrations/__init__.py
 
-srs/scenarios/migrations/*
-!srs/scenarios/migrations/__init__.py
+src/scenarios/migrations/*
+!src/scenarios/migrations/__init__.py
 
-srs/vims/migrations/*
-!srs/vims/migrations/__init__.py
+src/vims/migrations/*
+!src/vims/migrations/__init__.py
 
-srs/vnfs/migrations/*
-!srs/vnfs/migrations/__init__.py
+src/vnfs/migrations/*
+!src/vnfs/migrations/__init__.py
 
-srs/schedulers/migrations/*
-!srs/schedulers/migrations/__init__.py
+src/schedulers/migrations/*
+!src/schedulers/migrations/__init__.py
 
-srs/ns/migrations/*
-!srs/ns/migrations/__init__.py
+src/ns/migrations/*
+!src/ns/migrations/__init__.py
 
-srs/pools/migrations/*
-!srs/pools/migrations/__init__.py
+src/pools/migrations/*
+!src/pools/migrations/__init__.py
 
-srs/alerts/migrations/*
-!srs/alerts/migrations/__init__.py
+src/alerts/migrations/*
+!src/alerts/migrations/__init__.py
 
-srs/keys/migrations/*
-!srs/keys/migrations/__init__.py
+src/keys/migrations/*
+!src/keys/migrations/__init__.py
 
-srs/ues/migrations/*
-!srs/ues/migrations/__init__.py
+src/ues/migrations/*
+!src/ues/migrations/__init__.py
 
-srs/bbus/migrations/*
-!srs/bbus/migrations/__init__.py
+src/bbus/migrations/*
+!src/bbus/migrations/__init__.py
 
-srs/oocran/secret_key.py
+src/oocran/secret_key.py
 
 
-srs/db.sqlite3
-srs/drivers/Vagrant/repository/*
-!srs/drivers/Vagrant/repository/__init__.py
-srs/celerybeat.pid
+src/db.sqlite3
+src/drivers/Vagrant/repository/*
+!src/drivers/Vagrant/repository/__init__.py
+src/celerybeat.pid
 .idea/misc.xml
 .idea/modules.xml
 .idea/oocran.iml

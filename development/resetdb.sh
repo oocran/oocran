@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd ../srs
+cd ../src
 #images
 rm images/migrations/*
 touch images/migrations/__init__.py
