@@ -1,3 +1,3 @@
 import os
 
-os.system("./oocran install server");
+os.system("cd install && ./server.sh");
