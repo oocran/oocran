@@ -30,7 +30,7 @@ function server {
     pip install -r requirements.txt
     #Change secret key
     python install/key.py
-    cd src
+    cd OOCRAN
     #Create database
     python manage.py makemigrations
     python manage.py migrate
@@ -73,7 +73,7 @@ function reset {
 
 function start {
     echo "Starting OOCRAN server ;)"
-    cd src/
+    cd OOCRAN/
     if [ -z $PARAM ];
       then
         echo "No argument supplied"

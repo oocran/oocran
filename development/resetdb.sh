@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd ../src
+cd ../OOCRAN
 #images
 rm images/migrations/*
 touch images/migrations/__init__.py

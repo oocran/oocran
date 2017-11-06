@@ -1,50 +1,50 @@
 # Created by .ignore support plugin (hsz.mobi)
 
-src/images/migrations/*
-!src/images/migrations/__init__.py
+OOCRAN/images/migrations/*
+!OOCRAN/images/migrations/__init__.py
 
-src/oocran/repositories
+OOCRAN/oocran/repositories
 
-src/operators/migrations/*
-!src/operators/migrations/__init__.py
+OOCRAN/operators/migrations/*
+!OOCRAN/operators/migrations/__init__.py
 
-src/scenarios/migrations/*
-!src/scenarios/migrations/__init__.py
+OOCRAN/scenarios/migrations/*
+!OOCRAN/scenarios/migrations/__init__.py
 
-src/vims/migrations/*
-!src/vims/migrations/__init__.py
+OOCRAN/vims/migrations/*
+!OOCRAN/vims/migrations/__init__.py
 
-src/vnfs/migrations/*
-!src/vnfs/migrations/__init__.py
+OOCRAN/vnfs/migrations/*
+!OOCRAN/vnfs/migrations/__init__.py
 
-src/schedulers/migrations/*
-!src/schedulers/migrations/__init__.py
+OOCRAN/schedulers/migrations/*
+!OOCRAN/schedulers/migrations/__init__.py
 
-src/ns/migrations/*
-!src/ns/migrations/__init__.py
+OOCRAN/ns/migrations/*
+!OOCRAN/ns/migrations/__init__.py
 
-src/pools/migrations/*
-!src/pools/migrations/__init__.py
+OOCRAN/pools/migrations/*
+!OOCRAN/pools/migrations/__init__.py
 
-src/alerts/migrations/*
-!src/alerts/migrations/__init__.py
+OOCRAN/alerts/migrations/*
+!OOCRAN/alerts/migrations/__init__.py
 
-src/keys/migrations/*
-!src/keys/migrations/__init__.py
+OOCRAN/keys/migrations/*
+!OOCRAN/keys/migrations/__init__.py
 
-src/ues/migrations/*
-!src/ues/migrations/__init__.py
+OOCRAN/ues/migrations/*
+!OOCRAN/ues/migrations/__init__.py
 
-src/bbus/migrations/*
-!src/bbus/migrations/__init__.py
+OOCRAN/bbus/migrations/*
+!OOCRAN/bbus/migrations/__init__.py
 
-src/oocran/secret_key.py
+OOCRAN/oocran/secret_key.py
 
 
-src/db.sqlite3
-src/drivers/Vagrant/repository/*
-!src/drivers/Vagrant/repository/__init__.py
-src/celerybeat.pid
+OOCRAN/db.sqlite3
+OOCRAN/drivers/Vagrant/repository/*
+!OOCRAN/drivers/Vagrant/repository/__init__.py
+OOCRAN/celerybeat.pid
 .idea/misc.xml
 .idea/modules.xml
 .idea/oocran.iml
