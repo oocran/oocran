@@ -24,7 +24,7 @@ from django.utils import timezone
 from influxdb import InfluxDBClient
 from oocran.settings import INFLUXDB
 from drivers.OpenStack.APIs.nova.nova import console
-import paramiko, uuid
+import paramiko
 from drivers.Vagrant.APIs.main import vagrant_ssh
 from scenarios.models import RRH, Scenario
 

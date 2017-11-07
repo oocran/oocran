@@ -1,6 +1,6 @@
 bbu1:
   name: bbu1
-  rrh: 192.168.10.16
+  rrh: 192.168.10.2
   vnf: oocran
   vim: ws
   bw_dl: 1400000

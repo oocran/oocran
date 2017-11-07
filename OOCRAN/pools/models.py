@@ -83,7 +83,7 @@ class Pool(Ns):
 
     def create(self):
         doc = yaml.load(self.file)
-        bbus = read_bbus(doc, self.operator)
+        bbus = read_bbus(doc, self.operator, self.scenario)
         channels = read_channels(doc, self.operator)
         ues = read_ues(doc, self.operator)
 

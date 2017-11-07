@@ -43,6 +43,22 @@ def check_vnf(vnf, operator):
     return vnf
 
 
+def check_rrh(rrh, scenario):
+    try:
+        rrh = RRH.objects.get(scenario=scenario, ip=rrh)
+    except:
+        rrh = False
+    return rrh
+
+
+def check_bw(bw):
+    print bw
+    if bw == 1400000 or bw == 3000000 or bw == 5000000 or bw == 10000000 or bw == 20000000:
+        return True
+    else:
+        return False
+
+
 def check_vim(name, type):
     try:
         vim = Vim.objects.get(name=name, type=type)
@@ -51,7 +67,7 @@ def check_vim(name, type):
     return vim
 
 
-def read_bbus(doc, operator):
+def read_bbus(doc, operator, scenario):
     keys = ["name", "rrh", "vnf", "bw_dl", "bw_ul", "pt", "vim"]
     list = []
     res = ""
@@ -65,6 +81,18 @@ def read_bbus(doc, operator):
         vnf = check_vnf(vnf=data['vnf'], operator=operator)
         if vnf is False:
             res = data['name']+": VNF is not found!"
+            break
+        rrh = check_rrh(rrh=data['rrh'], scenario=scenario)
+        if rrh is False:
+            res = data['name'] + ": RRH is not found!"
+            break
+        bw_dl = check_bw(bw=data['bw_dl'])
+        if bw_dl is False:
+            res = data['name'] + ": BW Downlink band not accessible!"
+            break
+        bw_ul = check_bw(bw=data['bw_ul'])
+        if bw_ul is False:
+            res = data['name'] + ": BW Uplink band not accessible!"
             break
         if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE":
             vim = check_vim(name=data['vim'], type=vnf.provider)
