@@ -52,7 +52,6 @@ def check_rrh(rrh, scenario):
 
 
 def check_bw(bw):
-    print bw
     if bw == 1400000 or bw == 3000000 or bw == 5000000 or bw == 10000000 or bw == 20000000:
         return True
     else:
