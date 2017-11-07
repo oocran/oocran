@@ -105,11 +105,9 @@ def read_bbus(doc, operator, scenario):
         if parameters.has_key('channel'):
             data['is_simulate'] = True
             channel = parameters['channel']
-            data['next_nvf'] = channel['mgmt_ip']
         elif parameters.has_key('users'):
             data['is_simulate'] = True
             ues = parameters['users']['ue1']
-            data['next_nvf'] = ues['mgmt_ip']
         if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE":
             data['vim'] = vim
             list.append(data)
@@ -129,8 +127,6 @@ def read_channels(doc, operator):
     res = ""
 
     for bbu, conf in doc.items():
-        if conf.has_key('users'):
-            mgmt_ip = conf['users']['ue1']['mgmt_ip']
         if conf.has_key('channel'):
             channel = conf['channel']
             data = check_parameters(channel, keys)
@@ -150,7 +146,6 @@ def read_channels(doc, operator):
 
             data['vnf'] = vnf
             data['bbu'] = bbu
-            data['next_nvf'] = mgmt_ip
             if vnf.provider == "OpenStack" or vnf.provider == "AWS" or vnf.provider == "GCE" and data['vim'] is not False:
                 data['vim'] = vim
                 list.append(data)
@@ -209,7 +204,7 @@ def read_ues(doc, operator):
 
 
 def read_users(doc, scenario):
-    keys = ["latitude", "longitude", "sensibility", "service", "name", "mgmt_ip"]
+    keys = ["latitude", "longitude", "sensibility", "service", "name"]
     list = []
     try:
         for ue, parameters in doc.items():

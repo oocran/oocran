@@ -109,7 +109,6 @@ def scenario(request, id=None):
     pools = Pool.objects.filter(scenario=scenario)
     pools = paginator(request, pools)
     ues = Ue.objects.filter(scenario=scenario)
-    #ues = paginator(request, ues)
     schedulers = Scheduler.objects.filter(scenario=scenario)
     schedulers = paginator(request, schedulers)
     alerts = Alert.objects.filter(scenario=scenario)

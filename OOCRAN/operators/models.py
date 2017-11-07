@@ -84,7 +84,6 @@ class Operator(models.Model):
             os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/')
 
         os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + self.name)
-        #self.monitoring()
 
     def remove(self):
         vims = OpenStack.objects.all()
