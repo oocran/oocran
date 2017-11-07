@@ -40,6 +40,7 @@ OOCRAN/bbus/migrations/*
 
 OOCRAN/oocran/secret_key.py
 
+log/*
 
 OOCRAN/db.sqlite3
 OOCRAN/drivers/Vagrant/repository/*
