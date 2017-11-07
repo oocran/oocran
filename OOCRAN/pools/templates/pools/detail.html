@@ -3,6 +3,7 @@
 {% block head %}
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB05V_zAdTZtLZkFTGC17QHXMXs3w6rcSI" defer="defer" type="text/javascript"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initialize"></script>
 {% endblock head%}
 
 {%block content%}
@@ -15,7 +16,8 @@
     </ol>
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#info">Information</a></li>
+        <li><a data-toggle="tab" href="#info">Information</a></li>
+        <li class="active"><a data-toggle="tab" href="#map">Map</a></li>
         <li><a data-toggle="tab" href="#bbus">BBUs</a></li>
         <li><a data-toggle="tab" href="#schedulers">Schedulers</a></li>
         <li><a data-toggle="tab" href="#alerts">Alerts</a></li>
@@ -28,7 +30,7 @@
             {% include "pools/partials/bbus.html" %}
         </div>
 
-        <div id="info" class="tab-pane fade in active">
+        <div id="info" class="tab-pane fade">
             <br>
             <div class="panel panel-default">
                 <div class="panel-heading">Monitoring</div>
@@ -53,6 +55,10 @@
                     </tbody>
                 </table>
             </div>
+            <br>
+        </div>
+
+        <div id="map" class="tab-pane fade in active">
             <br>
             <div id="map-content" style="width:auto;height:500px;"></div>
         </div>
