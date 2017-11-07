@@ -1,22 +1,23 @@
 {%extends "base/base.html"%}
 
 {% block head %}
-   <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB05V_zAdTZtLZkFTGC17QHXMXs3w6rcSI" async="" defer="defer" type="text/javascript"></script>
-   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB05V_zAdTZtLZkFTGC17QHXMXs3w6rcSI" defer="defer" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initialize"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 {% endblock head%}
 
 {%block content%}
 	<h1>Details of {{scenario.name}}</h1>
 	<br>
 	<ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#rrhs" onclick="rrhs()">RRHs</a></li>
-        <li><a data-toggle="tab" href="#localization" onclick="localization()">Localization</a></li>
+        <!--<li class="active"><a data-toggle="tab" href="#localization">Localization</a></li>-->
+        <li class="active"><a data-toggle="tab" href="#rrhs">RRHs</a></li>
     </ul>
 
-    <div id="localization" class="tab-pane fade" style="display: none">
+    <!--<div id="localization" class="tab-pane fade in active">
         <br>
         <div id="map-canvas" style="width:auto;height:400px;"></div>
-    </div>
+    </div>-->
 
     <div id="rrhs" class="tab-pane fade in active">
         <br>
@@ -24,17 +25,4 @@
     </div>
 {%endblock content%}
 
-{%block javascript %}
-<script>
-	function rrhs(){
-		document.getElementById("localization").style.display = "none";
-		document.getElementById("rrhs").style.display = "block";
-	}
-
-	function localization(){
-		document.getElementById("localization").style.display = "block";
-		document.getElementById("rrhs").style.display = "none";
-	}
-</script>
-    {% include "scenarios/partials/map.html" %}
-{%endblock javascript %}
+{%block javascript %}{%endblock javascript %}
