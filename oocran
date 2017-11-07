@@ -85,8 +85,8 @@ function start {
         #gnome-terminal -e "bash -c 'influxd;exec $SHELL'"
         if [ -z "$LOG" ]
         then
-            celery -A oocran worker -l info &>> ../log/worker.log &
-            celery -A oocran beat -l info -S django &>> ../log/scheduler.log &
+            celery -A oocran worker -l info &>> log/worker.log &
+            celery -A oocran beat -l info -S django &>> log/scheduler.log &
             echo "username: admin"
             echo "password: admin"
             python manage.py runserver $PARAM
