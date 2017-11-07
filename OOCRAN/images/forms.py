@@ -27,12 +27,14 @@ class ImageForm(forms.ModelForm):
                                                         choices=[('amd64', 'amd64'),
                                                            ('i386', 'i386')])
         self.fields['format'] = forms.ChoiceField(required=True,
-                                                  choices=[('OpenStack', 'OpenStack'),
-                                                           ('AMI', 'AMI'),
-                                                           ('Docker', 'Docker'), 
-                                                           ('Libvirt', 'Libvirt'),
-                                                           ('virtualbox', 'VirtualBox'),
-                                                           ('VMware', 'VMware')])
+                                                    widget=forms.Select(attrs={"onChange": 'select(this);'}),
+                                                    choices=[('OpenStack', 'OpenStack'),
+                                                            ('Azure','Azure'),
+                                                            ('AWS','AWS'),
+                                                            ('GCE', 'GCE'),
+                                                            ("Libvirt", "Libvirt"),
+                                                            ("VirtualBox", "VirtualBox"),
+                                                            ("Docker", "Docker"),])
 
     class Meta:
         model = Image

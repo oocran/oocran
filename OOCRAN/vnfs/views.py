@@ -23,7 +23,6 @@ from operators.models import Operator, Provider
 from .forms import VnfForm
 from scripts.models import Script
 from django.contrib import messages
-from drivers.Vagrant.APIs.main import list_boxes
 from django.contrib.auth.decorators import login_required
 from oocran.global_functions import paginator
 from django.http import HttpResponse
@@ -83,9 +82,6 @@ def create(request):
 @login_required(login_url='/login/')
 def delete(request, id=None):
     vnf = get_object_or_404(Vnf, id=id)
-    # tasks.delete_vnf.delay(vnf.id)
-    # image = Image.objects.get(name=vnf.name)
-    # image.delete()
     vnf.delete()
 
     messages.success(request, "VNF successfully deleted!", extra_tags="alert alert-success")

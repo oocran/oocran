@@ -33,16 +33,12 @@ class VnfForm(forms.ModelForm):
         self.fields['provider'] = forms.ChoiceField(required=True,
                                                     widget=forms.Select(attrs={"onChange": 'select(this);'}),
                                                     choices=[('OpenStack', 'OpenStack'),
-                                                            #('Azure','Azure'),
-                                                            #('AWS','AWS'),
-                                                            #('GCE', 'GCE'),
+                                                            ('Azure','Azure'),
+                                                            ('AWS','AWS'),
+                                                            ('GCE', 'GCE'),
                                                             ("Libvirt", "Libvirt"),
                                                             ("VirtualBox", "VirtualBox"),
-                                                            ("Docker", "Docker"),]) 
-                                                            #("VMware Fusion","VMware Fusion"),
-                                                            #("VMware Workstation","VMware Workstation"),
-                                                            #("Paralells", "Paralells"),
-                                                            #("Hype-V","Hype-V"),])
+                                                            ("Docker", "Docker"),])
 
     class Meta:
         model = Vnf
