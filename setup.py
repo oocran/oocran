@@ -30,8 +30,9 @@ class PostDevelop(develop):
 class PostInstall(install):
     """Post-installation for installation mode."""
     def run(self):
+        path = os.path.dirname(os.path.abspath(__file__))
+        os.system("python oocran/install/key.py "+path)
         os.system("./oocran/install/install.sh")
-        #os.system("./oocran/install/install.sh")
         install.run(self)
 
 setup(

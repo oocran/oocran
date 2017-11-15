@@ -1,4 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
+OOCRAN.egg-info
+build
 
 oocran/django/images/migrations/*
 !oocran/django/images/migrations/__init__.py

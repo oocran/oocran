@@ -13,18 +13,12 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 ###
-
 #!/usr/bin/env bash
 
-python key.py
-cd ../django
+cd oocran/django
 #Create database
 python manage.py makemigrations
 python manage.py migrate
 #Create admin User
-CODE=""
-while read line
-do
-    CODE="$CODE$line;"
-done < oocran/install/create_admin.py
-echo "$CODE" | python manage.py shell &> /dev/null
+mkdir drivers/Vagrant/repository/admin
+./manage.py shell < ../install/create_admin.py
