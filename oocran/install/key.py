@@ -17,8 +17,8 @@
 import os
 
 secret = os.urandom(32).encode('base-64').split('\n')[0]
-print os.getcwd()+"/oocran/django/oocran/secret_key.py"
-file = open(os.getcwd()+"/oocran/django/oocran/secret_key.py", "w+")
+print os.path.dirname(os.path.abspath(__file__))+"/oocran/django/oocran/secret_key.py"
+file = open(os.path.dirname(os.path.abspath(__file__))+"/oocran/django/oocran/secret_key.py", "w+")
 file.write("SECRET_KEY = '"+secret+"'")
 file.close()
 

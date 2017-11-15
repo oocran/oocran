@@ -30,7 +30,8 @@ class PostDevelop(develop):
 class PostInstall(install):
     """Post-installation for installation mode."""
     def run(self):
-        os.system("cd oocran/install && ./install.sh")
+        os.system("./oocran/install/install.sh")
+        #os.system("./oocran/install/install.sh")
         install.run(self)
 
 setup(
