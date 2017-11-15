@@ -1,51 +1,51 @@
 # Created by .ignore support plugin (hsz.mobi)
 
-OOCRAN/images/migrations/*
-!OOCRAN/images/migrations/__init__.py
+oocran/django/images/migrations/*
+!oocran/django/images/migrations/__init__.py
 
-OOCRAN/oocran/repositories
+oocran/django/oocran/repositories
 
-OOCRAN/operators/migrations/*
-!OOCRAN/operators/migrations/__init__.py
+oocran/django/operators/migrations/*
+!oocran/django/operators/migrations/__init__.py
 
-OOCRAN/scenarios/migrations/*
-!OOCRAN/scenarios/migrations/__init__.py
+oocran/django/scenarios/migrations/*
+!oocran/django/scenarios/migrations/__init__.py
 
-OOCRAN/vims/migrations/*
-!OOCRAN/vims/migrations/__init__.py
+oocran/django/vims/migrations/*
+!oocran/django/vims/migrations/__init__.py
 
-OOCRAN/vnfs/migrations/*
-!OOCRAN/vnfs/migrations/__init__.py
+oocran/django/vnfs/migrations/*
+!oocran/django/vnfs/migrations/__init__.py
 
-OOCRAN/schedulers/migrations/*
-!OOCRAN/schedulers/migrations/__init__.py
+oocran/django/schedulers/migrations/*
+!oocran/django/schedulers/migrations/__init__.py
 
-OOCRAN/ns/migrations/*
-!OOCRAN/ns/migrations/__init__.py
+oocran/django/ns/migrations/*
+!oocran/django/ns/migrations/__init__.py
 
-OOCRAN/pools/migrations/*
-!OOCRAN/pools/migrations/__init__.py
+oocran/django/pools/migrations/*
+!oocran/django/pools/migrations/__init__.py
 
-OOCRAN/alerts/migrations/*
-!OOCRAN/alerts/migrations/__init__.py
+oocran/django/alerts/migrations/*
+!oocran/django/alerts/migrations/__init__.py
 
-OOCRAN/keys/migrations/*
-!OOCRAN/keys/migrations/__init__.py
+oocran/django/keys/migrations/*
+!oocran/django/keys/migrations/__init__.py
 
-OOCRAN/ues/migrations/*
-!OOCRAN/ues/migrations/__init__.py
+oocran/django/ues/migrations/*
+!oocran/django/ues/migrations/__init__.py
 
-OOCRAN/bbus/migrations/*
-!OOCRAN/bbus/migrations/__init__.py
+oocran/django/bbus/migrations/*
+!oocran/django/bbus/migrations/__init__.py
 
-OOCRAN/oocran/secret_key.py
+oocran/django/oocran/secret_key.py
 
 log/*
 
-OOCRAN/db.sqlite3
-OOCRAN/drivers/Vagrant/repository/*
-!OOCRAN/drivers/Vagrant/repository/__init__.py
-OOCRAN/celerybeat.pid
+oocran/django/db.sqlite3
+oocran/django/drivers/Vagrant/repository/*
+!oocran/django/drivers/Vagrant/repository/__init__.py
+oocran/celerybeat.pid
 .idea/misc.xml
 .idea/modules.xml
 .idea/oocran.iml
