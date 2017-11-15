@@ -18,6 +18,7 @@ from setuptools import find_packages, setup
 from setuptools.command.develop import develop
 from setuptools.command.install import install
 from subprocess import check_call
+import os
 
 
 class PostDevelop(develop):
@@ -29,7 +30,7 @@ class PostDevelop(develop):
 class PostInstall(install):
     """Post-installation for installation mode."""
     def run(self):
-        check_call("cd oocran/install && ./install.sh")
+        os.system("cd oocran/install && ./install.sh")
         install.run(self)
 
 setup(
@@ -70,6 +71,7 @@ setup(
             'oocran=oocran:main',
         ],
     },
+    cmdclass={'install': PostInstall},
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

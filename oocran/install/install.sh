@@ -16,8 +16,9 @@
 
 #!/usr/bin/env bash
 
+ls
 python oocran/install/key.py
-cd ../OOCRAN
+cd oocran/django
 #Create database
 python manage.py makemigrations
 python manage.py migrate
