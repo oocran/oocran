@@ -5,8 +5,8 @@ def run(args):
     if args[1] == "start" and args[2] is not None:
         if not os.path.exists('log'):
             os.makedirs('log')
-        #os.system('cd oocran/django && celery -A oocran worker -l info &>> log/worker.log')
-        #os.system('cd oocran/django && celery -A oocran beat -l info -S django &>> log/scheduler.log')
+        os.system('cd oocran/django && celery -A oocran worker -l info &>> log/worker.log')
+        os.system('cd oocran/django && celery -A oocran beat -l info -S django &>> log/scheduler.log')
         os.system('cd oocran/django && python manage.py runserver '+args[2])
     elif args[1] == "reset":
         print "reset"
