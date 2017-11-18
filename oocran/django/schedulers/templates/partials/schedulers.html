@@ -1,0 +1,28 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Time</th>
+              <th>Scenario</th>
+              <th>Network Service</th>
+              <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for scheduler in schedulers %}
+                <tr>
+                  <td><a href='{{scheduler.get_absolut_url}}'>{{scheduler.name}}</a></td>
+                  <td>{{scheduler.description}}</td>
+                  <td>{{scheduler.type}}</td>
+                  <td>{{scheduler.time|time:"H:i"}}</td>
+                  <td>{{scheduler.scenario}}</td>
+                  <td>{{scheduler.ns}}</td>
+                  <td><a href="{{scheduler.id}}/delete/" class="btn btn-danger" role="button">Delete</a></td>
+                </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>

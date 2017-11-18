@@ -10,6 +10,9 @@ oocran/django/oocran/repositories
 oocran/django/operators/migrations/*
 !oocran/django/operators/migrations/__init__.py
 
+oocran/django/scripts/migrations/*
+!oocran/django/scripts/migrations/__init__.py
+
 oocran/django/scenarios/migrations/*
 !oocran/django/scenarios/migrations/__init__.py
 

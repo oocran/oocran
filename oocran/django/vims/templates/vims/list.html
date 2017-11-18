@@ -1,0 +1,52 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+
+{% block head %}
+   <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB05V_zAdTZtLZkFTGC17QHXMXs3w6rcSI" async="" defer="defer" type="text/javascript"></script>
+   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+{% endblock head%}
+
+{% block content%}
+    <h2 class="sub-header"><i class="fa fa-tasks" aria-hidden="true"></i> Virtual Infrastructure Managers</h2>
+    <br>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#list" onclick="list()">List</a></li>
+        <li><a data-toggle="tab" href="#localization" onclick="localization()">Localization</a></li>
+    </ul>
+
+    <div id="list" class="tab-pane fade in active">
+        <br>
+        {% include "partials/vims/vims.html" %}
+        <br>
+        {% if user.is_staff%}
+            <a id="submit" href="{% url 'vims:create' %}" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Register</a>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content"></div>
+                </div>
+            </div>
+        {%endif%}
+    </div>
+
+    <div id="localization" class="tab-pane fade">
+        <br>
+        <div id="map-canvas" style="width:auto;height:400px;"></div>
+    </div>
+{% endblock content %}
+
+{%block javascript%}
+    <script>
+        function list(){
+            document.getElementById("localization").style.display = "none";
+            document.getElementById("list").style.display = "block";
+        }
+
+        function localization(){
+            document.getElementById("localization").style.display = "block";
+            document.getElementById("list").style.display = "none";
+        }
+    </script>
+    {% include "partials/vims/map.html"%}
+{%endblock javascript%}

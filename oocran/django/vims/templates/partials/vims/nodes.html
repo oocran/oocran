@@ -1,0 +1,25 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="text-align: center;">Name</th>
+        <th style="text-align: center;">CPU</th>
+        <th style="text-align: center;">RAM</th>
+        <th style="text-align: center;">Storage</th>
+        <th style="text-align: center;">Attached VMs</th>
+        <th style="text-align: center;">State</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for node in vim.get_hypervisors %}
+            <tr>
+                <td style="text-align: center;vertical-align: middle">{{node.hypervisor_hostname}}</td>
+                <td style="text-align: center;vertical-align: middle">{{node.vcpus_used}}/{{node.vcpus}}</td>
+                <td style="text-align: center;vertical-align: middle">{{node.memory_mb_used}}/{{node.memory_mb}} MB</td>
+                <td style="text-align: center;vertical-align: middle">{{node.local_gb_used}}/{{node.local_gb}} GB</td>
+                <td style="text-align: center;vertical-align: middle">{{node.running_vms}}</td>
+                <td style="text-align: center;vertical-align: middle">{{node.state}}</td>
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
