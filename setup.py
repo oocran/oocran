@@ -59,7 +59,6 @@ setup(
         'crypto',
         'pycrypto',
         'docker',
-        'pycurl'
     ],
     entry_points={
         'console_scripts': [
