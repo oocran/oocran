@@ -15,16 +15,8 @@
 ###
 
 from setuptools import find_packages, setup
-from setuptools.command.develop import develop
 from setuptools.command.install import install
-from subprocess import check_call
 import os
-
-
-class PostDevelop(develop):
-    """Post-installation for development mode."""
-    def run(self):
-        develop.run(self)
 
 
 class PostInstall(install):
