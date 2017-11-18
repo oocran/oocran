@@ -15,7 +15,11 @@
 ###
 #!/usr/bin/env bash
 
-cd oocran/django
+#Config InfluxDB
+cd oocran/install
+influx  -execute "CREATE USER admin WITH PASSWORD 'admin' WITH ALL PRIVILEGES"
+cd ..
+cd django
 #Create database
 python manage.py makemigrations
 python manage.py migrate
