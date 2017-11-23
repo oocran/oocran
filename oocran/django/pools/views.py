@@ -35,6 +35,11 @@ from alerts.models import Alert
 
 @login_required(login_url='/login/')
 def list(request):
+    """
+    List of availiable Pools
+    :param request:
+    :return:
+    """
     scenarios = Scenario.objects.filter(operator__user=request.user)
     scenarios = paginator(request, scenarios)
 
@@ -47,6 +52,12 @@ def list(request):
 
 @login_required(login_url='/login/')
 def create(request, id=None):
+    """
+    Create new Pool in the Scenario with ID id
+    :param request:
+    :param id:
+    :return:
+    """
     scenario = get_object_or_404(Scenario, id=id)
     form = PoolForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -75,6 +86,12 @@ def create(request, id=None):
 
 @login_required(login_url='/login/')
 def delete(request, id=None):
+    """
+    Delete Pool with id
+    :param request:
+    :param id:
+    :return:
+    """
     utran = get_object_or_404(Pool, id=id)
     id = utran.scenario.id
 
@@ -100,6 +117,12 @@ def delete(request, id=None):
 
 @login_required(login_url='/login/')
 def launch(request, id=None):
+    """
+    Launch Pool with ID id
+    :param request:
+    :param id:
+    :return:
+    """
     pool = get_object_or_404(Pool, id=id)
     celery_launch.delay(id)
 
@@ -109,6 +132,12 @@ def launch(request, id=None):
 
 @login_required(login_url='/login/')
 def shut_down(request, id=None):
+    """
+    Shut Down Pool with ID id
+    :param request:
+    :param id:
+    :return:
+    """
     utran = get_object_or_404(Pool, id=id)
     utran.scenario.active_infras -= 1
     utran.scenario.save()
@@ -120,6 +149,12 @@ def shut_down(request, id=None):
 
 @login_required(login_url='/login/')
 def details(request, id=None):
+    """
+    Show details about Pool with ID id
+    :param request:
+    :param id:
+    :return:
+    """
     pool = get_object_or_404(Pool, id=id)
     bbus = Bbu.objects.filter(ns=pool)
     ues = Ue.objects.filter(scenario=pool.scenario)
@@ -142,8 +177,14 @@ def details(request, id=None):
 
 @login_required(login_url='/login/')
 def alert(request, id=None):
-    utran = get_object_or_404(Pool, id=id)
-    form = AlertForm(request.POST or None, nvfs=Bbu.objects.filter(ns=utran))
+    """
+    Show list of created alerts for Pool with ID id
+    :param request:
+    :param id:
+    :return:
+    """
+    pool = get_object_or_404(Pool, id=id)
+    form = AlertForm(request.POST or None, nvfs=Bbu.objects.filter(ns=pool))
     if form.is_valid():
         try:
             Alert.objects.get(operator__user=request.user, name=form.cleaned_data['name'])
@@ -151,22 +192,22 @@ def alert(request, id=None):
         except:
             alert = form.save(commit=False)
             alert.operator = get_object_or_404(Operator, user=request.user)
-            alert.scenario = utran.scenario
-            alert.ns = utran
+            alert.scenario = pool.scenario
+            alert.ns = pool
             alert.uuid = uuid.uuid4().hex
             alert.save()
             for id in form.cleaned_data['nvfs']:
                 alert.nvfs.add(get_object_or_404(Nvf, id=id))
 
             messages.success(request, "Alert created successfully!", extra_tags="alert alert-success")
-        return redirect("pools:details", id=utran.id)
+        return redirect("pools:details", id=pool.id)
     if form.errors:
         messages.success(request, form.errors, extra_tags="alert alert-danger")
-        return redirect("pools:details", id=utran.id)
+        return redirect("pools:details", id=pool.id)
 
     context = {
         "user": request.user,
-        "utran": utran,
+        "utran": pool,
         "form": form,
     }
     return render(request, "pools/alert.html", context)
@@ -174,6 +215,12 @@ def alert(request, id=None):
 
 @login_required(login_url='/login/')
 def scheduler(request, id=None):
+    """
+    Show list of created schedule for Pool with ID id
+    :param request:
+    :param id:
+    :return:
+    """
     utran = get_object_or_404(Pool, id=id)
     form = SchedulerForm(request.POST or None, nvfs=Bbu.objects.filter(ns=utran))
     if form.is_valid():

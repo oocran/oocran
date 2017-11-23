@@ -32,6 +32,11 @@ from drivers.OpenStack.deployments.operator import create_operator
 
 @login_required(login_url='/login/')
 def list(request):
+    """
+    Show list of registered PoP
+    :param request:
+    :return:
+    """
     vims = Vim.objects.all()
 
     context = {
@@ -43,6 +48,12 @@ def list(request):
 
 @staff_member_required
 def delete(request, id=None):
+    """
+    Delete PoP with ID id
+    :param request:
+    :param id:
+    :return:
+    """
     vim = get_object_or_404(Vim, id=id)
     vim.delete()
 
@@ -52,18 +63,27 @@ def delete(request, id=None):
 
 @task()
 def add_actual_users(id):
+    """
+    Register actual operators to the new PoP with ID id
+    :param id:
+    :return:
+    """
     operators = Operator.objects.exclude(name='admin')
     vim = Vim.objects.get(id=id)
     if vim.type == "OpenStack":
         vim = OpenStack.objects.get(name=vim.name)
     for operator in operators:
-        print operator
         create_user(operator, vim)
         create_operator(operator, vim)
 
 
 @staff_member_required
 def create(request):
+    """
+    Create new PoP
+    :param request:
+    :return:
+    """
     form = VimForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         try:
@@ -143,6 +163,12 @@ def create(request):
 
 @login_required(login_url='/login/')
 def details(request, id=None):
+    """
+    Show details about PoP with ID id
+    :param request:
+    :param id:
+    :return:
+    """
     vim = get_object_or_404(Vim, id=id)
     if vim.type == "OpenStack":
         vim = get_object_or_404(OpenStack, name=vim.name)
