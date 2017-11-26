@@ -22,11 +22,21 @@ keys = ["ip", "name", "latitude", "longitude", "pt", "neighbor", "bw","first_ban
 
 
 def check_content(parameters):
+    """
+    Check if yaml file has all the necessary parameters
+    :param parameters:  necessary parameters to create the NS
+    :return: False if the user forgot any parameter
+    """
     if not set(keys) <= set(parameters):
         return False
 
 
 def check_parameters(parameters):
+    """
+    Check if any yaml file parameter is null
+    :param parameters: necessary parameters to create the NS
+    :return:
+    """
     for k, v in parameters.items():
         if v is None:
             return False
@@ -34,6 +44,11 @@ def check_parameters(parameters):
 
 
 def read_yaml(file):
+    """
+    Read the yaml file parameters
+    :param file:
+    :return:
+    """
     doc = yaml.load(file)
 
     list = []
@@ -46,20 +61,3 @@ def read_yaml(file):
         return list
     except:
         return None
-
-
-def distance(lon1, lat1, lon2, lat2):
-    """
-    Calculate distance between terminal and bts
-    """
-    # convert decimal degrees to radians
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-    # haversine formula
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
-    c = 2 * asin(sqrt(a))
-    km = 6367 * c
-    if km <=0:
-        km = -km
-    return km

@@ -32,6 +32,11 @@ from pools.tasks import celery_launch, celery_shut_down
 
 @login_required(login_url='/login/')
 def list(request):
+    """
+    List all the set up alerts
+    :param request:
+    :return:
+    """
     alerts = Alert.objects.filter(operator__user=request.user)
     alerts = paginator(request, alerts)
 
@@ -44,6 +49,12 @@ def list(request):
 
 @login_required(login_url='/login/')
 def details(request, id=None):
+    """
+    Show details about alert
+    :param request:
+    :param id: alert ID
+    :return:
+    """
     alert = get_object_or_404(Alert, id=id)
 
     context = {
@@ -55,6 +66,12 @@ def details(request, id=None):
 
 @login_required(login_url='/login/')
 def create(request, id=None):
+    """
+    Create new alert for a VNF
+    :param request:
+    :param id: VNF ID
+    :return:
+    """
     bbu = get_object_or_404(Bbu, id=id)
     form = AlertForm(request.POST or None)
     if form.is_valid():
@@ -84,6 +101,12 @@ def create(request, id=None):
 
 @login_required(login_url='/login/')
 def delete(request, id = None):
+    """
+    Delete specific alert
+    :param request:
+    :param id: alert id
+    :return:
+    """
     alert = get_object_or_404(Alert, id=id)
     alert.delete()
 
@@ -93,19 +116,15 @@ def delete(request, id = None):
 
 @csrf_exempt
 def listener(request):
+    """
+    Trigger the alerts when request comes
+    :param request:
+    :return:
+    """
     for value in request:
-        #webhook = json.loads(value)
         uuid = value.split(',')[0].split(':')[1]
         name = value.split(',')[1].split(':')[1]
         passw = value.split(',')[2].split(':')[1]
-        '''if settings.GRAFANA in webhook['ruleUrl']:
-            try:
-                msn = webhook['message'].replace("{", "").replace("}", "")
-                uuid = msn.split(',')[0].split(':')[1]
-                name = msn.split(',')[1].split(':')[1]
-                passw = msn.split(',')[2].split(':')[1]
-            except:
-                return HttpResponse('pong')'''
 
         try:
             alert = Alert.objects.get(uuid=uuid, operator__name=name)

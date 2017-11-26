@@ -26,6 +26,13 @@ import provisioning
 
 
 def vagrant_launch(ns, bbus, channels, ues):
+    """
+    Launch a network services
+    :param ns:
+    :param bbus:
+    :param channels:
+    :param ues:
+    """
     create_vagrantfile(ns=ns, bbus=bbus, channels=channels, ues=ues)
     v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + '/' + ns.name)
     try:
@@ -35,19 +42,33 @@ def vagrant_launch(ns, bbus, channels, ues):
 
 
 def vagrant_destroy(ns):
+    """
+    Destroy specific network service
+    :param ns:
+    :return:
+    """
     v = vagrant.Vagrant(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + '/' + ns.name)
     v.destroy()
     shutil.rmtree(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name)
 
 
 def vagrant_ssh(script, nvf):
+    """
+    Reconfigure VNF
+    :param script: commands execute on the vnf
+    :param nvf: vnf obj
+    :return:
+    """
     os.system("cd "+os.getcwd()+'/drivers/Vagrant/repository/'+nvf.operator.name+"/"+nvf.ns.name+";vagrant ssh "+nvf.name+" -c '"+script+"'")
-    print "reconfiguration done!"
 
 
 def vagrant_destroy_nvf(nvf):
+    """
+    Destroy specific VNF
+    :param nvf:
+    :return:
+    """
     os.system("cd " + os.getcwd() + '/drivers/Vagrant/repository/' + nvf.operator.name + "/" + nvf.ns.name + ";vagrant destroy -f " + nvf.name)
-    print "nvf shut down done!"
 
 
 def vagrant_launch_nvf(nvf):
@@ -56,6 +77,10 @@ def vagrant_launch_nvf(nvf):
 
 
 def list_boxes():
+    """
+    get vagrant boxes
+    :return: list of boxes
+    """
     v = vagrant.Vagrant()
     list = []
     for box in v.box_list():
