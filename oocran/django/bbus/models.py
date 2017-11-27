@@ -45,16 +45,6 @@ class Bbu(Nvf):
     def __unicode__(self):
         return self.name
 
-    def check_provision(self):
-        res = False
-        while res is False:
-            nvf = self
-            logging = log(name=nvf.name, domain=nvf.ns.vim.domain, username=nvf.vnf.operator.name, project_domain_name=nvf.ns.vim.project_domain, project_name=nvf.vnf.operator.name, password=nvf.vnf.operator.decrypt(), ip=nvf.ns.vim.ip)
-            for line in logging.split("\n"):
-                if "Cloud-init v." in line and "finished" in line:
-                    return True
-            sleep(20)
-
     def get_absolut_url(self):
         return reverse("bbus:details", kwargs={"id": self.id})
 
@@ -62,12 +52,20 @@ class Bbu(Nvf):
         return self.name
 
     def get_ues(self):
+        """
+        Check the UE camp on the BBU
+        :return:
+        """
         if len(self.ues.all()) != 0:
             return self.ues
         else:
             return None
 
     def rb_assigment(self):
+        """
+        Transform BW ro rb offers
+        :return:
+        """
         if self.bw_dl == 1400000:
             self.rb = 18000000
         elif self.bw_dl == 3000000:
@@ -78,6 +76,10 @@ class Bbu(Nvf):
             self.rb = 150000000
 
     def used_frecuencys(self):
+        """
+        Search central frequencies assigned to the neighbourds
+        :return:
+        """
         list = self.rrh.neighbor.strip('[').strip(']').replace("'", "").split(', ')
         neighbour = [str(x) for x in list]
         frequencies_list = []
@@ -89,6 +91,10 @@ class Bbu(Nvf):
         return frequencies_list
 
     def delete_frec(self):
+        """
+        Unassign central frequency to BBU
+        :return:
+        """
         self.freC_DL = None
         self.freC_UL = None
         self.color_DL = "#AA0000"
@@ -97,6 +103,10 @@ class Bbu(Nvf):
         self.save()
 
     def assign_frequency(self):
+        """
+        Assign central frequency to BBU
+        :return:
+        """
         self.rb_assigment()
         self.is_running = True
         frecuencies = self.used_frecuencys()

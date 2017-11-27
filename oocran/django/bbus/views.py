@@ -35,6 +35,12 @@ from drivers.OpenStack.APIs.nova.nova import log
 
 @login_required(login_url='/login/')
 def details(request, id=None):
+    """
+    Show the BBU details
+    :param request:
+    :param id: BBU ID
+    :return:
+    """
     bbu = get_object_or_404(Bbu, id=id)
     ues = Ue.objects.filter(attached_to=bbu)
     ues = paginator(request, ues)
@@ -60,6 +66,12 @@ def details(request, id=None):
 
 @login_required(login_url='/login/')
 def alert(request, id=None):
+    """
+    Create new alert for the BBU with id ID
+    :param request:
+    :param id: BBU ID
+    :return:
+    """
     bbu = get_object_or_404(Bbu, id=id)
     form = AlertForm(request.POST or None)
     if form.is_valid():
@@ -89,6 +101,12 @@ def alert(request, id=None):
 
 @login_required(login_url='/login/')
 def scheduler(request, id=None):
+    """
+    Create a new schedule for the BBU with id ID
+    :param request:
+    :param id: BBU ID
+    :return:
+    """
     bbu = get_object_or_404(Bbu, id=id)
     form = SchedulerForm(request.POST or None)
     if form.is_valid():
@@ -113,20 +131,3 @@ def scheduler(request, id=None):
         "form": form,
     }
     return render(request, "bbus/scheduler.html", context)
-
-
-@login_required(login_url='/login/')
-def log(request, id=None):
-    bbu = get_object_or_404(Bbu, id=id)
-    return HttpResponse(log(bbu).replace('\n', '<br>'))
-
-
-@login_required(login_url='/login/')
-def console(request, id=None):
-    bbu = get_object_or_404(Bbu, id=id)
-    return bbu.get_console
-
-
-@login_required(login_url='/login/')
-def ue(request, id=None):
-    print "olaa"

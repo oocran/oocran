@@ -78,7 +78,7 @@ def vagrant_launch_nvf(nvf):
 
 def list_boxes():
     """
-    get vagrant boxes
+    Get vagrant boxes availiable
     :return: list of boxes
     """
     v = vagrant.Vagrant()
@@ -89,6 +89,12 @@ def list_boxes():
 
 
 def launch(nvf, ns):
+    """
+
+    :param nvf:
+    :param ns:
+    :return:
+    """
     
     element = Template(u'''\
     subconfig.vm.provision :shell, :inline => "{{code}}"
@@ -145,6 +151,12 @@ def provisions(nvf):
 
 
 def create_nvf(nvf, ns):
+    """
+    Select PoP where the VNF will be allocated
+    :param nvf:
+    :param ns:
+    :return: template code for Vagrant
+    """
     element = ""
     if nvf.vnf.provider == "VirtualBox":
         element = providers.virtualbox(nvf) + provisions(nvf) + launch(nvf, ns)
@@ -171,6 +183,15 @@ def create_nvf(nvf, ns):
 
 
 def create_vagrantfile(ns, bbus, channels=None, ues=None):
+    """
+    Combine vnfs code and launch the vagrantfile
+    :param ns:
+    :param bbus:
+    :param channels:
+    :param ues:
+    :return:
+    """
+
     try:
         os.mkdir(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name)
     except:
@@ -199,8 +220,6 @@ Vagrant.configure("2") do |config|
 end
 ''')
     end = end.render()
-
-    print header + nvfs + end
 
     outfile = open(os.getcwd() + '/drivers/Vagrant/repository/' + ns.operator.name + "/" + ns.name + '/Vagrantfile', 'w')
     outfile.write(header + nvfs + end)

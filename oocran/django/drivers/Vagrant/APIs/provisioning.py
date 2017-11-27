@@ -20,6 +20,11 @@ import os
 
 
 def script(script):
+    """
+    Write the necessary code to provision the VNF with an external bash script
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
     subconfig.vm.provision "shell", path: "{{file}}"
 
@@ -32,6 +37,11 @@ def script(script):
 
 
 def ansible(script):
+    """
+    Write the necessary code to provision the VNF with an external ansible script
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
     subconfig.vm.provision "ansible" do |ansible|
       ansible.playbook = "{{file}}"
@@ -50,6 +60,11 @@ def ansible(script):
 
 
 def file(script):
+    """
+    Write the necessary code to provision the VNF with an external file
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
     subconfig.vm.provision "file", source: "{{file}}", destination: "{{name}}"
 
@@ -64,6 +79,11 @@ def file(script):
 
 
 def chef(script):
+    """
+    Write the necessary code to provision the VNF with an external chef script
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
     subconfig.vm.provision "chef_apply" do |chef|
       chef.recipe = File.read("{{file}}")
@@ -79,6 +99,11 @@ def chef(script):
 
 
 def direct_input(script):
+    """
+    Write the necessary code to provision the VNF with a particular set of commands
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
     subconfig.vm.provision :shell, :inline => "{{code}}"
 
@@ -92,6 +117,11 @@ def direct_input(script):
 
 
 def puppet(script):
+    """
+    Write the necessary code to provision the VNF with an external puppet script
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
     subconfig.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "{{path}}"
@@ -109,6 +139,11 @@ def puppet(script):
 
 
 def salt(script):
+    """
+    Write the necessary code to provision the VNF with an external salt script
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
     subconfig.vm.provision :salt do |salt|
       salt.masterless = true

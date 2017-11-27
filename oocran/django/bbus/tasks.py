@@ -23,20 +23,33 @@ from drivers.Vagrant.APIs.main import vagrant_launch_nvf, vagrant_destroy_nvf, v
 
 @task()
 def launch_nvf(id):
+    """
+    Celery function that launch the BBU with id ID
+    :param id: BBU ID
+    :return:
+    """
     nvf = Bbu.objects.get(id=id)
     vagrant_launch_nvf(nvf)
-    print "NS running"
 
 
 @task()
 def shut_down_nvf(id):
+    """
+    Celery function that shut down the VNF with id ID
+    :param id:
+    :return:
+    """
     nvf = Bbu.objects.get(id=id)
     vagrant_destroy_nvf(nvf)
-    print "NS shut down"
 
 
 @task()
 def reconfigure_nvf(id, script):
+    """
+    Celery function that reconfigure the VNF with id ID with commands specify on the script
+    :param id:
+    :param script:
+    :return:
+    """
     nvf = Bbu.objects.get(id=id)
     vagrant_ssh(nvf=nvf, script=script)
-    print "NS shut down"

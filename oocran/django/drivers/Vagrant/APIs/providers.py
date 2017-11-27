@@ -21,6 +21,11 @@ from vims.models import OpenStack, Aws, Gce, Azure
 
 
 def libvirt(nvf):
+    """
+    Write the necessary code for launch the VNF using libvirt
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
   config.vm.synced_folder '.', '/vagrant', type: 'rsync'
   config.vm.define "{{name}}" do |subconfig|
@@ -44,6 +49,11 @@ def libvirt(nvf):
 
 
 def virtualbox(nvf):
+    """
+    Write the necessary code for launch the VNF using virtualbox
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
   config.vm.define "{{name}}" do |subconfig|
     subconfig.vm.network "private_network", type: "dhcp"
@@ -69,6 +79,11 @@ def virtualbox(nvf):
 
 
 def docker(nvf):
+    """
+    Write the necessary code for launch the VNF using docker
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
   config.vm.define "{{name}}" do |subconfig|
     subconfig.vm.provider "docker" do |v|
@@ -89,6 +104,11 @@ def docker(nvf):
 
 
 def vmware_fusion(nvf):
+    """
+    Write the necessary code for launch the VNF using VMware
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
   config.vm.define "{{name}}" do |subconfig|
     subconfig.vm.box = "{{image}}"
@@ -109,6 +129,11 @@ def vmware_fusion(nvf):
 
 
 def vmware_workstation(nvf):
+    """
+    Write the necessary code for launch the VNF using VMware workstation
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
   config.vm.define "{{name}}" do |subconfig|
     subconfig.vm.box = "{{image}}"
@@ -129,6 +154,11 @@ def vmware_workstation(nvf):
 
 
 def parallels(nvf):
+    """
+    Write the necessary code for launch the VNF using Parallels
+    :param nvf:
+    :return: vagrantfile code
+    """
     element = Template(u'''\
   config.vm.define "{{name}}" do |subconfig|
     subconfig.vm.box = "{{image}}"
@@ -149,6 +179,11 @@ def parallels(nvf):
 
 
 def openstack_v3(nvf):
+  """
+  Write the necessary code for launch the VNF using OpenStack keystone v3
+  :param nvf:
+  :return: vagrantfile code
+  """
   element = Template(u'''\
   config.vm.define "{{name}}" do |subconfig|
     subconfig.ssh.username = '{{username}}'  
@@ -193,6 +228,11 @@ def openstack_v3(nvf):
 
 
 def aws(nvf):
+  """
+  Write the necessary code for launch the VNF using AWS
+  :param nvf:
+  :return: vagrantfile code
+  """
   element = Template(u'''\
   config.vm.provider :aws do |aws, override|
     aws.access_key_id = "{{key}}"
@@ -219,6 +259,11 @@ def aws(nvf):
 
 
 def gce(nvf):
+  """
+  Write the necessary code for launch the VNF using GCE
+  :param nvf:
+  :return: vagrantfile code
+  """
   element = Template(u'''\
   config.vm.box = "{{image}}"
 
@@ -245,6 +290,11 @@ def gce(nvf):
 
 
 def azure(nvf):
+  """
+  Write the necessary code for launch the VNF using Azure
+  :param nvf:
+  :return: vagrantfile code
+  """
   element = Template(u'''\
   config.vm.box = 'azure'
 

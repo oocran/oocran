@@ -35,6 +35,12 @@ def check_parameters(parameters, keys):
 
 
 def check_vnf(data, operator):
+    """
+    Check if user has this VNF
+    :param data: VNF name
+    :param operator:
+    :return: the VNF obj
+    """
     try:
         vnf = Vnf.objects.get(operator=operator, name=data)
     except:
@@ -43,6 +49,12 @@ def check_vnf(data, operator):
 
 
 def read_bbus(doc, operator):
+    """
+    Parser the BBU parameters from yaml file
+    :param doc: yaml file
+    :param operator:
+    :return: list of BBU parameters
+    """
     keys = ["name", "ip", "vnf", "bw_dl", "bw_ul", "pt"]
     list = []
     try:
@@ -69,6 +81,12 @@ def read_bbus(doc, operator):
 
 
 def read_channels(doc, operator):
+    """
+    Parser the Channel parameters from yaml file
+    :param doc: yaml file
+    :param operator:
+    :return: list of Channel's parameters
+    """
     keys = ["vnf", "sinr", "delay", "name"]
     list = []
     try:
@@ -97,6 +115,12 @@ def read_channels(doc, operator):
 
 
 def read_ues(doc, operator):
+    """
+    Parser the UE parameters from yaml file
+    :param doc: yaml file
+    :param operator:
+    :return: list of UE's parameters
+    """
     keys = ["vnf", "cpu", "ram", "disk", "sensibility", "service", "name"]
     list = []
     try:
@@ -126,6 +150,12 @@ def read_ues(doc, operator):
 
 
 def read_users(doc, scenario):
+    """
+    Parser the users parameters from yaml file
+    :param doc: yaml file
+    :param operator:
+    :return: list of User parameters
+    """
     keys = ["latitude", "longitude", "sensibility", "service", "name"]
     list = []
     try:
@@ -145,22 +175,13 @@ def read_users(doc, scenario):
         return "The content format is not valid!", "alert alert-danger"
 
 
-def distance(lon1, lat1, lon2, lat2):
-    """
-    Calculate distance between terminal and bts
-    """
-    # convert decimal degrees to radians
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-    # haversine formula
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
-    c = 2 * asin(sqrt(a))
-    km = 6367 * c
-    return km * 1000
-
-
 def price(nvf, spectre):
+    """
+    Calcul the VNF price
+    :param nvf:
+    :param spectre:
+    :return: VNF price
+    """
     price_spec = 0
     if spectre == 1400000:
         price_spec = 1.74
@@ -231,6 +252,13 @@ def rand_color():
 
 
 def planification_DL(nvf, frequencies, bw):
+    """
+    Search an availiable frequency band for the BBU downlink
+    :param nvf:
+    :param frequencies:
+    :param bw:
+    :return: DL assigned central frequency to VNF
+    """
     start = nvf.rrh.start(bw)
     colors = {}
 
@@ -259,6 +287,13 @@ def planification_DL(nvf, frequencies, bw):
 
 
 def planification_UL(nvf, frequencies, bw):
+    """
+    Search an availiable frequency band for the BBU uplink
+    :param nvf:
+    :param frequencies:
+    :param bw:
+    :return: UL assigned central frequency to VNF
+    """
     start = int(nvf.rrh.start(bw)) + 20000000
 
     nvf.color_UL = rand_color()
