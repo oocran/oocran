@@ -15,7 +15,7 @@
 
 """
 
-from urllib import urlencode
+'''from urllib import urlencode
 import pycurl, json
 from StringIO import StringIO
 from oocran import settings
@@ -93,3 +93,4 @@ def alert_notification(operator):
     c.setopt(c.POSTFIELDS, postfields)
     c.perform()
     c.close()
+'''
