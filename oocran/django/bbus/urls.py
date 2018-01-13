@@ -21,9 +21,9 @@ from .views import (
     details,
     alert,
     scheduler,
-    ue,
-    log,
-    console,
+    #ue,
+    #log,
+    #console,
 )
 
 urlpatterns = [
