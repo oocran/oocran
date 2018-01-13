@@ -23,7 +23,7 @@ class PostInstall(install):
     """Post-installation for installation mode."""
     def run(self):
         path = os.path.dirname(os.path.abspath(__file__))
-        os.system("cd oocran/install && ./dependencies.sh ")
+        os.system("cd oocran/install")
         #os.system("vagrant plugin install vagrant-openstack-provider vagrant-libvirt vagrant-vbguest")
         #os.system("rabbitmqctl add_user oocran oocran")
         #os.system("rabbitmqctl add_vhost oocran")
