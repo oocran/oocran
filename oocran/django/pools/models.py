@@ -28,7 +28,7 @@ from django.db import models
 from .orchestrator import read_bbus, price, read_channels, read_ues
 from time import sleep
 from drivers.OpenStack.APIs.nova.nova import log
-from drivers.Grafana.apis import create_data_source
+#from drivers.Grafana.apis import create_data_source
 
 
 class Pool(Ns):
@@ -105,7 +105,7 @@ class Pool(Ns):
             self.scenario.save()
             self.save()
             self.create_influxdb_database()
-            create_data_source(self)
+            #create_data_source(self)
             return "NS successfully created!", "alert alert-success"
         elif type(bbus) is list and channels is None and ues is None:
             self.save()
@@ -114,7 +114,7 @@ class Pool(Ns):
             self.scenario.save()
             self.save()
             self.create_influxdb_database()
-            create_data_source(self)
+            #create_data_source(self)
             return "NS successfully created!", "alert alert-success"
         else:
             if type(bbus) is not list:
