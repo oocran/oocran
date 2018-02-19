@@ -33,7 +33,7 @@ As of now, OOCRAN can only be deployed on top of OpenStack environments but OOCR
 
 News and Website
 ================
-Information about OOCRAN can be found in the [website](http://oocran.dynu.com/)
+Information about OOCRAN can be found in the [website](http://oocran.github.io/)
 
 Issue tracker
 =============
